@@ -7,12 +7,12 @@ import org.jlab.groot.data.TDirectory
 import exclusive.EP
 import groovy.sql.Sql
 
-def hemm2fi = [:].withDefault{new H2F("hemm2fi_$it", "MM2 vs phi", 250,140,190, 250,0,5)}
-
 def beam = new Particle(11, 0,0,10.6)//7.546)
 def target = new Particle(2212, 0,0,0)
 
 for(fname in args) {
+def hemm2fi = [:].withDefault{new H2F("hemm2fi_$it", "MM2 vs phi", 250,140,190, 250,0,5)}
+
 int run = fname.split("/")[-1].split('\\.')[0][-4..-1].toInteger()
 int fnum = fname.split(".evio.")[-1].split('-')[0].toInteger()
 
