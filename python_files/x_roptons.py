@@ -6,8 +6,12 @@ import ROOT
 
 ff = ROOT.TFile(sys.argv[1])
 #f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', 0,1)
-
-h1 = ff.Get("Hist_deltaB_psec1_layer1")
+print(ff)
+print(type(ff))
+h1 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")#.ProjectionY("cutg",125,150,"[cutg]")
+print(type(h1))
+print("h is")
+print(h1)
 #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
 #f1.SetParameter(2, h1.GetRMS())
 #mu,sig = [f1.GetParameter(i) for i in range(1,3)]
@@ -20,6 +24,5 @@ h1 = ff.Get("Hist_deltaB_psec1_layer1")
 #h1.Fit(f1, 'R')
 
 c1 = ROOT.TCanvas('c1','c1',1100,800)
-
-#h1.Draw()
-c1.Print("ebeam.pdf")
+h1.Draw("colz")
+c1.Print("protons.pdf")
