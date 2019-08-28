@@ -7,10 +7,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ff = ROOT.TFile(sys.argv[1])
-#f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', -0.15,.15)
-#f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
-#print(ff)
-#print(type(ff))
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
@@ -21,7 +17,7 @@ for kk in ff.GetListOfKeys():
 
 
 
-h0 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")#.ProjectionY("cutg",100,140,"[cutg]")
+h0 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")
 
 def fitter(hist,mincut,maxcut):
 	f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
@@ -30,13 +26,11 @@ def fitter(hist,mincut,maxcut):
 	qq = ROOT.TSpectrum(2*3)
 	nfound = qq.Search(h1,1,"new")
 
-	#print("param is:")
 	amp = f1.GetParameter(0)
 	mean = f1.GetParameter(1)
 	sigma = f1.GetParameter(2)
-	#print(f1.GetParameter())
 
-	c1 = ROOT.TCanvas('c1','c1',1100,800)
+	c1 = ROOT.TCanvas('c1','c1',1100,800,"This is the title now")
 	h1.Draw("colz")
 	c1.Print("iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
 	return amp, mean, sigma
@@ -58,10 +52,3 @@ print(len(sigmas))
 
 plt.plot(x,means)
 plt.show
-
-
-
-
-
-
-
