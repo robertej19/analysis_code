@@ -56,9 +56,13 @@ for i in range(0,20):
 	means.append(mean)
 	sigmas.append(sigma)
 
+print("sigmas")
 print(sigmas)
-
-x = np.arange(len(sigmas))
+print("means")
+print(means)
+print("amps")
+print(amps)
+x = np.arange(len(sigmas))*10*eperbin
 print(x)
 print(len(x))
 print(len(sigmas))
