@@ -15,28 +15,36 @@ bins = 800
 eperbin = e/bins
 
 def fitter(hist,fit,params):
-  fit.SetRange(params[1]-2.5*abs(params[2]), params[1]+2.5*abs(params[2]))
+  print("params are {0}".format(params))
+  mu = params[1]
+  sigma = params[2]
+  f1.SetParameter(1, mu)
+  f1.SetParameter(2, sigma)
+  fit.SetRange(mu - 2.5*sigma, mu + 2.5*sigma)
+  print(fit.GetRange())
   hist.Fit(fit, 'R')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
-  #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
-  #f1.SetParameter(2, h1.GetRMS())
+
   return fit_params
 
 def fit_histo(histo,mincut,maxcut,energy_conv):
   h1 = histo.ProjectionY("Histogram",mincut,maxcut,"[cutg]")
   peaks = ROOT.TSpectrum(2*3)
-	n_peaks = peaks.Search(h1,1,"new")
+  n_peaks = peaks.Search(h1,1,"new")
 
   params = (100,0,0.1)
   f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
+  #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
+  #f1.SetParameter(2, h1.GetRMS())
+  params = fitter(h1,f1,params)
   params = fitter(h1,f1,params)
 
-	c1 = ROOT.TCanvas('c1','c1',1100,800)
+  c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
-	h1.Draw("colz")
-	c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
-	return params
+  h1.Draw("colz")
+  c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
+  return params
 
 amps, means, sigmas = [], [], []
 
