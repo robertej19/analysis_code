@@ -76,8 +76,8 @@ for(fname in args) {
   		//if(recon_Scint.getInt("detector",p_ind)==12){
   		p_layer = recon_Scint.getInt("layer",p_ind)
   		p_sect = recon_Scint.getInt("sector",p_ind)
-  		p_time = recon_Scint.getFloat("time",p_ind)
-  		p_path = recon_Scint.getFloat("path",p_ind)
+  		//p_time = recon_Scint.getFloat("time",p_ind)
+  		//p_path = recon_Scint.getFloat("path",p_ind)
 
   		if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
   		    title = "sec${p_sect}_layer${p_layer}"
