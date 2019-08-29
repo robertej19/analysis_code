@@ -72,7 +72,7 @@ for(fname in args) {
 
   		//if(beta_recon<beta_upper || beta_recon>beta_lower) return
 
-  		//DataBank recon_Scint = event.getBank("REC::Scintillator")
+  		DataBank recon_Scint = event.getBank("REC::Scintillator")
   		//if(recon_Scint.getInt("detector",p_ind)==12){
   		p_layer = recon_Scint.getInt("layer",p_ind)
   		p_sect = recon_Scint.getInt("sector",p_ind)
