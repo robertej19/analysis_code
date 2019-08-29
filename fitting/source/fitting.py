@@ -40,12 +40,16 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   params_list = []
 
   for i in range(0,10):
-    new_params = fitter(h1,f1,params,mincut,i)
+    new_params = fitter(h1,f1,params)
     print(i)
-    if new_params[2]-params[2]<0.000001:
-      print("breaking after {}".format(i))
     params = new_params
     params_list.append(params)
+    if abs(new_params[2]-params[2])<0.000001:
+      print("breaking after {}".format(i))
+      break
+    if i>8:
+      print("warning: did not converge")
+      break
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
