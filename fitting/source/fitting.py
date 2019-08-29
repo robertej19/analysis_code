@@ -6,69 +6,48 @@ import ROOT
 import matplotlib.pyplot as plt
 import numpy as np
 
-ff = ROOT.TFile(sys.argv[1])
+histo_title = "5038_H_proton_DeltaBeta_momentum_S2"
+hipo_histos = ROOT.TFile(sys.argv[1])
+h0 = hipo_histos.Get(histo_title)
 
-"""
-for kk in ff.GetListOfKeys():
-  obj = kk.ReadObj()
-  print(obj.__class__)
-  print(obj.GetTitle())
-  print(obj.GetNbinsX())
-  print(obj.GetNbinsY())
-  print("value of x bin is: ")
-  print(obj.GetXaxis().FindBin(100))#obj.FindLastBinAbove()))
-"""
 e = 10.6 #GeV
 bins = 800
 eperbin = e/bins
 
-h0 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")
+def fitter(hist,fit,params):
+  fit.SetRange(mu-2.5*abs(sig), mu+2.5*abs(sig))
+  hist.Fit(fit, 'R')
+  fit_params = [fit.GetParameter(i) for i in range(0,3)]
+  #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
+  #f1.SetParameter(2, h1.GetRMS())
+  return fit_params
 
-def fitter(hist,mincut,maxcut,energy_conv):
+def fit_histo(histo,mincut,maxcut,energy_conv):
+  h1 = histo.ProjectionY("Histogram",mincut,maxcut,"[cutg]")
+  peaks = ROOT.TSpectrum(2*3)
+	n_peaks = peaks.Search(h1,1,"new")
+
+  params = (100,0,0.1)
 	f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
-	h1 = h0.ProjectionY("Histogram",mincut,maxcut,"[cutg]")
-	#h1.Fit(f1, 'R')
-	qq = ROOT.TSpectrum(2*3)
-	nfound = qq.Search(h1,1,"new")
-
-	amp = 0# f1.GetParameter(0)
-	mean = 0# f1.GetParameter(1)
-	sigma = 0#f1.GetParameter(2)
+  params = fitter(h1,f1)
 
 	c1 = ROOT.TCanvas('c1','c1',1100,800)
-	#TCanvas *c1 = new TCanvas("c1", "c1",1024,44,926,686);
-   	#c1.gStyle->SetOptTitle(0);
-	#ROOT.gStyle.SetOptTitle(0)
-	h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
+  #c1.SetLogz()
+  h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
 	h1.Draw("colz")
-
-		print(type(h1))
-#print("h is")
-#print(h1)
-#f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
-#f1.SetParameter(2, h1.GetRMS())
-#mu,sig = [f1.GetParameter(i) for i in range(1,3)]
-
-#f1.SetRange(mu-2.5*abs(sig), mu+2.5*abs(sig))
-#h1.Fit(f1)
-mu,sig = [f1.GetParameter(i) for i in range(1,3)]
-
-#f1.SetRange(mu-2.5*abs(sig), mu+2.5*abs(sig))
-h1.Fit(f1, 'R')
-
-
-	#pl = ROOT.TPaveLabel(.05,100,.95,200,"New Title","br")
-	#pl.Draw()
 	c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
-	return amp, mean, sigma
+	return params
 
 amps, means, sigmas = [], [], []
 
-for i in range(0,20):
-	amp, mean, sigma = fitter(h0,i*10,i*10+40,eperbin)
-	amps.append(amp)
-	means.append(mean)
-	sigmas.append(sigma)
+for i in range(0,2):
+	params = fit_histo(h0,i*10,i*10+40,eperbin)
+	amps.append(params[0])
+	means.append(params[1])
+	sigmas.append(params[2])
+
+print(sigmas)
+
 """
 print("sigmas")
 print(sigmas)
@@ -83,3 +62,21 @@ print(len(sigmas))
 
 #plt.plot(x,means)
 #plt.show"""
+
+"""
+for kk in ff.GetListOfKeys():
+  obj = kk.ReadObj()
+  print(obj.__class__)
+  print(obj.GetTitle())
+  print(obj.GetNbinsX())
+  print(obj.GetNbinsY())
+  print("value of x bin is: ")
+  print(obj.GetXaxis().FindBin(100))#obj.FindLastBinAbove()))
+
+  	#pl = ROOT.TPaveLabel(.05,100,.95,200,"New Title","br")
+  	#pl.Draw()
+"""
+
+	#TCanvas *c1 = new TCanvas("c1", "c1",1024,44,926,686);
+ 	#c1.gStyle->SetOptTitle(0);
+	#ROOT.gStyle.SetOptTitle(0)
