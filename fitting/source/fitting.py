@@ -15,7 +15,7 @@ bins = 800
 eperbin = e/bins
 
 def fitter(hist,fit,params):
-  fit.SetRange(mu-2.5*abs(sig), mu+2.5*abs(sig))
+  fit.SetRange(params[1]-2.5*abs(params[2]), params[1]+2.5*abs(params[2]))
   hist.Fit(fit, 'R')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
   #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
@@ -28,8 +28,8 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 	n_peaks = peaks.Search(h1,1,"new")
 
   params = (100,0,0.1)
-	f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
-  params = fitter(h1,f1)
+  f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
+  params = fitter(h1,f1,params)
 
 	c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
