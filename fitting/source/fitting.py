@@ -42,6 +42,14 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   for i in range(0,10):
     new_params = fitter(h1,f1,params)
     print(i)
+
+    print("new params {}".format(new_params))
+
+
+
+
+
+
     params = new_params
     params_list.append(params)
     if abs(new_params[2]-params[2])<0.000001:
@@ -60,12 +68,12 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 superset = []
-for i in range(0,2):
+for i in range(0,10):
 	params, params_list = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
 	sigmas.append(params[2])
-  superset.append(params_list)
+	superset.append(params_list)
 
 print(sigmas)
 
