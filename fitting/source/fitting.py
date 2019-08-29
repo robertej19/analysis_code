@@ -20,14 +20,14 @@ def fitter(hist,fit,params,mincut,iteration):
   sigma = params[2]
   fit.SetParameter(1, mu)
   fit.SetParameter(2, sigma)
-  fit.SetRange(mu - 3*sigma, mu + 3sigma)
+  fit.SetRange(mu - 3*sigma, mu + 3*sigma)
   print("fit range is {} to {}".format(mu - 3*sigma, mu + 3*sigma))
   #print(fit.GetRange())
   hist.Fit(fit, 'QR')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
-  hist.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
+  hist.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*0.01325,2),round((mincut+40)*0.01325,2)))
   hist.Draw()
   c1.Print("../iters/protons_{}_{}.pdf".format(mincut,iteration))
   return fit_params
