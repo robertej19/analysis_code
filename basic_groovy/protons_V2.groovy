@@ -96,7 +96,7 @@ while(reader.hasEvent()) {
 			}
 		}
 		else{
-			println("Dectector is not 12, instead it is: "+recon_Scint.getInt("detector",p_ind))
+		//	println("Dectector is not 12, instead it is: "+recon_Scint.getInt("detector",p_ind))
 		}
 	}
 }
