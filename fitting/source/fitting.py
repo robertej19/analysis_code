@@ -18,10 +18,11 @@ def fitter(hist,fit,params):
   print("params are {0}".format(params))
   mu = params[1]
   sigma = params[2]
-  f1.SetParameter(1, mu)
-  f1.SetParameter(2, sigma)
+  fit.SetParameter(1, mu)
+  fit.SetParameter(2, sigma)
   fit.SetRange(mu - 2.5*sigma, mu + 2.5*sigma)
-  print(fit.GetRange())
+  print("fit range is {} to {}".format(mu - 2.5*sigma, mu + 2.5*sigma))
+  #print(fit.GetRange())
   hist.Fit(fit, 'R')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
 
@@ -38,6 +39,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   #f1.SetParameter(2, h1.GetRMS())
   params = fitter(h1,f1,params)
   params = fitter(h1,f1,params)
+  params = fitter(h1,f1,params)
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
@@ -48,7 +50,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 
-for i in range(0,2):
+for i in range(0,3):
 	params = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
