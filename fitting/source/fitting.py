@@ -41,9 +41,14 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   f1 = ROOT.TF1('f1', 'gaus',-0.03,0.03)
   #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
   #f1.SetParameter(2, h1.GetRMS())
+
   params = fitter(h1,f1,params,mincut,1)
   params = fitter(h1,f1,params,mincut,2)
   params = fitter(h1,f1,params,mincut,3)
+  params = fitter(h1,f1,params,mincut,4)
+  params = fitter(h1,f1,params,mincut,5)
+  params = fitter(h1,f1,params,mincut,6)
+  params = fitter(h1,f1,params,mincut,7)
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
@@ -54,7 +59,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 
-for i in range(0,3):
+for i in range(0,2):
 	params = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
