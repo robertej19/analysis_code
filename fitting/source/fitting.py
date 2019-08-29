@@ -14,7 +14,7 @@ e = 10.6 #GeV
 bins = 800
 eperbin = e/bins
 
-def fitter(hist,fit,params,mincut,iteration):
+def fitter(hist,fit,params):
   print("params are {0}".format(params))
   mu = params[1]
   sigma = params[2]
@@ -25,11 +25,6 @@ def fitter(hist,fit,params,mincut,iteration):
   #print(fit.GetRange())
   hist.Fit(fit, 'QR')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
-
-  c1 = ROOT.TCanvas('c1','c1',1100,800)
-  hist.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*0.01325,2),round((mincut+40)*0.01325,2)))
-  hist.Draw()
-  c1.Print("../iters/protons_{}_{}.pdf".format(mincut,iteration))
   return fit_params
 
 def fit_histo(histo,mincut,maxcut,energy_conv):
@@ -42,30 +37,35 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
   #f1.SetParameter(2, h1.GetRMS())
 
-  params = fitter(h1,f1,params,mincut,1)
-  params = fitter(h1,f1,params,mincut,2)
-  params = fitter(h1,f1,params,mincut,3)
-  params = fitter(h1,f1,params,mincut,4)
-  params = fitter(h1,f1,params,mincut,5)
-  params = fitter(h1,f1,params,mincut,6)
-  params = fitter(h1,f1,params,mincut,7)
+  params_list = []
+
+  for i in range(0,10):
+    new_params = fitter(h1,f1,params,mincut,i)
+    print(i)
+    if new_params[2]-params[2]<0.000001:
+      print("breaking after {}".format(i))
+    params = new_params
+    params_list.append(params)
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
   h1.Draw("colz")
   c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
-  return params
+  return params, params_list
 
 amps, means, sigmas = [], [], []
-
+superset = []
 for i in range(0,2):
-	params = fit_histo(h0,i*10,i*10+40,eperbin)
+	params, params_list = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
 	sigmas.append(params[2])
+  superset.append(params_list)
 
 print(sigmas)
+
+print(params_list)
 
 """
 print("sigmas")
