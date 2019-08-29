@@ -14,18 +14,22 @@ e = 10.6 #GeV
 bins = 800
 eperbin = e/bins
 
-def fitter(hist,fit,params):
+def fitter(hist,fit,params,mincut,iteration):
   print("params are {0}".format(params))
   mu = params[1]
   sigma = params[2]
   fit.SetParameter(1, mu)
   fit.SetParameter(2, sigma)
-  fit.SetRange(mu - 2.5*sigma, mu + 2.5*sigma)
-  print("fit range is {} to {}".format(mu - 2.5*sigma, mu + 2.5*sigma))
+  fit.SetRange(mu - 3*sigma, mu + 3sigma)
+  print("fit range is {} to {}".format(mu - 3*sigma, mu + 3*sigma))
   #print(fit.GetRange())
-  hist.Fit(fit, 'R')
+  hist.Fit(fit, 'QR')
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
 
+  c1 = ROOT.TCanvas('c1','c1',1100,800)
+  hist.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
+  hist.Draw()
+  c1.Print("../iters/protons_{}_{}.pdf".format(mincut,iteration))
   return fit_params
 
 def fit_histo(histo,mincut,maxcut,energy_conv):
@@ -33,13 +37,13 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   peaks = ROOT.TSpectrum(2*3)
   n_peaks = peaks.Search(h1,1,"new")
 
-  params = (100,0,0.1)
-  f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
+  params = (100,0,0.03)
+  f1 = ROOT.TF1('f1', 'gaus',-0.03,0.03)
   #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
   #f1.SetParameter(2, h1.GetRMS())
-  params = fitter(h1,f1,params)
-  params = fitter(h1,f1,params)
-  params = fitter(h1,f1,params)
+  params = fitter(h1,f1,params,mincut,1)
+  params = fitter(h1,f1,params,mincut,2)
+  params = fitter(h1,f1,params,mincut,3)
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
