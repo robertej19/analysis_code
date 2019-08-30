@@ -49,16 +49,18 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 
 
+    print("params were{}".format(params))
 
-
-    params = new_params
-    params_list.append(params)
+    params_list.append(new_params)
     if abs(new_params[2]-params[2])<0.000001:
       print("breaking after {}".format(i))
       break
     if i>8:
       print("warning: did not converge")
       break
+
+    params = new_params
+
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
