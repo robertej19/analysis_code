@@ -6,16 +6,16 @@ import ROOT
 
 ff = ROOT.TFile(sys.argv[1])
 #f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', -0.15,.15)
-f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
+#f1 = ROOT.TF1('f1', 'gaus',-0.1,0.1)
 #print(ff)
 #print(type(ff))
 
-for kk in ff.GetListOfKeys():
-  obj = kk.ReadObj()
-  print(obj.__class__)
-  print(obj.GetTitle())
-  print(obj.GetNbinsX())
-  print(obj.GetNbinsY())
+#for kk in ff.GetListOfKeys():
+#  obj = kk.ReadObj()
+#  print(obj.__class__)
+#  print(obj.GetTitle())
+#  print(obj.GetNbinsX())
+#  print(obj.GetNbinsY())
 
 
 
@@ -49,7 +49,7 @@ print(f1.GetParameter(3))
  #  TVirtualFitter::Fitter(h2,10+3*npeaks); //we may have more than the default 25 parameters
 #   fit->SetParameters(par);
 #   fit->SetNpx(1000);
-#   h2->Fit("fit"); 
+#   h2->Fit("fit");
 
 
 #c1.Update()
@@ -59,7 +59,7 @@ print(f1.GetParameter(3))
   # printf("Found %d candidate peaks to fitn",nfound);
   # c1->Update();
   # c1->cd(2);
- 
+
 
 
 

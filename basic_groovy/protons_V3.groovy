@@ -23,17 +23,8 @@ float EB = 10.6f
 int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
 if(run>6607) EB=10.2f
 
-def Hist_momentum 			= [:].withDefault{new H1F("Hist_momentum${it}"				, "Momentum ${it}"										,100,0,EB)}
-def Hist_time 					= [:].withDefault{new H1F("Hist_time${it}"						, "Time ${it}"												,100,0,250)}
-def Hist_path_length 		= [:].withDefault{new H1F("Hist_path_length${it}"			, "Path Length ${it}"									,100,400,1000)}
-def Hist_vz 						= [:].withDefault{new H1F("Hist_vz${it}"							, "Z vertex ${it}"										,100,-25,25)}
-def Hist_beta_recon			= [:].withDefault{new H1F("Hist_beta_recon${it}"			, "REC::Part Beta vs Calc Beta ${it}"	,100,-1,1)}
-def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"					, "Beta vs. Momentum ${it}"						,100,0,EB,100,0,1)}
-def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"				, "Delta B vs. Momentum ${it}"				,800,0,EB,4000,-1,1)}
-def Hist_momentum_vz 		= [:].withDefault{new H2F("Hist_momentum_vz${it}"			, "Momentum vs. Vz ${it}"							,100,0,EB,100,-25,25)}
-def Hist_momentum_theta = [:].withDefault{new H2F("Hist_momentum_theta${it}"	, "Momentum vs. Theta ${it}"					,100,0,EB,100,0,40)}
-def Hist_momentum_phi 	= [:].withDefault{new H2F("Hist_momentum_phi${it}"		, "Momentum vs. Phi ${it}"						,100,0,EB,100,-180, 180)}
-def Hist_theta_phi 			= [:].withDefault{new H2F("Hist_theta_phi${it}"				, "Theta vs. Phi ${it}"								,100,-180, 180,100,0,40)}
+def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		 ,500,0,EB,500,0,3)}
+def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}" ,500,0,EB,500,-2,2)}
 
 for(fname in args) {
   def reader = new HipoDataSource()
@@ -81,22 +72,9 @@ for(fname in args) {
 
   		if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
   		    title = "sec${p_sect}_layer${p_layer}"
-  				Hist_momentum[title].fill(p_momentum)
-  				//Hist_time[title].fill(p_time)
-  				//Hist_path_length[title].fill(p_path)
-  				Hist_vz[title].fill(p_vz)
-  				Hist_beta_recon[title].fill(beta_recon-beta_calc)
   				Hist_beta_p[title].fill(p_momentum,beta_recon)
   				Hist_deltaB_p[title].fill(p_momentum,beta_recon-beta_calc)
-  				Hist_momentum_vz[title].fill(p_momentum,p_vz)
-  				Hist_momentum_theta[title].fill(p_momentum,p_theta)
-  				Hist_momentum_phi[title].fill(p_momentum,p_phi)
-  				Hist_theta_phi[title].fill(p_phi,p_theta)
   			}
-  		//}
-  		else{
-  			println("Dectector is not 12, instead it is: "+recon_Scint.getInt("detector",p_ind))
-  		}
   	}
   }
 reader.close()
@@ -111,17 +89,8 @@ out.cd('/'+run)
 for(int isec=1;isec<=6;isec++){
  for(int ilay=1;ilay<=3;ilay++){
 	 title = "sec${isec}_layer${ilay}"
-	 out.addDataSet(Hist_momentum[title])
-	 out.addDataSet(Hist_time[title])
-	 out.addDataSet(Hist_path_length[title])
-	 out.addDataSet(Hist_vz[title])
-	 out.addDataSet(Hist_beta_recon[title])
 	 out.addDataSet(Hist_beta_p[title])
 	 out.addDataSet(Hist_deltaB_p[title])
-	 out.addDataSet(Hist_momentum_vz[title])
-	 out.addDataSet(Hist_momentum_theta[title])
-	 out.addDataSet(Hist_momentum_phi[title])
-	 out.addDataSet(Hist_theta_phi[title])
  }
 }
 
