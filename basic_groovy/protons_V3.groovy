@@ -23,14 +23,16 @@ float EB = 10.6f
 int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
 if(run>6607) EB=10.2f
 
-def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		 ,500,0,EB,500,0,3)}
-def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}" ,500,0,EB,500,-2,2)}
+def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		 ,800,0,EB,100,0,1)}
+def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}" ,800,0,EB,100,-1,1)}
 
 for(fname in args) {
   def reader = new HipoDataSource()
   reader.open(fname)
   while(reader.hasEvent()) {
-    def event = reader.getNextEvent()
+  //for(int ii=1;ii<=100;ii++){
+  //println("On event number $ii")
+  def event = reader.getNextEvent()
     if(!event.hasBank("REC::Particle")) continue
 
 
@@ -38,9 +40,12 @@ for(fname in args) {
   	DataBank reconstructedParticle = event.getBank("REC::Particle")
 
   	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
-  		//println("P is $p_ind")
-  		if(!reconstructedParticle.getInt("charge",p_ind)==1) continue
-  		//println("positive charge, continuing")
+  		//println("Particle number is $p_ind")
+  		if(!(reconstructedParticle.getInt("charge",p_ind)>0)){
+		//println("charge of " + reconstructedParticle.getInt("charge",p_ind)+" trying to break")
+		continue
+		}
+  		//println("positive charge of " + reconstructedParticle.getInt("charge",p_ind)+" continuing")
   		//if(!reconstructedParticle.getInt("pid",p)==2212) return false;
   		float px = reconstructedParticle.getFloat("px",p_ind)
   		float py = reconstructedParticle.getFloat("py",p_ind)
@@ -61,21 +66,39 @@ for(fname in args) {
   		float beta_upper = (float)Math.sqrt(p_mom_up*p_mom_up/(p_mom_up*p_mom_up+p_mass*p_mass))
   		float beta_lower = (float)Math.sqrt(p_mom_low*p_mom_low/(p_mom_low*p_mom_low+p_mass*p_mass))
 
+
+                if(!(beta_recon>0)){
+                //println("charge of " + reconstructedParticle.getInt("charge",p_ind)+" trying to break")
+                continue
+                }
+
+		//println("beta recon is"+beta_recon)
+		//println("betacalc is"+beta_calc)
+
   		//if(beta_recon<beta_upper || beta_recon>beta_lower) return
 
   		DataBank recon_Scint = event.getBank("REC::Scintillator")
-  		//if(recon_Scint.getInt("detector",p_ind)==12){
-  		p_layer = recon_Scint.getInt("layer",p_ind)
+  		if(recon_Scint.getInt("detector",p_ind)==12){
+  		
+		p_layer = recon_Scint.getInt("layer",p_ind)
   		p_sect = recon_Scint.getInt("sector",p_ind)
-  		//p_time = recon_Scint.getFloat("time",p_ind)
-  		//p_path = recon_Scint.getFloat("path",p_ind)
+  		p_time = recon_Scint.getFloat("time",p_ind)
+  		p_path = recon_Scint.getFloat("path",p_ind)
 
+		//println("beta recon is"+beta_recon)
+                //println("betacalc is"+beta_calc)
+		//println("layer is"+p_layer)
+                //println("sector is"+p_sect)
+
+
+
+		
   		if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
   		    title = "sec${p_sect}_layer${p_layer}"
   				Hist_beta_p[title].fill(p_momentum,beta_recon)
   				Hist_deltaB_p[title].fill(p_momentum,beta_recon-beta_calc)
   			}
-  	}
+  	}}
   }
 reader.close()
 }

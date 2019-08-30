@@ -6,7 +6,8 @@ import ROOT
 import matplotlib.pyplot as plt
 import numpy as np
 
-histo_title = "5038_H_proton_DeltaBeta_momentum_S2"
+#histo_title = "5038_H_proton_DeltaBeta_momentum_S2"
+histo_title = "5039_Hist_deltaB_psec1_layer1"
 hipo_histos = ROOT.TFile(sys.argv[1])
 h0 = hipo_histos.Get(histo_title)
 

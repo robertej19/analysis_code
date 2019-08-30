@@ -31,8 +31,8 @@ def Hist_time 					= [:].withDefault{new H1F("Hist_time${it}"						, "Time ${it}
 def Hist_path_length 		= [:].withDefault{new H1F("Hist_path_length${it}"			, "Path Length ${it}"									,100,400,1000)}
 def Hist_vz 						= [:].withDefault{new H1F("Hist_vz${it}"							, "Z vertex ${it}"										,100,-25,25)}
 def Hist_beta_recon			= [:].withDefault{new H1F("Hist_beta_recon${it}"			, "REC::Part Beta vs Calc Beta ${it}"	,100,-1,1)}
-def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"					, "Beta vs. Momentum ${it}"						,100,0,EB,100,0,1)}
-def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"				, "Delta B vs. Momentum ${it}"				,400,0,EB,400,-0.2,0.2)}
+def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"					, "Beta vs. Momentum ${it}"						,300,0,EB,300,-1,2)}
+def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"				, "Delta B vs. Momentum ${it}"				,800,0,EB,2000,-1,1)}
 def Hist_momentum_vz 		= [:].withDefault{new H2F("Hist_momentum_vz${it}"			, "Momentum vs. Vz ${it}"							,100,0,EB,100,-25,25)}
 def Hist_momentum_theta = [:].withDefault{new H2F("Hist_momentum_theta${it}"	, "Momentum vs. Theta ${it}"					,100,0,EB,100,0,40)}
 def Hist_momentum_phi 	= [:].withDefault{new H2F("Hist_momentum_phi${it}"		, "Momentum vs. Phi ${it}"						,100,0,EB,100,-180, 180)}
@@ -77,14 +77,14 @@ while(reader.hasEvent()) {
 		if(recon_Scint.getInt("detector",p_ind)==12){
 			p_layer = recon_Scint.getInt("layer",p_ind)
 			p_sect = recon_Scint.getInt("sector",p_ind)
-			p_time = recon_Scint.getFloat("time",p_ind)
-			p_path = recon_Scint.getFloat("path",p_ind)
+			//p_time = 800//recon_Scint.getFloat("time",p_ind)
+			//p_path = recon_Scint.getFloat("path",p_ind)
 
 			if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
 				title = "sec${p_sect}_layer${p_layer}"
 				Hist_momentum[title].fill(p_momentum)
-				Hist_time[title].fill(p_time)
-				Hist_path_length[title].fill(p_path)
+				//Hist_time[title].fill(p_time)
+				//Hist_path_length[title].fill(p_path)
 				Hist_vz[title].fill(p_vz)
 				Hist_beta_recon[title].fill(beta_recon-beta_calc)
 				Hist_beta_p[title].fill(p_momentum,beta_recon)
