@@ -34,7 +34,10 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   n_peaks = peaks.Search(h1,1,"new")
 
   params = (100,0,0.03)
-  f1 = ROOT.TF1('f1', 'gaus',-0.03,0.03)
+  
+  f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', -0.03,.03)
+
+  #f1 = ROOT.TF1('f1', 'gaus',-0.03,0.03)
   #f1.SetParameter(1, h1.GetBinCenter(h1.GetMaximumBin()))
   #f1.SetParameter(2, h1.GetRMS())
 
@@ -64,7 +67,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
-  h1.GetXaxis().SetRange(350,450)
+  h1.GetXaxis().SetRange(700,900)
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
   h1.Draw("colz")
   c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
@@ -92,7 +95,7 @@ print("amps")
 print(amps)
 x = np.arange(len(sigmas))*10*eperbin
 print(x)
-print(len(x))
+print(len(x)
 print(len(sigmas))
 
 #plt.plot(x,means)
