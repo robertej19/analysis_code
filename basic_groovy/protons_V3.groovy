@@ -23,8 +23,8 @@ float EB = 10.6f
 int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
 if(run>6607) EB=10.2f
 
-def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		 ,800,0,EB,400,0,1)}
-def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}" ,800,0,EB,400,-1,1)}
+def Hist_beta_p 				= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		 ,800,0,EB,1600,0,1)}
+def Hist_deltaB_p 			= [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}" ,800,0,EB,1600,-1,1)}
 
 for(fname in args) {
   def reader = new HipoDataSource()

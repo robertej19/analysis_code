@@ -64,6 +64,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
+  h1.GetXaxis().SetRange(350,450)
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
   h1.Draw("colz")
   c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
@@ -71,7 +72,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 superset = []
-for i in range(0,10):
+for i in range(0,30):
 	params, params_list = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
