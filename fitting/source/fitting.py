@@ -15,8 +15,8 @@ e = 10.6 #GeV
 bins = 800
 eperbin = e/bins
 
-def fitter(hist,fit,params):
-  print("params are {0}".format(params))
+def fitter(hist,fit,params,itera,mincut):
+  #print("params are {0}".format(params))
   mu = params[1]
   sigma = params[2]
   fit.SetParameter(1, mu)
@@ -25,6 +25,14 @@ def fitter(hist,fit,params):
   print("fit range is {} to {}".format(mu - 3*sigma, mu + 3*sigma))
   #print(fit.GetRange())
   hist.Fit(fit, 'QR')
+  #c1 = ROOT.TCanvas('c1','c1',1100,800)
+  #c1.SetLogz()
+  #hist.GetXaxis().SetRange(720,880)
+  #hist.SetTitle("Projection from {0} GeV to {1} GeV".format(mincut,mincut+40))
+  #h1.Draw("colz")
+  #hist.Draw()
+  #c1.Print("../iters/protons_{0}_{1}_{2}.pdf".format(mincut,mincut+40,itera))
+
   fit_params = [fit.GetParameter(i) for i in range(0,3)]
   return fit_params
 
@@ -32,9 +40,27 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   h1 = histo.ProjectionY("Histogram",mincut,maxcut,"[cutg]")
   peaks = ROOT.TSpectrum(2*3)
   n_peaks = peaks.Search(h1,1,"new")
+  qqqq = peaks.GetPositionX();
+  peaks_list_sq = []
+  for iz in range(0,n_peaks):
+	#print("PEAKS ARE FOUND AT: {}".format(qqqq[iz]))
+	peaks_list_sq.append(qqqq[iz]*qqqq[iz])
+	  #print("sPEAKS ARE FOUND AT: {}".format(n_peaks))
 
   params = (100,0,0.03)
-  
+  #print("N PEAKS IS: {}".format(n_peaks))
+  if sorted(peaks_list_sq)[0]>0.00015:
+	print("initial peak found was too large:{}".format(np.sqrt(sorted(peaks_list_sq)[0])))
+	params = (100,0,np.sqrt(sorted(peaks_list_sq)[0])/6)
+  elif n_peaks>1:
+	print("number of peaks > 1, autoscaling sigma")
+	print(sorted(peaks_list_sq))
+	print(peaks_list_sq[1:])
+        lists = [a for a in peaks_list_sq if (a > 0.001)]
+	#print("PEAKS ARE FOUND AT: {}".format(qqqq[iz]))
+	params = (100,0,np.sqrt(sorted(lists)[0])/6)
+
+
   f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', -0.03,.03)
 
   #f1 = ROOT.TF1('f1', 'gaus',-0.03,0.03)
@@ -44,7 +70,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   params_list = []
 
   for i in range(0,10):
-    new_params = fitter(h1,f1,params)
+    new_params = fitter(h1,f1,params,i,mincut)
     print(i)
 
     print("new params {}".format(new_params))
@@ -75,7 +101,8 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 superset = []
-for i in range(0,30):
+for i in range(0,50):
+	print("on set {}".format(i))
 	params, params_list = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
 	means.append(params[1])
