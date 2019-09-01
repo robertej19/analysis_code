@@ -33,7 +33,7 @@ def fitter(hist,fit,params,itera,mincut):
   #hist.Draw()
   #c1.Print("../iters/protons_{0}_{1}_{2}.pdf".format(mincut,mincut+40,itera))
 
-  fit_params = [fit.GetParameter(i) for i in range(0,3)]
+  fit_params = [fit.GetParameter(i) for i in range(0,4)]
   return fit_params
 
 def fit_histo(histo,mincut,maxcut,energy_conv):
@@ -47,18 +47,18 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 	peaks_list_sq.append(qqqq[iz]*qqqq[iz])
 	  #print("sPEAKS ARE FOUND AT: {}".format(n_peaks))
 
-  params = (100,0,0.03)
+  params = (100,0,0.03,0)
   #print("N PEAKS IS: {}".format(n_peaks))
   if sorted(peaks_list_sq)[0]>0.00015:
 	print("initial peak found was too large:{}".format(np.sqrt(sorted(peaks_list_sq)[0])))
-	params = (100,0,np.sqrt(sorted(peaks_list_sq)[0])/6)
+	params = (100,0,np.sqrt(sorted(peaks_list_sq)[0])/6,0)
   elif n_peaks>1:
 	print("number of peaks > 1, autoscaling sigma")
 	print(sorted(peaks_list_sq))
 	print(peaks_list_sq[1:])
         lists = [a for a in peaks_list_sq if (a > 0.001)]
 	#print("PEAKS ARE FOUND AT: {}".format(qqqq[iz]))
-	params = (100,0,np.sqrt(sorted(lists)[0])/6)
+	params = (100,0,np.sqrt(sorted(lists)[0])/6,0)
 
 
   f1 = ROOT.TF1('f1', 'gaus(0)+pol0(3)', -0.03,.03)
@@ -94,6 +94,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   c1 = ROOT.TCanvas('c1','c1',1100,800)
   #c1.SetLogz()
   h1.GetXaxis().SetRange(700,900)
+  h1.SetMaximum(1.2*(params[0]+params[3]))
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
   h1.Draw("colz")
   c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
@@ -113,21 +114,39 @@ print(sigmas)
 
 print(params_list)
 
-"""
-print("sigmas")
-print(sigmas)
-print("means")
-print(means)
-print("amps")
-print(amps)
+#print("sigmas")
+#print(sigmas)
+#print("means")
+#print(means)
+#print("amps")
+#print(amps)
 x = np.arange(len(sigmas))*10*eperbin
-print(x)
-print(len(x)
-print(len(sigmas))
+#print(x)
+#print(len(x))
+#print(len(sigmas))
 
-#plt.plot(x,means)
-#plt.show"""
+print("the length is {}".format(len(x)))
+print("the values of means are {}".format(means))
 
+
+
+fig, ax = plt.subplots(1)#figure()
+#fig.autofmt_xdate()
+plt.plot(x,sigmas,'+')
+fig.suptitle('Fitted Standard Deviation vs. Energy', fontsize=20)
+plt.xlabel('Starting Energy (GeV)', fontsize=18)
+plt.ylabel('Std. Dev. (Beta)', fontsize=16)
+
+fig.savefig('plots/test_{}_{}.pdf'.format("energy","sigmas"))
+#plt.show()
+
+
+
+
+#plt.plot(x,sigmas,'+')
+#print("trying to show plot!")
+##plt.show
+#plt.savefig("temp.pdf")
 """
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
