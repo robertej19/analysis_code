@@ -37,9 +37,12 @@ for(fname in args) {
     if(!event.hasBank("REC::Particle")) continue
 	event_start_time = event.getBank("REC::Event").getFloat("startTime")[0]
 
-  	//float startTime = event.getBank("REC::Event").getFloat("startTime",0);
-  	DataBank reconstructedParticle = event.getBank("REC::Particle")
 
+
+  	//float startTime = event.getBank("REC::Event").getFloat("startTime",0);
+  	reconstructedParticle = event.getBank("REC::Particle")
+
+	def moms = ['x','y','z'].collect{reconstructedParticle.getFloat('p'+it)}.transpose().collect{Math.sqrt(it.collect{x->x*x}.sum())}
   	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
   		//println("Particle number is $p_ind")
   		if(!(reconstructedParticle.getInt("charge",p_ind)>0)){
@@ -53,6 +56,19 @@ for(fname in args) {
   		float pz = reconstructedParticle.getFloat("pz",p_ind)
   		float beta_recon = reconstructedParticle.getFloat("beta",p_ind)
   		float p_momentum = (float)Math.sqrt(px*px+py*py+pz*pz)
+
+
+    		def float mommy = moms[p_ind]
+
+
+    		//def moms = ['x','y','z'].collect{reconstructedParticle.getFloat('p'+it,p_ind)}
+		//def momsx = moms.collect{Math.sqrt(it.collect{x->x*x}.sum())}
+
+
+    		//moms = ['x','y','z'].collect{reconstructedParticle.getFloat('p'+it,p_ind)}
+
+
+		//println("p_momentum is $p_momentum while moms is $mommy")
   		float p_vz = reconstructedParticle.getFloat("vz",p_ind)
   		float p_vx = reconstructedParticle.getFloat("vx",p_ind)
   		float p_vy = reconstructedParticle.getFloat("vy",p_ind)
@@ -61,8 +77,9 @@ for(fname in args) {
   		float p_theta = (float) Math.toDegrees(Ve.theta())
   		float p_mass = 0.938 //Proton mass in GeV
   		//float scale_factor = 0.30
-  		float beta_calc = (float)Math.sqrt(p_momentum*p_momentum/(p_momentum*p_momentum+p_mass*p_mass))
-  		//float p_mom_up = p_momentum*(1+scale_factor)
+  		float beta_calc = Math.sqrt(p_momentum*p_momentum/(p_momentum*p_momentum+p_mass*p_mass))
+  		println(beta_calc)
+		//float p_mom_up = p_momentum*(1+scale_factor)
   		//float p_mom_low = p_momentum*(1-scale_factor)
   		//float beta_upper = (float)Math.sqrt(p_mom_up*p_mom_up/(p_mom_up*p_mom_up+p_mass*p_mass))
   		//float beta_lower = (float)Math.sqrt(p_mom_low*p_mom_low/(p_mom_low*p_mom_low+p_mass*p_mass))
