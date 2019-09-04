@@ -31,7 +31,7 @@ for(fname in args) {
   def reader = new HipoDataSource()
   reader.open(fname)
   while(reader.hasEvent()) {
-  //for(int ii=1;ii<=100;ii++){
+  //for(int ii=0;ii<=6;ii++){
   //println("On event number $ii")
     def event = reader.getNextEvent()
     if(!event.hasBank("REC::Particle")) continue
@@ -40,9 +40,13 @@ for(fname in args) {
     def recon_Scint = event.getBank("REC::Scintillator")
     def momenta = ['x','y','z'].collect{recon_Particles.getFloat('p'+it)}.transpose().collect{Math.sqrt(it.collect{x->x*x}.sum())}
     def event_start_time = event.getBank("REC::Event").getFloat("startTime")[0]
-
-  	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
-      if(!(recon_Particles.getInt("charge",p_ind)>0)){ continue  }
+    if(event_start_time<0) continue
+    def stati = recon_Particles.getInt('status')
+    def pind_sarray = recon_Scint.getShort('pindex')*.toInteger()
+    //println("interattion index array is $pind_sarray")
+    //println("particle status is $stati")
+	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
+      //if(!(recon_Particles.getInt("charge",p_ind)>0)){ continue  }
   		//if(!recon_Particles.getInt("pid",p)==2212) continue;
 
       float p_momentum = momenta[p_ind]
@@ -51,13 +55,24 @@ for(fname in args) {
   		float beta_calc = Math.sqrt(p_momentum*p_momentum/(p_momentum*p_momentum+p_mass*p_mass))
 
 
+
+		//println("particle index is: $p_ind")
+		//println("total recon is: "+ recon_Scint.getInt("detector"))
+		//println("recon selected scint is: "+ recon_Scint.getInt("detector",p_ind))
+
+		if (pind_sarray.contains(p_ind)){
+			//println("p_ind of $p_ind is found in sarray $pind_sarray")
+		}
+		
   		if(recon_Scint.getInt("detector",p_ind)==12){
-  		  p_layer = recon_Scint.getInt("layer",p_ind)
-    		p_sect = recon_Scint.getInt("sector",p_ind)
-    		p_time = recon_Scint.getFloat("time",p_ind)
-    		p_path = recon_Scint.getFloat("path",p_ind)
-  		  p_comp =recon_Scint.getInt('component',p_ind)
-        println("particle status is: "+recon_Particles.getInt('status')[p_ind])
+  		//if(recon_Particles.getInt('status')[p_ind]>1999){
+	  	//	if(recon_Particles.getInt('status')[p_ind]<3999){
+				p_layer = recon_Scint.getInt("layer",p_ind)
+    				p_sect = recon_Scint.getInt("sector",p_ind)
+    				p_time = recon_Scint.getFloat("time",p_ind)
+    				p_path = recon_Scint.getFloat("path",p_ind)
+  		  		p_comp =recon_Scint.getInt('component',p_ind)
+      				//  println("particle status is: "+recon_Particles.getInt('status')[p_ind])
 
 
   		if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
