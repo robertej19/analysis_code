@@ -1,0 +1,180 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 702021632 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2671), pid=47609, tid=139758196832000
+#
+# JRE version:  (8.0_31-b13) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.31-b07 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f1bf400a000):  JavaThread "Unknown thread" [_thread_in_vm, id=47617, stack(0x00007f1bfd9d3000,0x00007f1bfdad4000)]
+
+Stack: [0x00007f1bfd9d3000,0x00007f1bfdad4000],  sp=0x00007f1bfdad23f0,  free space=1020k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xa79e0a]  VMError::report_and_die()+0x2ca
+V  [libjvm.so+0x4e57bb]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8b
+V  [libjvm.so+0x8e5a23]  os::Linux::commit_memory_impl(char*, unsigned long, bool)+0x103
+V  [libjvm.so+0x8e5f79]  os::pd_commit_memory(char*, unsigned long, unsigned long, bool)+0x29
+V  [libjvm.so+0x8dfc4a]  os::commit_memory(char*, unsigned long, unsigned long, bool)+0x2a
+V  [libjvm.so+0x9502f3]  PSVirtualSpace::expand_by(unsigned long)+0x53
+V  [libjvm.so+0x940869]  PSOldGen::initialize(ReservedSpace, unsigned long, char const*, int)+0xb9
+V  [libjvm.so+0x2d2966]  AdjoiningGenerations::AdjoiningGenerations(ReservedSpace, GenerationSizer*, unsigned long)+0x3a6
+V  [libjvm.so+0x9076be]  ParallelScavengeHeap::initialize()+0x1ae
+V  [libjvm.so+0xa45d4d]  Universe::initialize_heap()+0xfd
+V  [libjvm.so+0xa4616f]  universe_init()+0x3f
+V  [libjvm.so+0x6128d5]  init_globals()+0x65
+V  [libjvm.so+0xa2bdbd]  Threads::create_vm(JavaVMInitArgs*, bool*)+0x24d
+V  [libjvm.so+0x6a9b34]  JNI_CreateJavaVM+0x74
+C  [libjli.so+0x736e]  JavaMain+0x9e
+C  [libpthread.so.0+0x7dc5]  start_thread+0xc5
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00007f1bf400a000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=47617, stack(0x00007f1bfd9d3000,0x00007f1bfdad4000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+00400000-00401000 r-xp 00000000 00:30 28469816                           /u/group/clas12/packages/jdk/1.8.0_31/bin/java
+00600000-00601000 rw-p 00000000 00:30 28469816                           /u/group/clas12/packages/jdk/1.8.0_31/bin/java
+01b2d000-01b4e000 rw-p 00000000 00:00 0                                  [heap]
+3ff580000-671d80000 ---p 00000000 00:00 0 
+671d80000-686c00000 rw-p 00000000 00:00 0 
+686c00000-7c0000000 ---p 00000000 00:00 0 
+7f1be5000000-7f1be5270000 rwxp 00000000 00:00 0 
+7f1be5270000-7f1bf4000000 ---p 00000000 00:00 0 
+7f1bf4000000-7f1bf4033000 rw-p 00000000 00:00 0 
+7f1bf4033000-7f1bf8000000 ---p 00000000 00:00 0 
+7f1bf8628000-7f1bf889e000 rw-p 00000000 00:00 0 
+7f1bf889e000-7f1bf9d80000 ---p 00000000 00:00 0 
+7f1bf9d80000-7f1bf9e28000 rw-p 00000000 00:00 0 
+7f1bf9e28000-7f1bfa7f2000 ---p 00000000 00:00 0 
+7f1bfa7f2000-7f1bfa7fd000 rw-p 00000000 00:00 0 
+7f1bfa7fd000-7f1bfabb3000 ---p 00000000 00:00 0 
+7f1bfabb3000-7f1bfabcd000 r-xp 00000000 00:30 44736927                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libzip.so
+7f1bfabcd000-7f1bfadcd000 ---p 0001a000 00:30 44736927                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libzip.so
+7f1bfadcd000-7f1bfadce000 rw-p 0001a000 00:30 44736927                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libzip.so
+7f1bfadce000-7f1bfadd8000 r-xp 00000000 103:01 8127068                   /usr/lib64/libnss_nis-2.17.so
+7f1bfadd8000-7f1bfafd8000 ---p 0000a000 103:01 8127068                   /usr/lib64/libnss_nis-2.17.so
+7f1bfafd8000-7f1bfafd9000 r--p 0000a000 103:01 8127068                   /usr/lib64/libnss_nis-2.17.so
+7f1bfafd9000-7f1bfafda000 rw-p 0000b000 103:01 8127068                   /usr/lib64/libnss_nis-2.17.so
+7f1bfafda000-7f1bfaff0000 r-xp 00000000 103:01 8127056                   /usr/lib64/libnsl-2.17.so
+7f1bfaff0000-7f1bfb1ef000 ---p 00016000 103:01 8127056                   /usr/lib64/libnsl-2.17.so
+7f1bfb1ef000-7f1bfb1f0000 r--p 00015000 103:01 8127056                   /usr/lib64/libnsl-2.17.so
+7f1bfb1f0000-7f1bfb1f1000 rw-p 00016000 103:01 8127056                   /usr/lib64/libnsl-2.17.so
+7f1bfb1f1000-7f1bfb1f3000 rw-p 00000000 00:00 0 
+7f1bfb1f3000-7f1bfb1fc000 r-xp 00000000 103:01 8127058                   /usr/lib64/libnss_compat-2.17.so
+7f1bfb1fc000-7f1bfb3fb000 ---p 00009000 103:01 8127058                   /usr/lib64/libnss_compat-2.17.so
+7f1bfb3fb000-7f1bfb3fc000 r--p 00008000 103:01 8127058                   /usr/lib64/libnss_compat-2.17.so
+7f1bfb3fc000-7f1bfb3fd000 rw-p 00009000 103:01 8127058                   /usr/lib64/libnss_compat-2.17.so
+7f1bfb3fd000-7f1bfb408000 r-xp 00000000 103:01 8127064                   /usr/lib64/libnss_files-2.17.so
+7f1bfb408000-7f1bfb607000 ---p 0000b000 103:01 8127064                   /usr/lib64/libnss_files-2.17.so
+7f1bfb607000-7f1bfb608000 r--p 0000a000 103:01 8127064                   /usr/lib64/libnss_files-2.17.so
+7f1bfb608000-7f1bfb609000 rw-p 0000b000 103:01 8127064                   /usr/lib64/libnss_files-2.17.so
+7f1bfb609000-7f1bfb60f000 rw-p 00000000 00:00 0 
+7f1bfb60f000-7f1bfb639000 r-xp 00000000 00:30 45742324                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libjava.so
+7f1bfb639000-7f1bfb839000 ---p 0002a000 00:30 45742324                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libjava.so
+7f1bfb839000-7f1bfb83b000 rw-p 0002a000 00:30 45742324                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libjava.so
+7f1bfb83b000-7f1bfb848000 r-xp 00000000 00:30 46900899                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libverify.so
+7f1bfb848000-7f1bfba48000 ---p 0000d000 00:30 46900899                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libverify.so
+7f1bfba48000-7f1bfba4a000 rw-p 0000d000 00:30 46900899                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/libverify.so
+7f1bfba4a000-7f1bfba51000 r-xp 00000000 103:01 8127076                   /usr/lib64/librt-2.17.so
+7f1bfba51000-7f1bfbc50000 ---p 00007000 103:01 8127076                   /usr/lib64/librt-2.17.so
+7f1bfbc50000-7f1bfbc51000 r--p 00006000 103:01 8127076                   /usr/lib64/librt-2.17.so
+7f1bfbc51000-7f1bfbc52000 rw-p 00007000 103:01 8127076                   /usr/lib64/librt-2.17.so
+7f1bfbc52000-7f1bfbd53000 r-xp 00000000 103:01 8127054                   /usr/lib64/libm-2.17.so
+7f1bfbd53000-7f1bfbf52000 ---p 00101000 103:01 8127054                   /usr/lib64/libm-2.17.so
+7f1bfbf52000-7f1bfbf53000 r--p 00100000 103:01 8127054                   /usr/lib64/libm-2.17.so
+7f1bfbf53000-7f1bfbf54000 rw-p 00101000 103:01 8127054                   /usr/lib64/libm-2.17.so
+7f1bfbf54000-7f1bfcbc2000 r-xp 00000000 00:30 40585756                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/server/libjvm.so
+7f1bfcbc2000-7f1bfcdc1000 ---p 00c6e000 00:30 40585756                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/server/libjvm.so
+7f1bfcdc1000-7f1bfce97000 rw-p 00c6d000 00:30 40585756                   /u/group/clas12/packages/jdk/1.8.0_31/jre/lib/amd64/server/libjvm.so
+7f1bfce97000-7f1bfceda000 rw-p 00000000 00:00 0 
+7f1bfceda000-7f1bfd090000 r-xp 00000000 103:01 8127046                   /usr/lib64/libc-2.17.so
+7f1bfd090000-7f1bfd290000 ---p 001b6000 103:01 8127046                   /usr/lib64/libc-2.17.so
+7f1bfd290000-7f1bfd294000 r--p 001b6000 103:01 8127046                   /usr/lib64/libc-2.17.so
+7f1bfd294000-7f1bfd296000 rw-p 001ba000 103:01 8127046                   /usr/lib64/libc-2.17.so
+7f1bfd296000-7f1bfd29b000 rw-p 00000000 00:00 0 
+7f1bfd29b000-7f1bfd29e000 r-xp 00000000 103:01 8127052                   /usr/lib64/libdl-2.17.so
+7f1bfd29e000-7f1bfd49d000 ---p 00003000 103:01 8127052                   /usr/lib64/libdl-2.17.so
+7f1bfd49d000-7f1bfd49e000 r--p 00002000 103:01 8127052                   /usr/lib64/libdl-2.17.so
+7f1bfd49e000-7f1bfd49f000 rw-p 00003000 103:01 8127052                   /usr/lib64/libdl-2.17.so
+7f1bfd49f000-7f1bfd4b4000 r-xp 00000000 00:30 48941473                   /u/group/clas12/packages/jdk/1.8.0_31/lib/amd64/jli/libjli.so
+7f1bfd4b4000-7f1bfd6b3000 ---p 00015000 00:30 48941473                   /u/group/clas12/packages/jdk/1.8.0_31/lib/amd64/jli/libjli.so
+7f1bfd6b3000-7f1bfd6b4000 rw-p 00014000 00:30 48941473                   /u/group/clas12/packages/jdk/1.8.0_31/lib/amd64/jli/libjli.so
+7f1bfd6b4000-7f1bfd6ca000 r-xp 00000000 103:01 8127072                   /usr/lib64/libpthread-2.17.so
+7f1bfd6ca000-7f1bfd8ca000 ---p 00016000 103:01 8127072                   /usr/lib64/libpthread-2.17.so
+7f1bfd8ca000-7f1bfd8cb000 r--p 00016000 103:01 8127072                   /usr/lib64/libpthread-2.17.so
+7f1bfd8cb000-7f1bfd8cc000 rw-p 00017000 103:01 8127072                   /usr/lib64/libpthread-2.17.so
+7f1bfd8cc000-7f1bfd8d0000 rw-p 00000000 00:00 0 
+7f1bfd8d0000-7f1bfd8f1000 r-xp 00000000 103:01 8127039                   /usr/lib64/ld-2.17.so
+7f1bfd9b3000-7f1bfd9d3000 rw-p 00000000 00:00 0 
+7f1bfd9d3000-7f1bfd9d6000 ---p 00000000 00:00 0 
+7f1bfd9d6000-7f1bfdad8000 rw-p 00000000 00:00 0                          [stack:47617]
+7f1bfdae5000-7f1bfdae6000 rw-p 00000000 00:00 0 
+7f1bfdae6000-7f1bfdaee000 rw-s 00000000 103:01 64231740                  /tmp/hsperfdata_robertej/47609
+7f1bfdaee000-7f1bfdaef000 rw-p 00000000 00:00 0 
+7f1bfdaef000-7f1bfdaf0000 r--p 00000000 00:00 0 
+7f1bfdaf0000-7f1bfdaf1000 rw-p 00000000 00:00 0 
+7f1bfdaf1000-7f1bfdaf2000 r--p 00021000 103:01 8127039                   /usr/lib64/ld-2.17.so
+7f1bfdaf2000-7f1bfdaf3000 rw-p 00022000 103:01 8127039                   /usr/lib64/ld-2.17.so
+7f1bfdaf3000-7f1bfdaf4000 rw-p 00000000 00:00 0 
+7ffd5991f000-7ffd59941000 rw-p 00000000 00:00 0                          [stack]
+7ffd59956000-7ffd59958000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+java_command: <unknown>
+java_class_path (initial): .
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/group/clas12/packages/jdk/1.8.0_31
+PATH=/group/clas12/packages/groovy/2.5.6/bin/:/site/12gev_phys/2.3/Linux_CentOS7.2.1511-x86_64-gcc4.8.5/root/6.14.04/bin:/group/clas12/packages/jdk/1.8.0_31/bin:/group/clas12/packages/clara/4.3.10_6.3.1/bin:/group/clas12/packages/coatjava/6.3.1/bin:/home/robertej/bin:/home/robertej/bin/Linux:/apps/bin:/site/bin:/usr/local/bin:/usr/sbin:/usr/bin/X11:/opt/SUNWspro/bin:/opt/ansic/bin:/opt/aCC/bin:/opt/fortran/bin:/opt/fortran90/bin:/opt/langtools/bin:/usr/ccs/bin:/usr/bin:/bin:/usr/dt/bin:/usr/openwin/bin:/etc:/usr/etc:/usr/xpg4/bin:/usr/ucb:/usr/bsd:/sbin:/usr/proc/bin:/opt/imake/bin:.
+LD_LIBRARY_PATH=/site/12gev_phys/2.3/Linux_CentOS7.2.1511-x86_64-gcc4.8.5/root/6.14.04/lib
+SHELL=/bin/tcsh
+DISPLAY=129.57.70.22:65.0
+HOSTTYPE=x86_64-linux
+OSTYPE=linux
+MACHTYPE=x86_64
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xa7a650], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: 
