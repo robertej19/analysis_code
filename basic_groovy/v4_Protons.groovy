@@ -34,17 +34,45 @@ for(fname in args) {
   //for(int ii=0;ii<=6;ii++){
   //println("On event number $ii")
     def event = reader.getNextEvent()
-    if(!event.hasBank("REC::Particle")) continue
+    if(!event.hasBank("REC::Particle")){
+//	println("event bank empty, skipping")
+	 continue
+	}
 
-  	def recon_Particles = event.getBank("REC::Particle")
+    def recon_Particles = event.getBank("REC::Particle")
+    def recon_Cal = event.getBank("REC::Calorimeter")
     def recon_Scint = event.getBank("REC::Scintillator")
     def momenta = ['x','y','z'].collect{recon_Particles.getFloat('p'+it)}.transpose().collect{Math.sqrt(it.collect{x->x*x}.sum())}
     def event_start_time = event.getBank("REC::Event").getFloat("startTime")[0]
-    if(event_start_time<0) continue
+    if(event_start_time<0){
+//	println("Event time was $event_start_time, skipping")
+	 continue
+	}
     def stati = recon_Particles.getInt('status')
     def pind_sarray = recon_Scint.getShort('pindex')*.toInteger()
-    //println("interattion index array is $pind_sarray")
-    //println("particle status is $stati")
+    def pind_carray = recon_Cal.getShort('pindex')*.toInteger()
+  //  println("scintillator interaction index array is $pind_sarray")
+   // println("calorimeter interaction index array is $pind_carray")
+ //   println("particle status is $stati")
+
+
+
+	def scint_times = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getFloat('time')].transpose().collectEntries()
+	def scint_paths = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getFloat('path')].transpose().collectEntries()
+	def scint_layers = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('layer')].transpose().collectEntries()
+//	println("layer in scints are: $scint_layers")
+//
+ 
+	def scint_sectors = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('sector')].transpose().collectEntries()
+//	println("sectors in scints are: $scint_sectors")
+	
+	def secs = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('detector')].transpose().collectEntries()
+     //   println("secs is: $secs")
+
+	def cecs = [recon_Cal.getShort('pindex')*.toInteger(), recon_Cal.getInt('detector')].transpose().collectEntries()
+       // println("cecs is: $cecs")
+
+
 	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
       //if(!(recon_Particles.getInt("charge",p_ind)>0)){ continue  }
   		//if(!recon_Particles.getInt("pid",p)==2212) continue;
@@ -54,23 +82,42 @@ for(fname in args) {
   		float p_mass = 0.938 //Proton mass in GeV
   		float beta_calc = Math.sqrt(p_momentum*p_momentum/(p_momentum*p_momentum+p_mass*p_mass))
 
-
-
+		//def secs = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('detector')].transpose().collectEntries()
+    		//println(secs)
+	//	println("particle number index is $p_ind")
+//		println("scint response for $p_ind is: "+secs[p_ind]+" layer: "+scint_layers[p_ind]+" sector: "+scint_sectors[p_ind])
+	//	println("cal response is: "+cecs[p_ind])
+	//	println("status of particle is: "+stati[p_ind])
+	//	println("XXXXXX end of particle info XXXXXX")
 		//println("particle index is: $p_ind")
 		//println("total recon is: "+ recon_Scint.getInt("detector"))
 		//println("recon selected scint is: "+ recon_Scint.getInt("detector",p_ind))
 
-		if (pind_sarray.contains(p_ind)){
-			//println("p_ind of $p_ind is found in sarray $pind_sarray")
-		}
+
+
+	//	if(secs[p_ind]==12){
+	//		println("using scint data")
+	//		p_layer = recon_Scint.getInt("layer",p_ind)
+        //               p_sect = recon_Scint.getInt("sector",p_ind)
+	//		println(p_layer + "  is layer, sector is: "+p_sect)
+	//	}
+	//	if(cecs[p_ind]==7){
+	//		println("using calorimeter data")
+	//		p_layer = recon_Cal.getInt("layer",p_ind)
+          //              p_sect = recon_Cal.getInt("sector",p_ind)
+	//		println(p_layer + "  is layer, sector is: "+p_sect)
+	//	}		
+
 		
-  		if(recon_Scint.getInt("detector",p_ind)==12){
-  		//if(recon_Particles.getInt('status')[p_ind]>1999){
+  		//if(recon_Scint.getInt("detector",p_ind)==12){
+  		
+		if(secs[p_ind]==12){
+		//if(recon_Particles.getInt('status')[p_ind]>1999){
 	  	//	if(recon_Particles.getInt('status')[p_ind]<3999){
-				p_layer = recon_Scint.getInt("layer",p_ind)
-    				p_sect = recon_Scint.getInt("sector",p_ind)
-    				p_time = recon_Scint.getFloat("time",p_ind)
-    				p_path = recon_Scint.getFloat("path",p_ind)
+				p_layer = scint_layers[p_ind]
+    				p_sect = scint_sectors[p_ind]
+    				p_time = scint_times[p_ind]
+    				p_path = scint_paths[p_ind]
   		  		p_comp =recon_Scint.getInt('component',p_ind)
       				//  println("particle status is: "+recon_Particles.getInt('status')[p_ind])
 
@@ -81,7 +128,12 @@ for(fname in args) {
   				Hist_deltaB_p[title].fill(p_momentum,beta_recon-beta_calc)
   				Hist_beta_p2[title].fill(p_momentum,p_path/(p_time-event_start_time)/29.98)//p_time,p_comp)
   			//println("value is: "+(beta_recon-p_path/(p_time-event_start_time)/29.98)
-      }}
+      }
+		else{
+			println("Value not contained!")
+			println(p_sect)
+			println(p_layer)
+		}}
     }
   }
   reader.close()
