@@ -77,7 +77,7 @@ for(fname in args) {
 		printer("cal detectors are: $cal_detectors")
 
 		for(int particle_index=0;particle_index<event.getBank("REC::Particle").rows();particle_index++){
-			if(!(recon_Particles.getInt("charge",p_ind)>0)){
+			if(!(recon_Particles.getInt("charge",particle_index)>0)){
 				continue
 			}
 			//if(!recon_Particles.getInt("pid",p)==2212) continue;
@@ -92,20 +92,20 @@ for(fname in args) {
 			printer("particle number index is $particle_index")
 			printer("scint response for $particle_index is: "+scint_sectors[particle_index]+" layer: "+
 				scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
-			printer("cal response is: "+cal_detectors[p_ind])
+			printer("cal response is: "+cal_detectors[particle_index])
 			printer("status of particle is: "+particle_stati[particle_index])
 			printer("End ofparticle information")
 
-			//	if(secs[p_ind]==12){
+			//	if(secs[particle_index]==12){
 			//		println("using scint data")
-			//		p_layer = recon_Scint.getInt("layer",p_ind)
-			//               p_sect = recon_Scint.getInt("sector",p_ind)
+			//		p_layer = recon_Scint.getInt("layer",particle_index)
+			//               p_sect = recon_Scint.getInt("sector",particle_index)
 			//		println(p_layer + "  is layer, sector is: "+p_sect)
 			//	}
-			//	if(cecs[p_ind]==7){
+			//	if(cecs[particle_index]==7){
 			//		println("using calorimeter data")
-			//		p_layer = recon_Cal.getInt("layer",p_ind)
-			//              p_sect = recon_Cal.getInt("sector",p_ind)
+			//		p_layer = recon_Cal.getInt("layer",particle_index)
+			//              p_sect = recon_Cal.getInt("sector",particle_index)
 			//		println(p_layer + "  is layer, sector is: "+p_sect)
 			//	}
 
@@ -114,8 +114,8 @@ for(fname in args) {
 				p_sect = scint_sectors[particle_index]
 				p_time = scint_times[particle_index]
 				p_path = scint_paths[particle_index]
-				//p_comp =recon_Scint.getInt('component',p_ind)
-				printer("particle status is: "+recon_Particles.getInt('status')[p_ind])
+				//p_comp =recon_Scint.getInt('component',particle_index)
+				printer("particle status is: "+recon_Particles.getInt('status')[particle_index])
 
 				if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
 					title = "sec${p_sect}_layer${p_layer}"
