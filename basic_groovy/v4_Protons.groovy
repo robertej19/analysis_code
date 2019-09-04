@@ -24,7 +24,7 @@ int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
 if(run>6607) EB=10.2f
 
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,800,0,EB,300,  -0.1   ,1.2)}
-def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}"          ,800,0,EB,300,  -1     ,1  )}
+def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}"          ,800,0,EB,1600,  -1     ,1  )}
 def Hist_beta_p2 	= [:].withDefault{new H2F("Hist_beta_p2${it}"	  , "Beta (path/time) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)}
 
 for(fname in args) {
@@ -74,10 +74,10 @@ for(fname in args) {
 
 
 	for(int p_ind=0;p_ind<event.getBank("REC::Particle").rows();p_ind++){ //Loop over all particles in the event
-      //if(!(recon_Particles.getInt("charge",p_ind)>0)){ continue  }
+      if(!(recon_Particles.getInt("charge",p_ind)>0)){ continue  }
   		//if(!recon_Particles.getInt("pid",p)==2212) continue;
 
-      float p_momentum = momenta[p_ind]
+      		float p_momentum = momenta[p_ind]
   		float beta_recon = recon_Particles.getFloat("beta",p_ind)
   		float p_mass = 0.938 //Proton mass in GeV
   		float beta_calc = Math.sqrt(p_momentum*p_momentum/(p_momentum*p_momentum+p_mass*p_mass))
