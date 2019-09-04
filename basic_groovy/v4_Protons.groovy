@@ -45,7 +45,7 @@ for(fname in args) {
     def momenta = ['x','y','z'].collect{recon_Particles.getFloat('p'+it)}.transpose().collect{Math.sqrt(it.collect{x->x*x}.sum())}
     def event_start_time = event.getBank("REC::Event").getFloat("startTime")[0]
     if(event_start_time<0){
-//	println("Event time was $event_start_time, skipping")
+      //printx("Event time was $event_start_time, skipping")
 	 continue
 	}
     def stati = recon_Particles.getInt('status')
@@ -62,10 +62,10 @@ for(fname in args) {
 	def scint_layers = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('layer')].transpose().collectEntries()
 //	println("layer in scints are: $scint_layers")
 //
- 
+
 	def scint_sectors = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('sector')].transpose().collectEntries()
 //	println("sectors in scints are: $scint_sectors")
-	
+
 	def secs = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('detector')].transpose().collectEntries()
      //   println("secs is: $secs")
 
@@ -106,11 +106,11 @@ for(fname in args) {
 	//		p_layer = recon_Cal.getInt("layer",p_ind)
           //              p_sect = recon_Cal.getInt("sector",p_ind)
 	//		println(p_layer + "  is layer, sector is: "+p_sect)
-	//	}		
+	//	}
 
-		
+
   		//if(recon_Scint.getInt("detector",p_ind)==12){
-  		
+
 		if(secs[p_ind]==12){
 		//if(recon_Particles.getInt('status')[p_ind]>1999){
 	  	//	if(recon_Particles.getInt('status')[p_ind]<3999){
