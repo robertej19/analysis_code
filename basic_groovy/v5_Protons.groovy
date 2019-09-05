@@ -111,6 +111,8 @@ for(fname in args) {
 
 			if(scint_detectors[particle_index]==4){
 				println("particle status is: "+particle_stati[particle_index])
+				println("layer and sector are: "+ scint_sectors[particle_index]+" layer: "+
+					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
 			}
 
 			if(scint_detectors[particle_index]==12){
