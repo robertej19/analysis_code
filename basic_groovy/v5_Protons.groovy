@@ -29,10 +29,15 @@ def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. 
 def Hist_beta_p2 	= [:].withDefault{new H2F("Hist_beta_p2${it}"	  , "Beta (path/time) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)}
 def Hist_beta_p_ctof = new H2F("Hist_beta_p_ctof"	  , "Beta (CTOF) vs. Momentum"	,800,0,EB,300,  -0.1   ,1.2)
 
-def printer(string){
+def printer(string,override){
 	k = 0
 	if(k==1){
 		println(string)
+	}
+	if(k=0){
+		if(override==1){
+			println(string)
+		}
 	}
 }
 
@@ -49,13 +54,13 @@ for(fname in args) {
 	//println("On event number $ii")
 		def event = reader.getNextEvent()
 		if(!event.hasBank("REC::Particle")){
-			printer("event bank empty, skipping")
+			printer("event bank empty, skipping",0)
 			continue
 		}
 		def event_start_time = event.getBank("REC::Event").getFloat("startTime")[0]
 
 		if(event_start_time<0){
-			printer("Event time was $event_start_time, skipping")
+			printer("Event time was $event_start_time, skipping",0)
 			continue
 		}
 
@@ -67,9 +72,9 @@ for(fname in args) {
 		def particle_stati = recon_Particles.getInt('status')
 		def scint_hit_array = recon_Scint.getShort('pindex')*.toInteger()
 		def cal_hit_array = recon_Cal.getShort('pindex')*.toInteger()
-		printer("scintillator interaction index array is $scint_hit_array")
-		printer("calorimeter interaction index array is $cal_hit_array")
-		printer("particle status is $particle_stati")
+		printer("scintillator interaction index array is $scint_hit_array",0)
+		printer("calorimeter interaction index array is $cal_hit_array",0)
+		printer("particle status is $particle_stati",0)
 
 		def scint_times = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getFloat('time')].transpose().collectEntries()
 		def scint_paths = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getFloat('path')].transpose().collectEntries()
@@ -78,10 +83,10 @@ for(fname in args) {
 		def scint_detectors = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('detector')].transpose().collectEntries()
 		def cal_detectors = [recon_Cal.getShort('pindex')*.toInteger(), recon_Cal.getInt('detector')].transpose().collectEntries()
 
-		printer("layer in scints are: $scint_layers")
-		printer("sectors in scints are: $scint_sectors")
-		printer("scint detectors are: $scint_detectors")
-		printer("cal detectors are: $cal_detectors")
+		printer("layer in scints are: $scint_layers",0)
+		printer("sectors in scints are: $scint_sectors",0)
+		printer("scint detectors are: $scint_detectors",0)
+		printer("cal detectors are: $cal_detectors",0)
 
 		for(int particle_index=0;particle_index<event.getBank("REC::Particle").rows();particle_index++){
 			if(!(recon_Particles.getInt("charge",particle_index)>0)){
@@ -96,12 +101,12 @@ for(fname in args) {
 			proton_mass_squared = proton_mass*proton_mass
 			float beta_calculated = Math.sqrt(particle_momentum_squared/(particle_momentum_squared+proton_mass_squared))
 
-			printer("particle number index is $particle_index")
+			printer("particle number index is $particle_index",0)
 			printer("scint response for $particle_index is: "+scint_sectors[particle_index]+" layer: "+
-				scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
-			printer("cal response is: "+cal_detectors[particle_index])
-			printer("status of particle is: "+particle_stati[particle_index])
-			printer("End of particle information")
+				scint_layers[particle_index]+" sector: "+scint_sectors[particle_index],0)
+			printer("cal response is: "+cal_detectors[particle_index],0)
+			printer("status of particle is: "+particle_stati[particle_index],0)
+			printer("End of particle information",0)
 
 			//	if(secs[particle_index]==12){
 			//		println("using scint data")
@@ -117,11 +122,11 @@ for(fname in args) {
 			//	}
 
 			if(scint_detectors[particle_index]==4){
-				printer("particle detected in CTOF")
-				printer("particle status is: ${particle_stati[particle_index]}")
+				printer("particle detected in CTOF",0)
+				printer("particle status is: ${particle_stati[particle_index]}",0)
 				printer("layer and sector are: "+ scint_sectors[particle_index]+" layer: "+
-					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
-				printer("particle beta is $beta_recon")
+					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index],0)
+				printer("particle beta is $beta_recon",0)
 				Hist_beta_p_ctof.fill(particle_momentum,beta_recon)
 			}
 
@@ -131,7 +136,7 @@ for(fname in args) {
 				p_time = scint_times[particle_index]
 				p_path = scint_paths[particle_index]
 				//p_comp =recon_Scint.getInt('component',particle_index)
-				printer("particle status is: "+recon_Particles.getInt('status')[particle_index])
+				printer("particle status is: "+recon_Particles.getInt('status')[particle_index],0)
 
 				if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
 					title = "sec${p_sect}_layer${p_layer}"
@@ -164,7 +169,7 @@ for(int isec=1;isec<=6;isec++){
 
 out.addDataSet(Hist_beta_p_ctof)
 
-out.writeFile('pID_new_protons_$file_start_time_'+run+'.hipo')
+out.writeFile("pID_new_protons_${file_start_time}_"+run+'.hipo')
 
 def date = new Date()
 file_end_time = date.format('HH:mm:ss')
