@@ -28,7 +28,7 @@ def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. 
 def Hist_beta_p2 	= [:].withDefault{new H2F("Hist_beta_p2${it}"	  , "Beta (path/time) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)}
 
 def printer(string){
-	k = 1
+	k = 0
 	if(k==1){
 		println(string)
 	}
@@ -94,7 +94,7 @@ for(fname in args) {
 				scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
 			printer("cal response is: "+cal_detectors[particle_index])
 			printer("status of particle is: "+particle_stati[particle_index])
-			printer("End ofparticle information")
+			printer("End of particle information")
 
 			//	if(secs[particle_index]==12){
 			//		println("using scint data")
@@ -109,6 +109,10 @@ for(fname in args) {
 			//		println(p_layer + "  is layer, sector is: "+p_sect)
 			//	}
 
+			if(scint_detectors[particle_index]==4){
+				println("particle status is: "+particle_stati[particle_index])
+			}
+
 			if(scint_detectors[particle_index]==12){
 				p_layer = scint_layers[particle_index]
 				p_sect = scint_sectors[particle_index]
@@ -119,9 +123,9 @@ for(fname in args) {
 
 				if ([1, 2, 3, 4, 5, 6].contains(p_sect) && [1, 2, 3].contains(p_layer)){
 					title = "sec${p_sect}_layer${p_layer}"
-					Hist_beta_p[title].fill(p_momentum,beta_recon)
-					Hist_deltaB_p[title].fill(p_momentum,beta_recon-beta_calc)
-					Hist_beta_p2[title].fill(p_momentum,p_path/(p_time-event_start_time)/29.98)
+					Hist_beta_p[title].fill(particle_momentum,beta_recon)
+					Hist_deltaB_p[title].fill(particle_momentum,beta_recon-beta_calculated)
+					Hist_beta_p2[title].fill(particle_momentum,p_path/(p_time-event_start_time)/29.98)
 				}
 				else{
 					println("Value not contained!")
