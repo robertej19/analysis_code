@@ -117,9 +117,11 @@ for(fname in args) {
 			//	}
 
 			if(scint_detectors[particle_index]==4){
+				printer("particle detected in CTOF")
 				printer("particle status is: ${particle_stati[particle_index]}")
 				printer("layer and sector are: "+ scint_sectors[particle_index]+" layer: "+
 					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
+				printer("particle beta is $beta_recon")
 				Hist_beta_p_ctof.fill(particle_momentum,beta_recon)
 			}
 
