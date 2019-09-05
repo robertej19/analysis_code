@@ -18,6 +18,7 @@ import org.jlab.clas.physics.Vector3
 import org.jlab.clas.physics.LorentzVector
 import org.jlab.groot.base.GStyle
 import org.jlab.groot.graphics.EmbeddedCanvas
+import java.text.SimpleDateFormat
 
 float EB = 10.6f
 int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
@@ -35,7 +36,12 @@ def printer(string){
 	}
 }
 
+def date = new Date()
+file_start_time = date.format("yyyyMMdd_HH_mm_ss")
+
 for(fname in args) {
+	def date = new Date()
+	println("Processing $fname at time ${date.format('HH:mm:ss')}")
 	def reader = new HipoDataSource()
 	reader.open(fname)
 	while(reader.hasEvent()) {
@@ -157,3 +163,9 @@ for(int isec=1;isec<=6;isec++){
 out.addDataSet(Hist_beta_p_ctof)
 
 out.writeFile('pID_new_protons_'+run+'.hipo')
+
+def date = new Date()
+file_end_time = date.format('HH:mm:ss')
+
+println("Started at $file_start_time")
+println("Ended   at $file_end_time")

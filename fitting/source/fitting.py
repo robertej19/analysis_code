@@ -97,7 +97,12 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
   h1.SetMaximum(1.2*(params[0]+params[3]))
   h1.SetTitle("Projection from {0} GeV to {1} GeV".format(round(mincut*energy_conv,2),round(maxcut*energy_conv,2)))
   h1.Draw("colz")
-  c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
+  if(maxcut<100):
+    c1.Print("../iters/protons_0{0}_0{1}.pdf".format(mincut,maxcut))
+  elif(mincut<100):
+    c1.Print("../iters/protons_0{0}_{1}.pdf".format(mincut,maxcut))
+  else:
+    c1.Print("../iters/protons_{0}_{1}.pdf".format(mincut,maxcut))
   return params, params_list
 
 amps, means, sigmas = [], [], []
