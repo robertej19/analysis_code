@@ -19,6 +19,8 @@ import org.jlab.clas.physics.LorentzVector
 import org.jlab.groot.base.GStyle
 import org.jlab.groot.graphics.EmbeddedCanvas
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
 
 float EB = 10.6f
 int run = args[0].split("/")[-1].split('\\.')[0][-4..-1].toInteger()
@@ -50,12 +52,15 @@ for(fname in args) {
 	array_index++
 	runtime = new Date()
 	println("Processing $fname at time ${runtime.format('HH:mm:ss')}")
-	time_diff = (runtime.getTime() - fst)/1000
+	time_diff = (runtime.getTime() - fst)/1000/60
 	if(array_index>0){
-		println("Total running time in seconds is: ${time_diff}")
+		println("Total running time in minutes is: ${time_diff}")
 		println("Number of files processed is $array_index")
-		time_left = time_diff*(args.length-array_index)/array_index/60
+		time_left = time_diff*(args.length-array_index)/array_index
 		println("Estimated time remaining is $time_left minutes")
+		uTS = time_left*60+runtime.getTime()
+		eta = Date.from(Instant.ofEpochSecond(uTS)).format('HH:mm:ss')
+		println("Anticipated finish time is $eta")
 	}
 
 	def reader = new HipoDataSource()
@@ -183,7 +188,7 @@ out.addDataSet(Hist_beta_p_ctof)
 date = new Date()
 file_end_time = date.format("yyyyMMdd_HH-mm-ss")
 
-out.writeFile("pID_new_protons_${file_end_time}_"+run+'.hipo')
+out.writeFile("hipo-root_files/pID_new_protons_${file_end_time}_"+run+'.hipo')
 
 
 println("Started at $file_start_time")
