@@ -164,7 +164,7 @@ for(int isec=1;isec<=6;isec++){
 
 out.addDataSet(Hist_beta_p_ctof)
 
-out.writeFile('pID_new_protons_'+run+'.hipo')
+out.writeFile('pID_new_protons_$file_start_time_'+run+'.hipo')
 
 def date = new Date()
 file_end_time = date.format('HH:mm:ss')
