@@ -42,7 +42,7 @@ def printer(string,override){
 }
 
 date = new Date()
-file_start_time = date.format("yyyyMMdd_HH_mm_ss")
+file_start_time = date.format("yyyyMMdd_HH-mm-ss")
 
 for(fname in args) {
 	date = new Date()
