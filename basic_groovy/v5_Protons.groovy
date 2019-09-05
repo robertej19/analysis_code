@@ -26,6 +26,7 @@ if(run>6607) EB=10.2f
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,800,0,EB,300,  -0.1   ,1.2)}
 def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}"          ,800,0,EB,1600,  -1     ,1  )}
 def Hist_beta_p2 	= [:].withDefault{new H2F("Hist_beta_p2${it}"	  , "Beta (path/time) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)}
+def Hist_beta_p_ctof = new H2F("Hist_beta_p_ctof"	  , "Beta (CTOF) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)
 
 def printer(string){
 	k = 0
@@ -110,9 +111,10 @@ for(fname in args) {
 			//	}
 
 			if(scint_detectors[particle_index]==4){
-				println("particle status is: "+particle_stati[particle_index])
+				println("particle status is: ${particle_stati[particle_index}"])
 				println("layer and sector are: "+ scint_sectors[particle_index]+" layer: "+
 					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index])
+				Hist_beta_p_ctof.fill(particle_momentum,beta_recon)
 			}
 
 			if(scint_detectors[particle_index]==12){
@@ -151,5 +153,7 @@ for(int isec=1;isec<=6;isec++){
 		out.addDataSet(Hist_beta_p2[title])
 	}
 }
+
+out.addDataSet(Hist_beta_p_ctof)
 
 out.writeFile('pID_new_protons_'+run+'.hipo')
