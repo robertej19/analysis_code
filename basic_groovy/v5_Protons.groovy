@@ -42,11 +42,22 @@ def printer(string,override){
 }
 
 date = new Date()
+fst = date.getTime()
 file_start_time = date.format("yyyyMMdd_HH-mm-ss")
 
+array_index = -1
 for(fname in args) {
-	date = new Date()
-	println("Processing $fname at time ${date.format('HH:mm:ss')}")
+	array_index++
+	runtime = new Date()
+	println("Processing $fname at time ${runtime.format('HH:mm:ss')}")
+	time_diff = (runtime.getTime() - fst)/1000
+	if(array_index>0){
+		println("Total running time in seconds is: ${time_diff}")
+		println("Number of files processed is $array_index")
+		time_left = time_diff*(args.length-array_index)/array_index/60
+		println("Estimated time remaining is $time_left minutes")
+	}
+
 	def reader = new HipoDataSource()
 	reader.open(fname)
 	while(reader.hasEvent()) {
@@ -169,10 +180,11 @@ for(int isec=1;isec<=6;isec++){
 
 out.addDataSet(Hist_beta_p_ctof)
 
-out.writeFile("pID_new_protons_${file_start_time}_"+run+'.hipo')
-
 date = new Date()
-file_end_time = date.format('HH:mm:ss')
+file_end_time = date.format("yyyyMMdd_HH-mm-ss")
+
+out.writeFile("pID_new_protons_${file_end_time}_"+run+'.hipo')
+
 
 println("Started at $file_start_time")
 println("Ended   at $file_end_time")
