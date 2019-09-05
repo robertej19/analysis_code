@@ -41,11 +41,11 @@ def printer(string,override){
 	}
 }
 
-def date = new Date()
+date = new Date()
 file_start_time = date.format("yyyyMMdd_HH_mm_ss")
 
 for(fname in args) {
-	def date = new Date()
+	date = new Date()
 	println("Processing $fname at time ${date.format('HH:mm:ss')}")
 	def reader = new HipoDataSource()
 	reader.open(fname)
@@ -171,7 +171,7 @@ out.addDataSet(Hist_beta_p_ctof)
 
 out.writeFile("pID_new_protons_${file_start_time}_"+run+'.hipo')
 
-def date = new Date()
+date = new Date()
 file_end_time = date.format('HH:mm:ss')
 
 println("Started at $file_start_time")
