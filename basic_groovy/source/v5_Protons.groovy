@@ -54,11 +54,11 @@ for(fname in args) {
 	println("Processing $fname at time ${runtime.format('HH:mm:ss')}")
 	time_diff = (runtime.getTime() - fst)/1000/60
 	if(array_index>0){
-		println("Total running time in minutes is: ${time_diff}")
-		println("Number of files processed is $array_index")
-		time_left = time_diff*(args.length-array_index)/array_index
-		println("Estimated time remaining is $time_left minutes")
-		uTS = time_left*60+runtime.getTime()
+		println("Total running time in minutes is: ${Math.round(time_diff*10)/10}")
+		array_left = args.length-array_index
+		println("$array_index Files have been processed, $array_left files remain")
+		time_left = time_diff*array_left/array_index
+		uTS = Math.round(time_left*60+runtime.getTime()/1000)
 		eta = Date.from(Instant.ofEpochSecond(uTS)).format('HH:mm:ss')
 		println("Anticipated finish time is $eta")
 	}
