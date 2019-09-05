@@ -34,7 +34,7 @@ def printer(string,override){
 	if(k==1){
 		println(string)
 	}
-	if(k=0){
+	if(k==0){
 		if(override==1){
 			println(string)
 		}
