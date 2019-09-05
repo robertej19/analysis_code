@@ -80,6 +80,8 @@ for(fname in args) {
 			continue
 		}
 
+//*** DO WORK HERE!!!!!!!!!		if(recPart.getInt("pid",p)==11) return true;
+
 		def recon_Particles = event.getBank("REC::Particle")
 		def recon_Cal = event.getBank("REC::Calorimeter")
 		def recon_Scint = event.getBank("REC::Scintillator")
