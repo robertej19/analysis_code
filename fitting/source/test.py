@@ -5,6 +5,10 @@ sys.argv.append('-b')
 import ROOT
 
 ff = ROOT.TFile(sys.argv[1])
+
+qq = sys.argv[1]
+ww = qq.split("/")
+zz = ww[-1]
 """
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
@@ -42,4 +46,4 @@ h1 = ff.Get(type)
 c1 = ROOT.TCanvas('c1','c1',1100,800)
 c1.SetLogz()
 h1.Draw("colz")
-c1.Print("plots/full_{}_{}.pdf".format(sys.argv[1],type))
+c1.Print("plots/full_{}_{}.pdf".format(zz,type))
