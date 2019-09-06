@@ -85,10 +85,10 @@ for(fname in args) {
 		def recon_Cal = event.getBank("REC::Calorimeter")
 		def recon_Scint = event.getBank("REC::Scintillator")
 
-		if(!(recon_Particles.getInt("pid",0)==11)){
-			printer("Event had trigger particle with pID not equal to 11, skipping",0)
-			continue
-		}
+		//if(!(recon_Particles.getInt("pid",0)==11)){
+	//		printer("Event had trigger particle with pID not equal to 11, skipping",0)
+//			continue
+//		}
 
 		def particle_momenta = ['x','y','z'].collect{recon_Particles.getFloat('p'+it)}.transpose().collect{Math.sqrt(it.collect{x->x*x}.sum())}
 		def particle_stati = recon_Particles.getInt('status')
