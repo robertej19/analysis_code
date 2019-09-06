@@ -64,6 +64,7 @@ for(fname in args) {
 	}
 
 	def reader = new HipoDataSource()
+	
 	reader.open(fname)
 	while(reader.hasEvent()) {
 	//for(int ii=0;ii<=6;ii++){
