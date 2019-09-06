@@ -23,7 +23,7 @@ type2 = "5039_Hist_deltaB_psec1_layer1"
 type3 = "5039_Hist_beta_p2sec1_layer1"
 type4 = "5039_Hist_beta_p_ctof"
 
-typeX = sys.argv[2]
+typeX = int(sys.argv[2])
 print("type to print is {0}".format(typeX))
 
 if typeX==1:
