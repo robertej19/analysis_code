@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #histo_title = "5038_H_proton_DeltaBeta_momentum_S2"
-histo_title = "5039_Hist_deltaB_psec1_layer1"
+histo_title = "5040_Hist_deltaB_psec1_layer1"
 hipo_histos = ROOT.TFile(sys.argv[1])
 h0 = hipo_histos.Get(histo_title)
 
@@ -107,7 +107,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 amps, means, sigmas = [], [], []
 superset = []
-for i in range(0,50):
+for i in range(4,50):
 	print("on set {}".format(i))
 	params, params_list = fit_histo(h0,i*10,i*10+40,eperbin)
 	amps.append(params[0])
