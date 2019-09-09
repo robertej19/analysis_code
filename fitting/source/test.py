@@ -22,10 +22,10 @@ for kk in ff.GetListOfKeys():
 
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 """
-type1 = "5040_Hist_beta_psec1_layer1"
-type2 = "5040_Hist_deltaB_psec1_layer1"
-type3 = "5040_Hist_beta_p2sec1_layer1"
-type4 = "5040_Hist_beta_p_ctof"
+type1 = "5039_Hist_beta_psec1_layer1"
+type2 = "5039_Hist_deltaB_psec1_layer1"
+type3 = "5039_Hist_beta_p2sec1_layer1"
+type4 = "5039_Hist_beta_p_ctof"
 
 typeX = int(sys.argv[2])
 print("type to print is {0}".format(typeX))

@@ -29,7 +29,8 @@ if(run>6607) EB=10.2f
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,800,0,EB,300,  -0.1   ,1.2)}
 def Hist_deltaB_p = [:].withDefault{new H2F("Hist_deltaB_p${it}"	, "Delta B vs. Momentum ${it}"          ,800,0,EB,1600,  -1     ,1  )}
 def Hist_beta_p2 	= [:].withDefault{new H2F("Hist_beta_p2${it}"	  , "Beta (path/time) vs. Momentum ${it}"	,800,0,EB,300,  -0.1   ,1.2)}
-def Hist_beta_p_ctof = new H2F("Hist_beta_p_ctof"	  , "Beta (CTOF) vs. Momentum"	,800,0,EB,300,  -0.1   ,1.2)
+def Hist_beta_p_ctof = new H2F("Hist_beta_p_ctof"	  , "Beta (CTOF) vs. Momentum"	,800,0,EB,300,  -1.2   ,1.2)
+def Hist_beta_p2_ctof 	= new H2F("Hist_beta_p2_ctof"	  , "Beta (path/time) (CTOF) vs. Momentum"	,800,0,EB,300,  -1.2   ,1.2)
 
 def printer(string,override){
 	k = 0
@@ -67,7 +68,7 @@ for(fname in args) {
 	
 	reader.open(fname)
 	while(reader.hasEvent()) {
-	//for(int ii=0;ii<=6;ii++){
+	//for(int ii=0;ii<=6666;ii++){
 	//println("On event number $ii")
 		def event = reader.getNextEvent()
 		if(!event.hasBank("REC::Particle")){
@@ -147,10 +148,25 @@ for(fname in args) {
 			if(scint_detectors[particle_index]==4){
 				printer("particle detected in CTOF",0)
 				printer("particle status is: ${particle_stati[particle_index]}",0)
+				//printer("event start time is: ${event_start_time}")
+				//if(beta_recon<0){
+			//		println("Beta was less than zero")
+			//		println(event_start_time)
+			//		printer("particle beta is $beta_recon",1)
+			//		println(scint_paths[particle_index])
+			//		println("above is scint path, below is scint time")
+			//		println(scint_times[particle_index])
+			//	}
+
+
+				p_time = scint_times[particle_index]
+				p_path = scint_paths[particle_index]
+
 				printer("layer and sector are: "+ scint_sectors[particle_index]+" layer: "+
 					scint_layers[particle_index]+" sector: "+scint_sectors[particle_index],0)
-				printer("particle beta is $beta_recon",0)
 				Hist_beta_p_ctof.fill(particle_momentum,beta_recon)
+				Hist_beta_p2_ctof.fill(particle_momentum,p_path/(p_time-event_start_time)/29.98)
+
 			}
 
 			if(scint_detectors[particle_index]==12){
@@ -191,7 +207,7 @@ for(int isec=1;isec<=6;isec++){
 }
 
 out.addDataSet(Hist_beta_p_ctof)
-
+out.addDataSet(Hist_beta_p2_ctof)
 date = new Date()
 file_end_time = date.format("yyyyMMdd_HH-mm-ss")
 
