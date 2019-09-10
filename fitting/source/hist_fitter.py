@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
 import sys
-sys.argv.append('-b')
+#I don't think the below line does anything, please delete after confirming this file still works
+#sys.argv.append('-b')
+import argparse
 import ROOT
 import matplotlib.pyplot as plt
 import numpy as np
