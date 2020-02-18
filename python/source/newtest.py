@@ -51,7 +51,7 @@ print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
 #c1.SetLogz()
 h1.Draw("colz")
-
+gStyle.SetOptStat(0)
 h1.SetTitle("X_{B} vs. Q^{2} for DVPP Candidate Events")
 h1.SetYTitle("Q^{2} [GeV^{2}]")
 h1.SetXTitle("X_{B}")
