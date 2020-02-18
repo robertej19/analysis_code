@@ -47,7 +47,7 @@ def printer(string,override){
 date = new Date()
 fst = date.getTime()
 file_start_time = date.format("yyyyMMdd_HH-mm-ss")
-
+println "args are $args"
 array_index = -1
 for(fname in args) {
 	array_index++
@@ -211,7 +211,7 @@ out.addDataSet(Hist_beta_p2_ctof)
 date = new Date()
 file_end_time = date.format("yyyyMMdd_HH-mm-ss")
 
-out.writeFile("hipo-root_files/pID_new_protons_${file_end_time}_"+run+'.hipo')
+out.writeFile("hipo-root_files/XXX_pID_new_protons_${file_end_time}_"+run+'.hipo')
 
 
 println("Started at $file_start_time")

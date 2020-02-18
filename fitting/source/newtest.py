@@ -4,13 +4,18 @@ import sys
 sys.argv.append('-b')
 import ROOT
 
+print(sys.argv[1])
+
 ff = ROOT.TFile(sys.argv[1])
 
+print(ff)
 qq = sys.argv[1]
 ww = qq.split("/")
 zz = ww[-1]
 
-for kk in ff.GetListOfKeys():
+print(ff.GetListOfKeys())
+
+"""for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   print(obj.__class__)
   print(obj.GetTitle())
@@ -21,11 +26,11 @@ for kk in ff.GetListOfKeys():
 #h1 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")#.ProjectionY("cutg",0,40,"[cutg]")#5038_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
-
+"""
 type1 = "output_file_histos_Hist_xB_Q2"
-type2 = "5039_Hist_deltaB_psec1_layer1"
-type3 = "5039_Hist_beta_p2sec1_layer1"
-type4 = "5039_Hist_beta_p_ctof"
+type2 = "5153_Hist_deltaB_psec1_layer1"
+type3 = "5153_Hist_beta_p2sec1_layer1"
+type4 = "5153_Hist_beta_p_ctof"
 
 typeX = int(sys.argv[2])
 print("type to print is {0}".format(typeX))
@@ -42,8 +47,8 @@ else:
   print("type not found, ISSUE!!!!")
 
 h1 = ff.Get(type)
-
+print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
-c1.SetLogz()
-h1.Draw()#"colz")
+#c1.SetLogz()
+h1.Draw("colz")
 c1.Print("plots/full_{}_{}.pdf".format(zz,type))
