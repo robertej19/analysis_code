@@ -3,6 +3,9 @@
 import sys
 sys.argv.append('-b')
 import ROOT
+from ROOT import gStyle
+from ROOT import gROOT
+from ROOT import TStyle
 
 print(sys.argv[1])
 
