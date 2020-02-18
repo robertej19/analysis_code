@@ -51,4 +51,10 @@ print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
 #c1.SetLogz()
 h1.Draw("colz")
+
+h1.SetTitle("Projection from {0} GeV to {1} GeV")
+h1.SetYTitle("Q^2 [GeV^2]")
+h1.SetXTitle("X_B")
+
+c1.Draw()
 c1.Print("plots/full_{}_{}.pdf".format(zz,type))
