@@ -199,7 +199,7 @@ def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
 def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",500,0,50)
-def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",500,0,15`0)
+def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",500,0,150)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 
 if (args.size()<3) {
