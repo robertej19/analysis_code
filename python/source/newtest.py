@@ -32,7 +32,7 @@ print(ff.GetListOfKeys())
 """
 #type1 = "output_file_histos_Hist_xB_Q2"
 type1 = "output_file_histos_Hist_heleproTheta"
-type2 = "output_file_histos_Hist_heleproThetaDVPP"
+type2 = "output_file_histos_Hist_heleproThetaDVMP"
 type3 = "5153_Hist_beta_p2sec1_layer1"
 type4 = "5153_Hist_beta_p_ctof"
 
