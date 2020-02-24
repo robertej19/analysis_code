@@ -32,17 +32,22 @@ print(ff.GetListOfKeys())
 """
 #type1 = "output_file_histos_Hist_xB_Q2"
 type1 = "output_file_histos_Hist_heleproTheta"
-type2 = "5153_Hist_deltaB_psec1_layer1"
+type2 = "output_file_histos_Hist_heleproThetaDVPP"
 type3 = "5153_Hist_beta_p2sec1_layer1"
 type4 = "5153_Hist_beta_p_ctof"
 
 typeX = int(sys.argv[2])
 print("type to print is {0}".format(typeX))
 
+title1 = "Proton vs. Electron Theta Angle"
+title2 = "Proton vs. Electron Theta Angle, DVPP Candidates"
+
 if typeX==1:
   type = type1
+  titleX = title1
 elif typeX==2:
   type = type2
+  titleX = title2
 elif typeX==3:
   type = type3
 elif typeX==4:
@@ -54,9 +59,9 @@ h1 = ff.Get(type)
 print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
 c1.SetLogz()
-h1.Draw("colz")
+#h1.Draw("colz")
 gStyle.SetOptStat(0)
-h1.SetTitle("Proton vs. Electron Theta Angle")
+h1.SetTitle(titleX)
 h1.SetYTitle("Electron Angle")
 h1.SetXTitle("Proton Angle")
 
