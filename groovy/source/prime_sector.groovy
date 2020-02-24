@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -170,6 +170,8 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 							hW.fill(wvec.mass())
 							hxB.fill(xBjorken)
 							H_xB_Q2.fill(xBjorken,-qvec.mass2())
+							heleproThetaDVPP.fill(protheta,eletheta)
+
 						}
 					}
 					return ispi0
@@ -206,6 +208,7 @@ def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",400,0,150,400,0,50)
+def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,50)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 
 if (args.size()<3) {
@@ -277,6 +280,7 @@ out.addDataSet(hxB)
 out.addDataSet(heleTheta)
 out.addDataSet(hproTheta)
 out.addDataSet(heleproTheta)
+out.addDataSet(heleproThetaDVPP)
 out.addDataSet(H_xB_Q2)
 out.writeFile(OutFileName+'.hipo')
 
