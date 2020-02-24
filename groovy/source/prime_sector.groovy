@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -128,6 +128,9 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 			def wvec = beam+target-ele
 			def qvec = beam-ele
 			def epx = beam+target-ele-pro
+			//def t_sqrt = pro - target //t = (p'-p)^2
+			//def t_MomTran = t_sqrt.vect().dot(t_sqrt.vect())
+
 			printer("epx mass squared is:${epx.mass2()}",0)
 			def xBjorken = -qvec.mass2()/(2*pro.vect().dot(qvec.vect()))
 			printer("xB is " + xBjorken,0)
@@ -167,6 +170,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 							hhel.fill(ihel)
 							hphi.fill(profi)
 							hq2.fill(-qvec.mass2())
+							htmom.fill(tt0)
 							hW.fill(wvec.mass())
 							hxB.fill(xBjorken)
 							H_xB_Q2.fill(xBjorken,-qvec.mass2())
@@ -205,6 +209,7 @@ def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
 def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
+def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",100,0,100)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
@@ -247,7 +252,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom)
 	}
 
 	endtime = new Date()
@@ -282,6 +287,7 @@ out.addDataSet(hproTheta)
 out.addDataSet(heleproTheta)
 out.addDataSet(heleproThetaDVPP)
 out.addDataSet(H_xB_Q2)
+out.addDataSet(htmom)
 out.writeFile(OutFileName+'.hipo')
 
 /*Shit that does not work for trying to format axes in plots.
