@@ -61,7 +61,7 @@ c1 = ROOT.TCanvas('c1','c1',100,100)
 c1.SetLogz()
 #h1.Draw("colz")
 gStyle.SetOptStat(0)
-h1.SetTitle(titleX)
+h1.SetTitle("Proton vs. Electron Theta Angle")
 h1.SetYTitle("Electron Angle")
 h1.SetXTitle("Proton Angle")
 
