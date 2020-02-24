@@ -53,7 +53,7 @@ else:
 h1 = ff.Get(type)
 print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
-#c1.SetLogz()
+c1.SetLogz()
 h1.Draw("colz")
 gStyle.SetOptStat(0)
 h1.SetTitle("X_{B} vs. Q^{2} for DVPP Candidate Events")
