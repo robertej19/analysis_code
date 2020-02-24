@@ -205,7 +205,7 @@ def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
-def heleproTheta = new H1F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",400,0,150,0,50)
+def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",400,0,150,0,50)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 
 if (args.size()<3) {
