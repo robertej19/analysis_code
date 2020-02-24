@@ -33,14 +33,18 @@ print(ff.GetListOfKeys())
 #type1 = "output_file_histos_Hist_xB_Q2"
 type1 = "output_file_histos_Hist_heleproTheta"
 type2 = "output_file_histos_Hist_heleproThetaDVMP"
-type3 = "5153_Hist_beta_p2sec1_layer1"
-type4 = "5153_Hist_beta_p_ctof"
+type3 = "output_file_histos_Hist_hproTheta"
+type4 = "output_file_histos_Hist_heleTheta"
 
 typeX = int(sys.argv[2])
+LogOn = int(sys.argv[3])
 print("type to print is {0}".format(typeX))
 
 title1 = "Proton vs. Electron Theta Angle"
 title2 = "Proton vs. Electron Theta Angle, DVPP Candidates"
+title1 = "Electron Angle (Theta), with Proton Coincidence"
+title2 = "Proton Angle (Theta)"
+logtitle = "LogOFF"
 
 if typeX==1:
   type = type1
@@ -50,20 +54,24 @@ elif typeX==2:
   titleX = title2
 elif typeX==3:
   type = type3
+  titleX = title3
 elif typeX==4:
   type = type4
+  titleX = title4
 else:
   print("type not found, ISSUE!!!!")
 
 h1 = ff.Get(type)
 print(h1)
 c1 = ROOT.TCanvas('c1','c1',100,100)
-c1.SetLogz()
+if LogOn:
+	logtitle = "LogON"
+	c1.SetLogz()
 h1.Draw("colz")
 gStyle.SetOptStat(0)
-h1.SetTitle("Proton vs. Electron Theta Angle")
+h1.SetTitle(titleX)
 h1.SetYTitle("Electron Angle")
 h1.SetXTitle("Proton Angle")
 
 c1.Draw()
-c1.Print("plots/full_log_DVMP_{}_{}.pdf".format(zz,type))
+c1.Print("plots/full_{}_{}_{}.pdf".format(logtitle,zz,type))
