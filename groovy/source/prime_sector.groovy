@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -170,7 +170,8 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 							hhel.fill(ihel)
 							hphi.fill(profi)
 							hq2.fill(-qvec.mass2())
-							htmom.fill(tt0-tt1)
+							htmom.fill(tt0)
+							htmomrecon.fill(tt1)
 							hW.fill(wvec.mass())
 							hxB.fill(xBjorken)
 							H_xB_Q2.fill(xBjorken,-qvec.mass2())
@@ -210,6 +211,7 @@ def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
 def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",2000,-20,20)
+def htmomrecon = new H1F("Hist_t_mom","Recon'd Momentum transfer to Nucleon (t)",2000,-20,20)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
@@ -252,7 +254,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon)
 	}
 
 	endtime = new Date()
@@ -288,6 +290,7 @@ out.addDataSet(heleproTheta)
 out.addDataSet(heleproThetaDVPP)
 out.addDataSet(H_xB_Q2)
 out.addDataSet(htmom)
+out.addDataSet(htmomrecon)
 out.writeFile(OutFileName+'.hipo')
 
 /*Shit that does not work for trying to format axes in plots.
