@@ -117,8 +117,8 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta) {
 				pvec.setMagThetaPhi(pro.p(), pro.theta(), pro.phi())
 			}
 
-			heleTheta.fill(ele.theta())
-			hproTheta.fill(pro.theta())
+			heleTheta.fill(Math.toDegrees(ele.theta()))
+			hproTheta.fill(Math.toDegrees(pro.theta()))
 
 			def wvec = beam+target-ele
 			def qvec = beam-ele
