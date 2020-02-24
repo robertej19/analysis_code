@@ -30,7 +30,8 @@ print(ff.GetListOfKeys())
 
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 """
-type1 = "output_file_histos_Hist_xB_Q2"
+#type1 = "output_file_histos_Hist_xB_Q2"
+type1 = "output_file_histos_Hist_heleproTheta"
 type2 = "5153_Hist_deltaB_psec1_layer1"
 type3 = "5153_Hist_beta_p2sec1_layer1"
 type4 = "5153_Hist_beta_p_ctof"
