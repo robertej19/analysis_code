@@ -42,8 +42,8 @@ print("type to print is {0}".format(typeX))
 
 title1 = "Proton vs. Electron Theta Angle"
 title2 = "Proton vs. Electron Theta Angle, DVPP Candidates"
-title1 = "Electron Angle (Theta), with Proton Coincidence"
-title2 = "Proton Angle (Theta)"
+title3 = "Electron Angle (Theta), with Proton Coincidence"
+title4 = "Proton Angle (Theta)"
 logtitle = "LogOFF"
 
 if typeX==1:
