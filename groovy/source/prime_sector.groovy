@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -117,8 +117,13 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta) {
 				pvec.setMagThetaPhi(pro.p(), pro.theta(), pro.phi())
 			}
 
-			heleTheta.fill(Math.toDegrees(ele.theta()))
-			hproTheta.fill(Math.toDegrees(pro.theta()))
+			def eletheta = Math.toDegrees(ele.theta())
+			def protheta = Math.toDegrees(pro.theta())
+			if(protheta<0) protheta+=360
+
+			heleTheta.fill(eletheta)
+			hproTheta.fill(protheta)
+			heleproTheta.fill(protheta,eletheta)
 
 			def wvec = beam+target-ele
 			def qvec = beam-ele
@@ -200,6 +205,7 @@ def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
+def heleproTheta = new H1F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",400,0,150,0,50)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 
 if (args.size()<3) {
@@ -238,7 +244,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta)
 	}
 
 	endtime = new Date()
@@ -270,6 +276,7 @@ out.addDataSet(hW)
 out.addDataSet(hxB)
 out.addDataSet(heleTheta)
 out.addDataSet(hproTheta)
+out.addDataSet(heleproTheta)
 out.addDataSet(H_xB_Q2)
 out.writeFile(OutFileName+'.hipo')
 
