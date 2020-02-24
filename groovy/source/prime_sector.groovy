@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -116,6 +116,9 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2) {
 				def pvec = new Vector3()
 				pvec.setMagThetaPhi(pro.p(), pro.theta(), pro.phi())
 			}
+
+			heleTheta.fill(ele.theta())
+			hproTheta.fill(pro.theta())
 
 			def wvec = beam+target-ele
 			def qvec = beam-ele
@@ -195,6 +198,8 @@ def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
 def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
+def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",100,0,360)
+def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",100,0,360)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 
 if (args.size()<3) {
@@ -233,7 +238,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta)
 	}
 
 	endtime = new Date()
@@ -263,6 +268,8 @@ out.addDataSet(hphi)
 out.addDataSet(hq2)
 out.addDataSet(hW)
 out.addDataSet(hxB)
+out.addDataSet(heleTheta)
+out.addDataSet(hproTheta)
 out.addDataSet(H_xB_Q2)
 out.writeFile(OutFileName+'.hipo')
 
