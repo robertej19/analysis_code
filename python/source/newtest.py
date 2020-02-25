@@ -35,6 +35,7 @@ type1 = "output_file_histos_Hist_heleproTheta"
 type2 = "output_file_histos_Hist_heleproThetaDVMP"
 type3 = "output_file_histos_Hist_heleTheta"
 type4 = "output_file_histos_Hist_hproTheta"
+type5 = "output_file_histos_Hist_LeptHadAngle"
 
 typeX = int(sys.argv[2])
 LogOn = int(sys.argv[3])
@@ -73,6 +74,11 @@ elif typeX==4:
   titleX = title4
   yaxisX = hist1d_y
   xaxisX = hist1d_p
+elif typeX==5:
+  type = type5
+  titleX = "Angle Between Lepton and Hadron Planes"
+  yaxisX = hist1d_y
+  xaxisX = "Angle"
 else:
   print("type not found, ISSUE!!!!")
 
