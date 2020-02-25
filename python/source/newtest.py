@@ -79,6 +79,7 @@ elif typeX==5:
   titleX = "Angle Between Lepton and Hadron Planes"
   yaxisX = hist1d_y
   xaxisX = "Angle"
+  h1.GetXaxis().SetRange(0,90)
 else:
   print("type not found, ISSUE!!!!")
 
@@ -89,7 +90,7 @@ if LogOn:
 	logtitle = "LogON"
 	c1.SetLogz()
 #h1.Draw("colz")
-h1.GetXaxis().SetRange(0,90)
+#h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
 gStyle.SetOptStat(0)
 h1.SetTitle(titleX)
