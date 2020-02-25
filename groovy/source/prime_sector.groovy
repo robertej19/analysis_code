@@ -174,7 +174,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 						def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
 
 						if(isep0){
-							if(ispi0 && isep0 && dmisse0 && dpt0){
+							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
 								hhel.fill(ihel)
 								hphi.fill(profi)
 								hq2.fill(-qvec.mass2())
