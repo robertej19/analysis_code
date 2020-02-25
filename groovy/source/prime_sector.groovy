@@ -174,16 +174,18 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 						def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
 
 						if(isep0){
-							hhel.fill(ihel)
-							hphi.fill(profi)
-							hq2.fill(-qvec.mass2())
-							htmom.fill(tt0)
-							htmomrecon.fill(tt1)
-							hW.fill(wvec.mass())
-							hxB.fill(xBjorken)
-							H_xB_Q2.fill(xBjorken,-qvec.mass2())
-							heleproThetaDVPP.fill(protheta,eletheta)
-							hLeptHadAngle.fill(LeptHadAngle)
+							if(ispi0 && isep0 && dmisse0 && dpt0){
+								hhel.fill(ihel)
+								hphi.fill(profi)
+								hq2.fill(-qvec.mass2())
+								htmom.fill(tt0)
+								htmomrecon.fill(tt1)
+								hW.fill(wvec.mass())
+								hxB.fill(xBjorken)
+								H_xB_Q2.fill(xBjorken,-qvec.mass2())
+								heleproThetaDVPP.fill(protheta,eletheta)
+								hLeptHadAngle.fill(LeptHadAngle)
+							}
 						}
 					}
 					return ispi0
