@@ -183,7 +183,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 							hxB.fill(xBjorken)
 							H_xB_Q2.fill(xBjorken,-qvec.mass2())
 							heleproThetaDVPP.fill(protheta,eletheta)
-							hLeptHadAngle.fitt(LeptHadAngle)
+							hLeptHadAngle.fill(LeptHadAngle)
 						}
 					}
 					return ispi0
