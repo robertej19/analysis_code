@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -166,6 +166,13 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 						def procalc = beam+target-ele-gg
 						def tt1 = -(procalc-target).mass2()
 
+
+						def vLept = beam.vect().cross(ele.vect())
+						def vHad = pro.vect().cross(gg.vect())
+						def PlaneDot = vLept.dot(vHad)
+						def cosangle = PlaneDot/vLept.mag()/vHad.mag()
+						def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
+
 						if(isep0){
 							hhel.fill(ihel)
 							hphi.fill(profi)
@@ -176,7 +183,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 							hxB.fill(xBjorken)
 							H_xB_Q2.fill(xBjorken,-qvec.mass2())
 							heleproThetaDVPP.fill(protheta,eletheta)
-
+							hLeptHadAngle.fitt(LeptHadAngle)
 						}
 					}
 					return ispi0
@@ -217,6 +224,7 @@ def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
 def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,55)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
+def hLeptHadAngle = new H1F("Hist_LeptHadAngle" , "Angle Between Lepton and Hadron Planes",12,-360,360)
 
 if (args.size()<3) {
 	printer("You need to include the number of events and files you want to process in the start command!",1)
@@ -254,7 +262,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle)
 	}
 
 	endtime = new Date()
@@ -291,6 +299,7 @@ out.addDataSet(heleproThetaDVPP)
 out.addDataSet(H_xB_Q2)
 out.addDataSet(htmom)
 out.addDataSet(htmomrecon)
+out.addDataSet(hLeptHadAngle)
 out.writeFile(OutFileName+'.hipo')
 
 /*Shit that does not work for trying to format axes in plots.
