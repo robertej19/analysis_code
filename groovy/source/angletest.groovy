@@ -37,11 +37,13 @@ println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n")
 Mil = 1000000
 
 
-def ele = LorentzVector.withPID(11,3,4,5)
-def pro = LorentzVector.withPID(2212,2,3,7)
-def ele_out = LorentzVector.withPID(11,3,1,2)
-def pro_out = LorentzVector.withPID(2212,3,5,12)
+def ele = LorentzVector.withPID(11,0,0,12)
+def pro = LorentzVector.withPID(2212,1,1,0)
+def ele_out = LorentzVector.withPID(11,3,7,4)
+def pro_out = LorentzVector.withPID(2212,-3,-4,6)
 
+def refz = LorentzVector.withPID(11,1,0,0)
+def vRefz = refz.vect()
 
 def evec = new Vector3()
 evec.setMagThetaPhi(ele.p(), ele.theta(), ele.phi())
@@ -49,14 +51,23 @@ evec.setMagThetaPhi(ele.p(), ele.theta(), ele.phi())
 def vLept = ele.vect().cross(ele_out.vect())
 def vHad = pro.vect().cross(pro_out.vect())
 
+println("Lepton plane vector is" + vLept)
+println("Hadron plane vector is" + vHad)
+
 def shouldBeNull = vLept.dot(ele.vect())
+
+
+def cosLepAng = vRefz.dot(vLept)/vRefz.mag()/vLept.mag()
+def cosHadAng = vRefz.dot(vHad)/vRefz.mag()/vHad.mag()
+
+def HadAng = Math.toDegrees( Math.acos(cosHadAng))
+def LepAng = Math.toDegrees( Math.acos(cosLepAng))
+
 
 def PlaneDot = vLept.dot(vHad)
 def cosangle = PlaneDot/vLept.mag()/vHad.mag()
 def angle = Math.toDegrees( Math.acos(cosangle))
 
-println(vLept)
-println(vHad)
-
+println(HadAng)
+println(LepAng)
 println(angle)
-
