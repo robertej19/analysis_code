@@ -224,7 +224,7 @@ def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
 def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,55)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
-def hLeptHadAngle = new H1F("Hist_LeptHadAngle" , "Angle Between Lepton and Hadron Planes",18,0,180)
+def hLeptHadAngle = new H1F("Hist_LeptHadAngle" , "Angle Between Lepton and Hadron Planes",180,0,180)
 
 if (args.size()<3) {
 	printer("You need to include the number of events and files you want to process in the start command!",1)
