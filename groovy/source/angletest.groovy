@@ -37,11 +37,26 @@ println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n")
 Mil = 1000000
 
 
-def ele = LorentzVector.withPID(11,0,0,10.6)
-def pro = LorentzVector.withPID(2212,0,0,0)
+def ele = LorentzVector.withPID(11,3,4,5)
+def pro = LorentzVector.withPID(2212,2,3,7)
+def ele_out = LorentzVector.withPID(11,3,1,2)
+def pro_out = LorentzVector.withPID(2212,3,5,12)
 
 
 def evec = new Vector3()
 evec.setMagThetaPhi(ele.p(), ele.theta(), ele.phi())
 
-println(pro)
+def vLept = ele.vect().cross(ele_out.vect())
+def vHad = pro.vect().cross(pro_out.vect())
+
+def shouldBeNull = vLept.dot(ele.vect())
+
+def PlaneDot = vLept.dot(vHad)
+def cosangle = PlaneDot/vLept.mag()/vHad.mag()
+def angle = Math.toDegrees( Math.acos(cosangle))
+
+println(vLept)
+println(vHad)
+
+println(angle)
+
