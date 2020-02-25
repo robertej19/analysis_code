@@ -88,6 +88,8 @@ c1 = ROOT.TCanvas('c1','c1',120,100)
 if LogOn:
 	logtitle = "LogON"
 	c1.SetLogz()
+#h1.Draw("colz")
+h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
 gStyle.SetOptStat(0)
 h1.SetTitle(titleX)
