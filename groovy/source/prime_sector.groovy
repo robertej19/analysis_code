@@ -172,7 +172,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 						def PlaneDot = vLept.dot(vHad)
 						def cosangle = PlaneDot/vLept.mag()/vHad.mag()
 						def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
-						if (pro.vect().dot(VLept)<0){
+						if (pro.vect().dot(vLept)<0){
 							LeptHadAngle = -LeptHadAngle+360
 						}
 
