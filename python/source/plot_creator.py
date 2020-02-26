@@ -15,17 +15,21 @@ qq = sys.argv[1]
 ww = qq.split("/")
 zz = ww[-1]
 print(ff.GetListOfKeys())
-
+print(zz)
+xxx = zz.split(".")
+zzz = xxx[0]
+print(xxx)
+print(zzz)
 typeX = int(sys.argv[2])
 LogOn = int(sys.argv[3])
 
-def plotdistributer(type,zz):
-	makeplot(type,"LogOFF",zz)
+def plotdistributer(type,zz,zzz):
+	makeplot(type,"LogOFF",zz,zzz)
 	if type[4]:
-		c1.SetLogz()
-		makeplot(type,"LogON",zz,newdir)
 
-def makeplot(type,logtitle,zz):
+		makeplot(type,"LogON",zz,zzz)
+
+def makeplot(type,logtitle,zz,zzz):
 	hist_title = type[0]
 	h1 = ff.Get(hist_title)
 	c1 = ROOT.TCanvas('c1','c1',120,100)
@@ -39,7 +43,7 @@ def makeplot(type,logtitle,zz):
 	if logtitle == "LogON":
 		c1.SetLogz()
 	c1.Draw()
-	c1.Print("plots/{}/{}_{}.pdf".format(zz,logtitle,type[0]))
+	c1.Print("plots/{}/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
 
 """for kk in ff.GetListOfKeys():
@@ -56,8 +60,6 @@ def makeplot(type,logtitle,zz):
 """
 #type1 = "output_file_histos_Hist_xB_Q2"
 
-	logtitle = "LogOFF"
-h1.GetXaxis().SetRange(0,90)
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax"""
 type1 = ("output_file_histos_Hist_heleproTheta",
 	"Proton vs. Electron Theta Angle","Proton Angle","Electron Angle",
@@ -76,6 +78,6 @@ type5 = ("output_file_histos_Hist_LeptHadAngle",
 
 plots = [type1,type2,type3,type4,type5]
 
-os.mkdir(zz)
+os.mkdir("plots/"+zzz)
 for type in plots:
-	plotdistributer(type,zz)
+	plotdistributer(type,zz,zzz)
