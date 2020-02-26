@@ -31,6 +31,9 @@ print(ff.GetListOfKeys())
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 """
 #type1 = "output_file_histos_Hist_xB_Q2"
+
+"""FORMAT: Hist name, title, xaxis, yaxis"""
+
 type1 = "output_file_histos_Hist_heleproTheta"
 type2 = "output_file_histos_Hist_heleproThetaDVMP"
 type3 = "output_file_histos_Hist_heleTheta"
