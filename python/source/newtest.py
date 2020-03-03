@@ -92,11 +92,13 @@ elif typeX==6:
   titleX = title6
   yaxisX = hist1d_y
   xaxisX = hist1d_p
+#  h1.GetYaxis().SetRange(0,200000)
 elif typeX==7:
   type = type7
   titleX = title7
   yaxisX = hist1d_y
   xaxisX = hist1d_p
+#  h1.GetYaxis().SetRange(0,200000)
 else:
   print("type not found, ISSUE!!!!")
 
@@ -109,6 +111,7 @@ if LogOn:
 #h1.Draw("colz")
 #h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
+h1.GetYaxis().SetRange(0,200000)
 gStyle.SetOptStat(0)
 h1.SetTitle(titleX)
 h1.SetYTitle(yaxisX)
