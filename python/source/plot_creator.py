@@ -43,6 +43,7 @@ def makeplot(type,logtitle,zz,zzz):
 		h2.SetLineColorAlpha(2,1)
 		h2.Draw("SAME")
 		h2.SetAxisRange(0,220000,"Y")
+		logtitle += "_Double"
 
 	gStyle.SetOptStat(0)
 	h1.SetTitle(type[1])
@@ -97,7 +98,7 @@ Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
 	0,0,0,220000,1,"output_file_histos_Hist_hproThetaCD")
 
-plots = [type1,type2,type3,type4,type5,type6,type7]
+plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 
 os.mkdir("plots/"+zzz)
 for type in plots:
