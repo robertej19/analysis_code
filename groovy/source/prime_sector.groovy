@@ -127,7 +127,9 @@ When it comes to presenting, this will be the first question.
 		def isep0s = index_of_electrons_and_protons.findAll{iele,ipro->
 			def ele = LorentzVector.withPID(11,*['px','py','pz'].collect{partb.getFloat(it,iele)})
 			def pro = LorentzVector.withPID(2212,*['px','py','pz'].collect{partb.getFloat(it,ipro)})
-			printer("first electron is"+ele,0)
+			printer("first electron is"+ele,1)
+
+			println "proton status is: " + partb.getInt('status',ipro)
 
 			if(event.hasBank("MC::Particle")) {
 				printer("Event has MC Particle bank!",0)
