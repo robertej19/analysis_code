@@ -77,7 +77,7 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 		def ihel = evb.getByte('helicity',0)
 		printer("ihel is "+ihel,0)
 
-		println partb.getInt('status')
+		//println partb.getInt('status')
 
 
 
@@ -157,7 +157,6 @@ When it comes to presenting, this will be the first question.
 			heleproTheta.fill(protheta,eletheta)
 
 			if (partb.getInt('status',ipro) > 4000){
-				
 				hproThetaCD.fill(protheta)
 			}
 			if ((partb.getInt('status',ipro) < 4000) && (partb.getInt('status',ipro) > 2000)){
