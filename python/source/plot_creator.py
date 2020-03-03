@@ -72,26 +72,26 @@ def makeplot(type,logtitle,zz,zzz):
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 type1 = ("output_file_histos_Hist_heleproTheta",
 	"Proton vs. Electron Theta Angle","Proton Angle","Electron Angle",
-	1,0,0,0)
+	1,0,0,0,0,0)
 type2 = ("output_file_histos_Hist_heleproThetaDVMP",
 	"Proton vs. Electron Theta Angle, DVPP Candidates","Proton Angle","Electron Angle",
-	1,0,0,0)
+	1,0,0,0,0,0)
 type3 = ("output_file_histos_Hist_heleTheta",
 	"Electron Angle (Theta), with Proton Coincidence","Electron Angle","Counts",
-	0,0,0,0)
+	0,0,0,0,0,0)
 type4 = ("output_file_histos_Hist_hproTheta","Proton Angle (Theta)","Proton Angle","Counts",
-	0,0,0,220000)
+	0,0,0,220000,0,0)
 type5 = ("output_file_histos_Hist_LeptHadAngle",
 	"Angle Between Lepton and Hadron Planes","Angle","Counts",
-	0,0,90,0)
+	0,0,90,0,0,0)
 
 type6 = ("output_file_histos_Hist_hproThetaCD",
 	"Proton Angle (Theta) in CD (Status > 4000)","Angle","Counts",
-	0,0,0,220000)
+	0,0,0,220000,0,0)
 
 type7 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD (2000 < Status < 4000)","Angle","Counts",
-	0,0,0,220000)
+	0,0,0,220000,0,0)
 
 Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
