@@ -103,7 +103,8 @@ else:
   print("type not found, ISSUE!!!!")
 
 h1 = ff.Get(type)
-print(h1)
+h2 = ff.Get(type7)
+
 c1 = ROOT.TCanvas('c1','c1',120,100)
 if LogOn:
 	logtitle = "LogON"
@@ -112,6 +113,8 @@ if LogOn:
 #h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
 h1.SetAxisRange(0,220000,"Y")
+h2.Draw("colz")
+h2.SetAxisRange(0,220000,"Y")
 gStyle.SetOptStat(0)
 h1.SetTitle(titleX)
 h1.SetYTitle(yaxisX)
