@@ -130,6 +130,12 @@ When it comes to presenting, this will be the first question.
 			printer("first electron is"+ele,1)
 
 			println "proton status is: " + partb.getInt('status',ipro)
+			if (partb.getInt('status',ipro) > 4000){
+				println "proton is in CD"
+			}
+			if ((partb.getInt('status',ipro) < 4000) && (partb.getInt('status',ipro) > 2000)){
+				println "proton is in FD"
+			}
 
 			if(event.hasBank("MC::Particle")) {
 				printer("Event has MC Particle bank!",0)
