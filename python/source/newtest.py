@@ -113,7 +113,7 @@ if LogOn:
 #h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
 h1.SetAxisRange(0,220000,"Y")
-h2.SetFillColor(9001)
+h2.SetFillColor(2)
 h2.Draw("SAME")
 h2.SetAxisRange(0,220000,"Y")
 gStyle.SetOptStat(0)
