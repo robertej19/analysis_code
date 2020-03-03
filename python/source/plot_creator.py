@@ -36,10 +36,19 @@ def makeplot(type,logtitle,zz,zzz):
 	if type[6] > 0:
 		h1.GetXaxis().SetRange(type[5],type[6])
 	h1.Draw("colz")
+	if type[7] > 0:
+		h1.SetAxisRange(0,type[7],"Y")
+	if type[8] > 0:
+		h2 = ff.Get(type[9])
+		h2.SetLineColorAlpha(2,1)
+		h2.Draw("SAME")
+		h2.SetAxisRange(0,220000,"Y")
+
 	gStyle.SetOptStat(0)
 	h1.SetTitle(type[1])
 	h1.SetXTitle(type[2])
 	h1.SetYTitle(type[3])
+
 	if logtitle == "LogON":
 		c1.SetLogz()
 	c1.Draw()
@@ -60,23 +69,35 @@ def makeplot(type,logtitle,zz,zzz):
 """
 #type1 = "output_file_histos_Hist_xB_Q2"
 
-"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax"""
+"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 type1 = ("output_file_histos_Hist_heleproTheta",
 	"Proton vs. Electron Theta Angle","Proton Angle","Electron Angle",
-	1,0,0)
+	1,0,0,0)
 type2 = ("output_file_histos_Hist_heleproThetaDVMP",
 	"Proton vs. Electron Theta Angle, DVPP Candidates","Proton Angle","Electron Angle",
-	1,0,0)
+	1,0,0,0)
 type3 = ("output_file_histos_Hist_heleTheta",
 	"Electron Angle (Theta), with Proton Coincidence","Electron Angle","Counts",
-	0,0,0)
+	0,0,0,0)
 type4 = ("output_file_histos_Hist_hproTheta","Proton Angle (Theta)","Proton Angle","Counts",
-	0,0,0)
+	0,0,0,220000)
 type5 = ("output_file_histos_Hist_LeptHadAngle",
 	"Angle Between Lepton and Hadron Planes","Angle","Counts",
-	0,0,90)
+	0,0,90,0)
 
-plots = [type1,type2,type3,type4,type5]
+type6 = ("output_file_histos_Hist_hproThetaCD",
+	"Proton Angle (Theta) in CD (Status > 4000)","Angle","Counts",
+	0,0,0,220000)
+
+type7 = ("output_file_histos_Hist_hproThetaFD",
+	"Proton Angle (Theta) in FD (2000 < Status < 4000)","Angle","Counts",
+	0,0,0,220000)
+
+Dtype8 = ("output_file_histos_Hist_hproThetaFD",
+	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
+	0,0,0,220000,1,"output_file_histos_Hist_hproThetaCD")
+
+plots = [type1,type2,type3,type4,type5,type6,type7]
 
 os.mkdir("plots/"+zzz)
 for type in plots:
