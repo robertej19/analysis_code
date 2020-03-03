@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -129,14 +129,6 @@ When it comes to presenting, this will be the first question.
 			def pro = LorentzVector.withPID(2212,*['px','py','pz'].collect{partb.getFloat(it,ipro)})
 			printer("first electron is"+ele,1)
 
-			println "proton status is: " + partb.getInt('status',ipro)
-			if (partb.getInt('status',ipro) > 4000){
-				println "proton is in CD"
-			}
-			if ((partb.getInt('status',ipro) < 4000) && (partb.getInt('status',ipro) > 2000)){
-				println "proton is in FD"
-			}
-
 			if(event.hasBank("MC::Particle")) {
 				printer("Event has MC Particle bank!",0)
 				def mcb = event.getBank("MC::Particle")
@@ -164,6 +156,13 @@ When it comes to presenting, this will be the first question.
 			hproTheta.fill(protheta)
 			heleproTheta.fill(protheta,eletheta)
 
+			if (partb.getInt('status',ipro) > 4000){
+				hproThetaCD.fill(protheta)
+			}
+			if ((partb.getInt('status',ipro) < 4000) && (partb.getInt('status',ipro) > 2000)){
+				hproThetaFD.fill(protheta)
+			}
+			
 			def wvec = beam+target-ele
 			def qvec = beam-ele
 			def epx = beam+target-ele-pro
@@ -265,6 +264,8 @@ def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",4000,-20,20)
 def htmomrecon = new H1F("Hist_t_mom_recon","Recon'd Momentum transfer to Nucleon (t)",4000,-20,20)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
+def hproThetaFD = new H1F("Hist_hproThetaFD","Proton Theta Distribution in FD",2500,0,150)
+def hproThetaCD = new H1F("Hist_hproThetaCD","Proton Theta Distribution in CD",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
 def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,55)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
@@ -306,7 +307,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD)
 	}
 
 	endtime = new Date()
@@ -340,6 +341,8 @@ out.addDataSet(heleTheta)
 out.addDataSet(hproTheta)
 out.addDataSet(heleproTheta)
 out.addDataSet(heleproThetaDVPP)
+out.addDataSet(heleproThetaFD)
+out.addDataSet(heleproThetaCD)
 out.addDataSet(H_xB_Q2)
 out.addDataSet(htmom)
 out.addDataSet(htmomrecon)
