@@ -111,7 +111,7 @@ if LogOn:
 #h1.Draw("colz")
 #h1.GetXaxis().SetRange(0,90)
 h1.Draw("colz")
-h1.SetAxisRange(0,200000,"Y")
+h1.SetAxisRange(0,220000,"Y")
 gStyle.SetOptStat(0)
 h1.SetTitle(titleX)
 h1.SetYTitle(yaxisX)
