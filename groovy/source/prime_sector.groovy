@@ -77,6 +77,37 @@ def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproT
 		def ihel = evb.getByte('helicity',0)
 		printer("ihel is "+ihel,0)
 
+		println partb.getInt('status')
+
+
+
+/*
+if bankname[scint][particle_index] == 4 OR particle.status > 4000
+	proton in CD
+if bankname[scint][particle_index] == 12 OR particle.status > 4000
+	proton in FD
+
+		def particle_stati = recon_Particles.getInt('status')
+
+		def scint_sectors = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('sector')].transpose().collectEntries()
+		def scint_detectors = [recon_Scint.getShort('pindex')*.toInteger(), recon_Scint.getInt('detector')].transpose().collectEntries()
+
+		def recon_Particles = event.getBank("REC::Particle")
+		def recon_Cal = event.getBank("REC::Calorimeter")
+		def recon_Scint = event.getBank("REC::Scintillator")
+
+		if(scint_detectors[particle_index]==4){
+			printer("particle detected in CTOF",0)
+
+			1000×FT + 2000×FD + 4000×CD
+where FT/FD/CD are 1 if that detector subsystem contributed to the particle, else 0
+
+Going forward I would encourage always separating any distribution into those two regions, especially when looking at particle kinematics.
+I would suggest that in the title where you have "Electron" and "Proton" to add either FD or FTOF, CD or CTOF. to help clarify this.
+When it comes to presenting, this will be the first question.
+*/
+
+
 
 
 		def index_of_electrons_and_protons = (0..<partb.rows()).findAll{partb.getInt('pid',it)==11 && partb.getShort('status',it)<0}
