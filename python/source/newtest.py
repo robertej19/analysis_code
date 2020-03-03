@@ -39,6 +39,8 @@ type2 = "output_file_histos_Hist_heleproThetaDVMP"
 type3 = "output_file_histos_Hist_heleTheta"
 type4 = "output_file_histos_Hist_hproTheta"
 type5 = "output_file_histos_Hist_LeptHadAngle"
+type6 = "output_file_histos_Hist_hproThetaCD"
+type7 = "output_file_histos_Hist_hproThetaFD"
 
 typeX = int(sys.argv[2])
 LogOn = int(sys.argv[3])
@@ -48,6 +50,8 @@ title1 = "Proton vs. Electron Theta Angle"
 title2 = "Proton vs. Electron Theta Angle, DVPP Candidates"
 title3 = "Electron Angle (Theta), with Proton Coincidence"
 title4 = "Proton Angle (Theta)"
+title6 = "Proton Angle (Theta) in CD"
+title7 = "Proton Angle (Theta) in FD"
 logtitle = "LogOFF"
 
 
@@ -83,6 +87,16 @@ elif typeX==5:
   yaxisX = hist1d_y
   xaxisX = "Angle"
   h1.GetXaxis().SetRange(0,90)
+elif typeX==6:
+  type = type6
+  titleX = title6
+  yaxisX = hist1d_y
+  xaxisX = hist1d_p
+elif typeX==7:
+  type = type7
+  titleX = title7
+  yaxisX = hist1d_y
+  xaxisX = hist1d_p
 else:
   print("type not found, ISSUE!!!!")
 
