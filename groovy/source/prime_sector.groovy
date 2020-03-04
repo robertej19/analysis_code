@@ -216,6 +216,7 @@ When it comes to presenting, this will be the first question.
 
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
+								//num_dvpp_events = num_dvpp_events + 1
 								hhel.fill(ihel)
 								hphi.fill(profi)
 								hq2.fill(-qvec.mass2())
@@ -280,12 +281,19 @@ def NumFilesToProcess = args[2].toInteger()
 def FilesToProcess = FileGetter(args[0]).take(NumFilesToProcess)
 def DesiredNumEventsToProcess = args[1].toInteger()
 printer("The following files have been found: ",1)
+def total_file_length = 0
+def file_length_processed = 0
 for (FileName in FilesToProcess){
+	total_file_length += FileName.length()
 	printer("$FileName",2)
 }
 
+printer(total_file_length+"This i sthe lenght",2)
+
 def TotalNumEventsProcessed = 0
 def TotalRunTime = 0
+def num_ep_events = 0
+def num_dvpp_events = 0
 
 for (int i=0; i < FilesToProcess.size(); i++) {
 	def reader = new HipoDataSource()
@@ -308,6 +316,8 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
 		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD)
+		//println "num ep events = " + num_ep_events
+		//println "num dvpp evnets = " + num_dvpp_events
 	}
 
 	endtime = new Date()
@@ -319,7 +329,9 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 	TotalNumEventsProcessed += NumEventsToProcess
 	printer("Processed ${(i+1)} files, ${(TotalNumEventsProcessed/Mil).round(2)} M events, have ${FilesToProcess.size()-i-1} files left to process",1)
 
-	def TotalTimeLeft = TotalRunTime*(FilesToProcess.size()-i-1)/(i+1)
+	//def TotalTimeLeft = TotalRunTime*(FilesToProcess.size()-i-1)/(i+1)
+	file_length_processed += fname.length()
+	def TotalTimeLeft = TotalRunTime*(total_file_length-file_length_processed)/file_length_processed
 	uTSX = Math.round(TotalTimeLeft*60+endtime.getTime()/1000)
 	def etaTotal = Date.from(Instant.ofEpochSecond(uTSX)).format('HH:mm:ss')
 	printer("Total Run Time of ${TotalRunTime.round(2)} minutes, approximate finish time at ${etaTotal} ",1)
