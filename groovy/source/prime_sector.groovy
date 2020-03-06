@@ -216,7 +216,7 @@ When it comes to presenting, this will be the first question.
 
 
 						def q2Round = Math.round(-qvec.mass2())
-						def xBRound = Math.round(5*xBjorken)
+						def xBRound = Math.round(7*xBjorken)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
 						def title = "xB${xBRound}_q2${q2Round}"
@@ -267,7 +267,7 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 	}
 }
 
-def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,30,0,1.5,30,0,12)}
+def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
@@ -362,8 +362,8 @@ out.addDataSet(hq2)
 out.addDataSet(hW)
 
 
-for(int isec=0;isec<=6;isec++){
-	for(int ilay=0;ilay<=6;ilay++){
+for(int isec=0;isec<=12;isec++){
+	for(int ilay=0;ilay<=12;ilay++){
 		title = "xB${ilay}_q2${isec}"
 		out.addDataSet(Hist_beta_p[title])
 	}
