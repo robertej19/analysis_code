@@ -110,9 +110,8 @@ q2Range = ["1.5", "2.5", "3.5", "4.5", "5.5", "6.5", "7.5", "8.5"]
 for j in range(0,len(q2Range)-1) :
 	for i in range(0,len(xbRange)-1):
 		title = "output_file_histos_Hist_beta_T{} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
-		histTitle = "Counts vs. t, {} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1]
-		type9 = (title,histTitle,"t (GeV^2)","Counts",
-			0,0,0,500,0,0)
+		histTitle = "Counts vs. t, {} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
+		type9 = (title,histTitle,"t (GeV^2)","Counts",0,0,0,500,0,0)
 		print(title)
 		plotdistributer(type9,zz,zzz)
 
