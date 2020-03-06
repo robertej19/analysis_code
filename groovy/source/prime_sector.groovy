@@ -214,12 +214,12 @@ When it comes to presenting, this will be the first question.
 							LeptHadAngle = -LeptHadAngle+360
 						}
 
-
+						def xb_bins = 7
 						def q2Round = Math.round(-qvec.mass2())
-						def xBRound = Math.round(7*xBjorken)
+						def xBRound = Math.round(xb_bins*xBjorken)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
-						def title = "xB${xBRound}_q2${q2Round}"
+						def title = "${xBRound-0.5} < xB < ${xBRound+0.5}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
 						if(isep0){
@@ -364,10 +364,10 @@ out.addDataSet(hq2)
 out.addDataSet(hW)
 
 
-for(int isec=0;isec<=12;isec++){
-	for(int ilay=0;ilay<=12;ilay++){
-		title = "xB${ilay}_q2${isec}"
-		//out.addDataSet(Hist_beta_p[title])
+for(int xBRound=0;xBRound<=12;xBRound++){
+	for(int q2Round=0;q2Round<=12;q2Round++){
+		title = "${xBRound-0.5} < xB < ${xBRound+0.5}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
+		out.addDataSet(Hist_beta_p[title])
 		out.addDataSet(Hist_beta_T[title])
 	}
 }
