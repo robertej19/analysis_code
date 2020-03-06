@@ -217,9 +217,10 @@ When it comes to presenting, this will be the first question.
 
 						def q2Round = Math.round(-qvec.mass2())
 						def xBRound = Math.round(5*xBjorken)
-						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
+						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
-
+						def title = "xB${xBRound}_q2${q2Round}"
+						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
@@ -234,8 +235,7 @@ When it comes to presenting, this will be the first question.
 								H_xB_Q2.fill(xBjorken,-qvec.mass2())
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
-								def title = "xB${xBRound}_q2${q2Round}"
-								Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
+
 
 
 							}
