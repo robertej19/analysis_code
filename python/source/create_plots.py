@@ -98,15 +98,22 @@ Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
 	0,0,0,110000,1,"output_file_histos_Hist_hproThetaCD")
 
-type9 = ("output_file_histos_Hist_beta_T0.07 < xB < 0.21_ 2.5 < q2 < 3.5",
-	"Counts vs. t, 0.07 < xB < 0.21_ 2.5 < q2 < 3.5","t (GeV^2)","Counts",
-	0,0,0,0,0,0)
-
 plots = [type1,type9]
 #plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
-for type in plots:
-	plotdistributer(type,zz,zzz)
+xbRange = ["0.07", "0.21", "0.36", "0.64", "0.79", "0.93"]
+q2Range = ["1.5", "2.5", "3.5", "4.5", "5.5", "0.93"]
+
+for j in range(0,len(q2Range)-1) :
+	for i in range(0,len(xbRange)-1):
+		title = "output_file_histos_Hist_beta_T{} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
+		type9 = (title,
+			"Counts vs. t, 0.07 < xB < 0.21_ 2.5 < q2 < 3.5","t (GeV^2)","Counts",
+			0,0,0,0,0,0)
+		plotdistributer(type9,zz,zzz)
+
+#for type in plots:
+	#plotdistributer(type,zz,zzz)
