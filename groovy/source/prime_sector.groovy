@@ -219,7 +219,7 @@ When it comes to presenting, this will be the first question.
 						def xBRound = Math.round(xb_bins*xBjorken)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
-						def title = "${xBRound-0.5} < xB < ${xBRound+0.5}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
+						def title = "${(xBRound-0.5)/xb_bins} < xB < ${(xBRound+0.5)/xb_bins}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
 						if(isep0){
@@ -363,10 +363,10 @@ out.addDataSet(hphi)
 out.addDataSet(hq2)
 out.addDataSet(hW)
 
-
+def xb_bins = 7
 for(int xBRound=0;xBRound<=12;xBRound++){
 	for(int q2Round=0;q2Round<=12;q2Round++){
-		title = "${xBRound-0.5} < xB < ${xBRound+0.5}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
+		title = "${(xBRound-0.5)/xb_bins} < xB < ${(xBRound+0.5)/xb_bins}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
 		out.addDataSet(Hist_beta_p[title])
 		out.addDataSet(Hist_beta_T[title])
 	}
