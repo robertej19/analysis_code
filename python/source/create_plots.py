@@ -49,7 +49,7 @@ def makeplot(type,logtitle,zz,zzz):
 	h1.SetTitle(type[1])
 	h1.SetXTitle(type[2])
 	h1.SetYTitle(type[3])
-	h1.SetHistLineWidth(Width_t width = 5)
+	h1.SetLineWidth(5)
 
 	if logtitle == "LogON":
 		c1.SetLogz()
