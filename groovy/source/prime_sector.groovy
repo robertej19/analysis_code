@@ -361,9 +361,10 @@ out.addDataSet(hphi)
 out.addDataSet(hq2)
 out.addDataSet(hW)
 
+
 for(int isec=0;isec<=6;isec++){
 	for(int ilay=0;ilay<=6;ilay++){
-		title = "sec${isec}_layer${ilay}"
+		title = "xB${ilay}_q2${isec}"
 		out.addDataSet(Hist_beta_p[title])
 	}
 }
