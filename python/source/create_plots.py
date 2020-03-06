@@ -98,7 +98,12 @@ Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
 	0,0,0,110000,1,"output_file_histos_Hist_hproThetaCD")
 
-plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
+type9 = ("output_file_histos_Hist_beta_T0.07 < xB < 0.21_ 2.5 < q2 < 3.5",
+	"Counts vs. t, 0.07 < xB < 0.21_ 2.5 < q2 < 3.5","t (GeV^2)","Counts",
+	0,0,0,0,0,0)
+
+plots = [type1,type9]
+#plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
