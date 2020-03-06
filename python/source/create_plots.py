@@ -53,7 +53,7 @@ def makeplot(type,logtitle,zz,zzz):
 	if logtitle == "LogON":
 		c1.SetLogz()
 	c1.Draw()
-	c1.Print("plots/{}/{}_{}.pdf".format(zzz,logtitle,type[0]))
+	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
 
 """for kk in ff.GetListOfKeys():
@@ -100,6 +100,6 @@ Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 
 plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 
-os.mkdir("plots/"+zzz+"original_python_pdfs/")
+os.mkdir("plots/"+zzz+"/original_python_pdfs/")
 for type in plots:
 	plotdistributer(type,zz,zzz)
