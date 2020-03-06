@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -214,6 +214,13 @@ When it comes to presenting, this will be the first question.
 							LeptHadAngle = -LeptHadAngle+360
 						}
 
+
+						def q2Round = Math.round(-qvec.mass2())
+						def xBRound = Math.round(5*xB)
+						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
+
+
+
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
 								//num_dvpp_events = num_dvpp_events + 1
@@ -227,6 +234,10 @@ When it comes to presenting, this will be the first question.
 								H_xB_Q2.fill(xBjorken,-qvec.mass2())
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
+								def title = "xB${xBRound}_q2${q2Round}"
+								Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
+
+
 							}
 						}
 					}
@@ -255,6 +266,18 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 		return TimeLeft
 	}
 }
+
+def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,300,0,1.5,300,0,12)}
+
+for(int isec=1;isec<=6;isec++){
+	for(int ilay=1;ilay<=3;ilay++){
+		title = "sec${isec}_layer${ilay}"
+		out.addDataSet(Hist_beta_p[title])
+		out.addDataSet(Hist_deltaB_p[title])
+		out.addDataSet(Hist_beta_p2[title])
+	}
+}
+
 
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
@@ -315,7 +338,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p)
 		//println "num ep events = " + num_ep_events
 		//println "num dvpp evnets = " + num_dvpp_events
 	}
