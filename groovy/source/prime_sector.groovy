@@ -65,7 +65,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -235,6 +235,7 @@ When it comes to presenting, this will be the first question.
 								H_xB_Q2.fill(xBjorken,-qvec.mass2())
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
+								Hist_beta_T[title].fill(tt0)
 
 
 
@@ -268,12 +269,13 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 }
 
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
+def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",100,0,5)}
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
 def hW = new H1F("Hist_W","W Distribution",1000,0,12)
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
-def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",4000,-20,20)
+def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",2000,0,5)
 def htmomrecon = new H1F("Hist_t_mom_recon","Recon'd Momentum transfer to Nucleon (t)",4000,-20,20)
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
@@ -327,7 +329,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T)
 		//println "num ep events = " + num_ep_events
 		//println "num dvpp evnets = " + num_dvpp_events
 	}
@@ -365,7 +367,8 @@ out.addDataSet(hW)
 for(int isec=0;isec<=12;isec++){
 	for(int ilay=0;ilay<=12;ilay++){
 		title = "xB${ilay}_q2${isec}"
-		out.addDataSet(Hist_beta_p[title])
+		//out.addDataSet(Hist_beta_p[title])
+		out.addDataSet(Hist_beta_T[title])
 	}
 }
 
