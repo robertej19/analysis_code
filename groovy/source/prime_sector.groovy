@@ -268,17 +268,6 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 }
 
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,300,0,1.5,300,0,12)}
-
-for(int isec=1;isec<=6;isec++){
-	for(int ilay=1;ilay<=3;ilay++){
-		title = "sec${isec}_layer${ilay}"
-		out.addDataSet(Hist_beta_p[title])
-		out.addDataSet(Hist_deltaB_p[title])
-		out.addDataSet(Hist_beta_p2[title])
-	}
-}
-
-
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
@@ -371,6 +360,14 @@ out.addDataSet(hhel)
 out.addDataSet(hphi)
 out.addDataSet(hq2)
 out.addDataSet(hW)
+
+for(int isec=1;isec<=6;isec++){
+	for(int ilay=1;ilay<=3;ilay++){
+		title = "sec${isec}_layer${ilay}"
+		out.addDataSet(Hist_beta_p[title])
+	}
+}
+
 out.addDataSet(hxB)
 out.addDataSet(heleTheta)
 out.addDataSet(hproTheta)
