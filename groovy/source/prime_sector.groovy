@@ -216,7 +216,7 @@ When it comes to presenting, this will be the first question.
 
 
 						def q2Round = Math.round(-qvec.mass2())
-						def xBRound = Math.round(5*xB)
+						def xBRound = Math.round(5*xBjorken)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
 
 
