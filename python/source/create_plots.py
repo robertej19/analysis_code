@@ -105,8 +105,8 @@ plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
-xbRange = ["0.07", "0.21", "0.36", "0.50","0.64", "0.79", "0.93"]
-q2Range = ["1.5", "2.5", "3.5", "4.5", "5.5", "6.5", "7.5", "8.5"]
+xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
+q2Range = ["0.0","0.5","1.0","1.5","1.5","2.5","1.5", "3.5","1.5", "4.5","1.5", "5.5","1.5", "6.5", "1.5","7.5","1.5", "8.5"]
 
 for j in range(0,len(q2Range)-1) :
 	for i in range(0,len(xbRange)-1):
