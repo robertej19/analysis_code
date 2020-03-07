@@ -106,13 +106,13 @@ os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
 xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
-q2Range = ["0.0","0.5","1.0","1.5","1.5","2.5","1.5", "3.5","1.5", "4.5","1.5", "5.5","1.5", "6.5", "1.5","7.5","1.5", "8.5"]
+q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0", "6.5", "7.0","7.5","8.0", "8.5"]
 
 for j in range(0,len(q2Range)-1) :
 	for i in range(0,len(xbRange)-1):
 		title = "output_file_histos_Hist_beta_T{} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
 		histTitle = "Counts vs. t, {} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
-		type9 = (title,histTitle,"t (GeV^2)","Counts",0,0,0,1000,0,0)
+		type9 = (title,histTitle,"t (GeV^2)","Counts",0,0,0,100,0,0)
 		print(title)
 		plotdistributer(type9,zz,zzz)
 
