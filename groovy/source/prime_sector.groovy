@@ -220,7 +220,7 @@ When it comes to presenting, this will be the first question.
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
 
 						def title = "${((xBRound-0.5)/xb_bins).round(2)} < xB < ${((xBRound+0.5)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
-						//printer("Associated title is $title",2)
+						printer("Associated title is $title",2)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
 						if(isep0){
