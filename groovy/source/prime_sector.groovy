@@ -214,7 +214,7 @@ When it comes to presenting, this will be the first question.
 							LeptHadAngle = -LeptHadAngle+360
 						}
 
-						def xb_bins = 7
+						def xb_bins = 10
 						def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
 						def xBRound = Math.round(xb_bins*xBjorken)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
