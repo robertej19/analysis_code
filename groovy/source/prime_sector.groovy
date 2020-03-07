@@ -217,10 +217,10 @@ When it comes to presenting, this will be the first question.
 						def xb_bins = 10
 						def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
 						def xBRound = Math.round(xb_bins*xBjorken+0.5)
-						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",2)
+						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
 						def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
-						printer("Associated title is $title",2)
+						printer("Associated title is $title",0)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
 						if(isep0){
@@ -270,7 +270,7 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 }
 
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
-def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",100,0,5)}
+def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
