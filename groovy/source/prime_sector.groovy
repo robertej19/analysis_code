@@ -369,10 +369,10 @@ out.addDataSet(hq2)
 out.addDataSet(hW)
 
 def xb_bins = 10
-for(int xBi=0;xBi<=12;xBi++){
+for(int xBi=0;xBi<=16;xBi++){
 	for(int q2i=0;q2i<=12;q2i++){
 		def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2} < q2 < ${q2i/2+0.5}"
-		printer("title is $title and q2i is $q2i with ${q2i/2}",1)
+		printer("title is $title and q2i is $q2i with ${q2i/2}",0)
 		out.addDataSet(Hist_beta_p[title])
 		out.addDataSet(Hist_beta_T[title])
 	}
