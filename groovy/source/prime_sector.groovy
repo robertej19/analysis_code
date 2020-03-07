@@ -364,7 +364,7 @@ out.addDataSet(hphi)
 out.addDataSet(hq2)
 out.addDataSet(hW)
 
-def xb_bins = 7
+def xb_bins = 10
 for(int xBRound=0;xBRound<=12;xBRound++){
 	for(int q2Round=0;q2Round<=12;q2Round++){
 		title = "${((xBRound-0.5)/xb_bins).round(2)} < xB < ${((xBRound+0.5)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
