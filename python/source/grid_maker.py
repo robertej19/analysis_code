@@ -7,14 +7,11 @@ import math
 
 
 
-#img_dir = "./plots/new_data_2020/"
-#os.chdir(img_dir)
-
-
-
 def img_from_pdf(img_dir):
 	image_files = []
-	for img_file in os.listdir(img_dir):
+	lists = os.listdir(img_dir)
+	sort_list = sorted(lists)
+	for img_file in sort_list:
 		print("On file " + img_file)
 		image1 = Image.open(img_dir+img_file)
 		image_files.append(image1)
@@ -82,9 +79,12 @@ def chunks(l, n):
 	spits = (l[i:i+n] for i in range(0, len(l), n))
 	return spits
 
+print(len(images))
 layers = []
-for i in range(0,int(len(images)/7)):
-	layer = list(reversed(images[i*7:i*7+7]))
+num_ver_slices = 11
+for i in range(0,int(len(images)/num_ver_slices)):
+	print("on step "+str(i))
+	layer = list(reversed(images[i*11:i*11+11]))
 	#list(reversed(array))
 	layers.append(layer)
 
@@ -92,12 +92,13 @@ horimg = []
 
 for counter,layer in enumerate(layers):
 	print("On vertical layer {}".format(counter))
+	print(layer)
 	imglay = append_images(layer, direction='vertical')
 	horimg.append(imglay)
 
 print("Joining images horizontally")
 final = append_images(horimg, direction='horizontal')
-final.save("joined.jpg")
+final.save("joined_{}.jpg".format(num_ver_slices))
 
 
 
