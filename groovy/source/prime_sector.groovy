@@ -367,7 +367,9 @@ out.addDataSet(hW)
 def xb_bins = 7
 for(int xBRound=0;xBRound<=12;xBRound++){
 	for(int q2Round=0;q2Round<=12;q2Round++){
-		title = "${((xBRound-0.5)/xb_bins).round(2)} < xB < ${((xBRound+0.5)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round + 0.5}"
+		title = "${((xBRound-0.5)/xb_bins).round(2)} < xB < ${((xBRound+0.5)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
+
+
 		out.addDataSet(Hist_beta_p[title])
 		out.addDataSet(Hist_beta_T[title])
 	}
