@@ -16,8 +16,10 @@ def img_from_pdf(pdf_dir,scaling_factor):
 	os.mkdir(pdf_dir+"../lowres/")
 	for pdf_file in os.listdir(pdf_dir):
 		print("On file " + pdf_file)
-		name = pdf_file.split(".")[0]
-
+		names = pdf_file.split("T")[1]
+		name = names.split(".pdf")[0]
+		name = name.replace(" ", "_")
+		name = name.replace("<", "_")
 		pages = convert_from_path(pdf_dir+pdf_file, 600)
 
 
@@ -28,7 +30,8 @@ def img_from_pdf(pdf_dir,scaling_factor):
 
 			page.save(temp_jpg, 'JPEG')
 			img = Image.open(temp_jpg)
-			img.crop((2200, 120, 6900, 3180)).save(cropped_jpg, quality=100)
+			#img.crop((2200, 120, 6900, 3180)).save(cropped_jpg, quality=100) #this is for standard file cuts
+			img.crop((2350, 400, 6350, 2840)).save(cropped_jpg, quality=100) #this is for t files
 			os.remove(temp_jpg)
 
 			image1 = Image.open(cropped_jpg)
