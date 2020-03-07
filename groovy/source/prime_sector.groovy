@@ -365,7 +365,7 @@ out.addDataSet(hq2)
 out.addDataSet(hW)
 
 def xb_bins = 10
-for(int xBRound=0;xBRound<=12;xBRound++){
+for(int xBRound=1;xBRound<=12;xBRound++){
 	for(int q2Round=0;q2Round<=12;q2Round++){
 		def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
 		out.addDataSet(Hist_beta_p[title])
