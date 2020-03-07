@@ -219,6 +219,10 @@ When it comes to presenting, this will be the first question.
 						def xBRound = Math.round(xb_bins*xBjorken+0.5)
 						printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
+						if (q2Round < 0.4){
+							printer("Q2 is low at $q2round",2)
+						}
+
 						def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round}"
 						printer("Associated title is $title",0)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
