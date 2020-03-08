@@ -81,10 +81,11 @@ def chunks(l, n):
 
 print(len(images))
 layers = []
-num_ver_slices = 11
-for i in range(0,int(len(images)/num_ver_slices)):
+num_ver_slices = 12
+#for i in range(0,int(len(images)/num_ver_slices)):
+for i in range(4,8):
 	print("on step "+str(i))
-	layer = list(reversed(images[i*11:i*11+11]))
+	layer = list(reversed(images[i*num_ver_slices:i*num_ver_slices+num_ver_slices]))
 	#list(reversed(array))
 	layers.append(layer)
 
