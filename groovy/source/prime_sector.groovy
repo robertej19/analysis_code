@@ -67,7 +67,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -229,6 +229,8 @@ When it comes to presenting, this will be the first question.
 						//printer("Associated title is $title",2)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
+						//t_bins[0]
+						println(Math.round(tt0*10)/10)
 						def UltraTitle = "88"
 
 						if(isep0){
@@ -346,7 +348,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins)
 		//println "num ep events = " + num_ep_events
 		//println "num dvpp evnets = " + num_dvpp_events
 	}
