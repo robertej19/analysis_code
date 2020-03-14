@@ -67,7 +67,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -229,6 +229,8 @@ When it comes to presenting, this will be the first question.
 						//printer("Associated title is $title",2)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
+						def UltraTitle = "88"
+
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
 								//num_dvpp_events = num_dvpp_events + 1
@@ -243,6 +245,7 @@ When it comes to presenting, this will be the first question.
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
 								Hist_beta_T[title].fill(tt0)
+								Hist_Ultra_Phi[UltraTitle].fill(LeptHadAngle)
 								//printer("title of ispis is : $title",0)
 
 								dvmp_counts = dvmp_counts +1
@@ -278,6 +281,7 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 
 def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
 def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
+def Hist_Ultra_Phi 	= [:].withDefault{new H1F("Hist_Ultra_Phi${it}", "Phi in in q2 xb t bins of ${it}",20,0,360)}
 def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
 def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
 def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
@@ -337,7 +341,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi)
 		//println "num ep events = " + num_ep_events
 		//println "num dvpp evnets = " + num_dvpp_events
 	}
@@ -380,6 +384,10 @@ for(int xBi=0;xBi<=12;xBi++){
 		out.addDataSet(Hist_beta_T[title])
 	}
 }
+
+
+def UltraTitle = "88"
+out.addDataSet(Hist_Ultra_Phi[UltraTitle])
 
 out.addDataSet(hxB)
 out.addDataSet(heleTheta)
