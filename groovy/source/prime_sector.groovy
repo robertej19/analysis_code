@@ -416,7 +416,7 @@ for(int xBi=0;xBi<=12;xBi++){
 			def low = (t_bins[xti]).toFloat().round(2)
 			def high = (t_bins[xti+1]).toFloat().round(2)
 			def TitleUltra = title +" " + "$low < t <  $high"
-			out.addDataSet(Hist_Ultra_Phi[UltraTitle])
+			out.addDataSet(Hist_Ultra_Phi[TitleUltra])
 		}
 	}
 }
