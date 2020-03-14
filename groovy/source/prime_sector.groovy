@@ -321,6 +321,10 @@ def TotalRunTime = 0
 def num_ep_events = 0
 def num_dvpp_events = 0
 
+def t_bins = [0.6,1,1.5,2]
+
+println(t_bins[0])
+
 for (int i=0; i < FilesToProcess.size(); i++) {
 	def reader = new HipoDataSource()
 	def fname = FilesToProcess[i]
@@ -335,6 +339,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 	def date = new Date()
 	def FileStartTime = date.getTime()
 	printer("Process file $fname at ${date.format('HH:mm:ss')}",1)
+
 
 	def CountRate = NumEventsToProcess/10
 	for (int j=0; j < NumEventsToProcess; j++) {
