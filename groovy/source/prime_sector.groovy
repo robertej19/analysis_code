@@ -232,11 +232,8 @@ When it comes to presenting, this will be the first question.
 						//println(t_bins)
 						def tRound = (Math.round(tt0*10)/10)
 						def UltraTitle = "88"
-						println(t_bins.size())
-						if(tt0<t_bins[0]){
-							println(tt0)
-						}
-						for(int xti=0;xti<=10;xti++){
+						
+						for(int xti=0;xti<=t_bins.size();xti++){
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
 								println("min bin ${t_bins[xti]} + real value $tt0")
 							}
