@@ -265,6 +265,7 @@ When it comes to presenting, this will be the first question.
 								hLeptHadAngle.fill(LeptHadAngle)
 								Hist_beta_T[title].fill(tt0)
 								Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
+								println("TilteUltra is: $TitleUltra")
 								//printer("title of ispis is : $title",0)
 								//println(Math.round(tt0*10)/10)
 								dvmp_counts = dvmp_counts +1
