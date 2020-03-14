@@ -233,6 +233,8 @@ When it comes to presenting, this will be the first question.
 						def tRound = (Math.round(tt0*10)/10)
 						def UltraTitle = "88"
 
+						def TitleUltra = 0
+
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
 
@@ -243,6 +245,10 @@ When it comes to presenting, this will be the first question.
 										def TitleUltra = title +" " + "$low < t <  $high"
 										println(TitleUltra)
 									}
+								}
+
+								if(TitleUltra==0){
+									println("Ultra is 0, t is $tt0")
 								}
 
 
@@ -334,7 +340,7 @@ def TotalRunTime = 0
 def num_ep_events = 0
 def num_dvpp_events = 0
 
-def t_bins = [0,0.6,1,1.5,2,3,5]
+def t_bins = [0,0.6,1,1.5,2,3,5,8]
 
 println(t_bins[0])
 
