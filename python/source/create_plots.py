@@ -105,8 +105,37 @@ plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
-xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
-q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0", "6.5", "7.0","7.5","8.0", "8.5"]
+#Full xb range:
+#xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
+#Full q2 range:
+#q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0", "6.5", "7.0","7.5","8.0", "8.5"]
+xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
+q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
+tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
+
+
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.90 < xB < 1.00_ 7.5 < q2 < 8.0 0.4 < t <  0.6") at 0x86626c0>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.10 < xB < 0.20_ 4.0 < q2 < 4.5 1.0 < t <  1.5") at 0x8662e70>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.60 < xB < 0.70_ 5.5 < q2 < 6.0 0.15 < t <  0.2") at 0x8663540>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi1.00 < xB < 1.10_ 5.5 < q2 < 6.0 1.5 < t <  2.0") at 0x8663c10>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.00 < xB < 0.10_ 0.0 < q2 < 0.5 2.0 < t <  5.0") at 0x86642e0>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.20 < xB < 0.30_ 7.0 < q2 < 7.5 0.4 < t <  0.6") at 0x86649b0>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.60 < xB < 0.70_ 3.0 < q2 < 3.5 0.09 < t <  0.15") at 0x8665080>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.30 < xB < 0.40_ 2.5 < q2 < 3.0 1.5 < t <  2.0") at 0x8665750>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi1.00 < xB < 1.10_ 4.0 < q2 < 4.5 0.09 < t <  0.15") at 0x8665e20>
+<ROOT.TH1F object ("output_file_histos_Hist_Ultra_Phi0.70 < xB < 0.80_ 1.0 < q2 < 1.5 0.15 < t <  0.2") at 0
+
+
+for k in range(0,len(tRange)-1):
+	for j in range(0,len(q2Range)-1) :
+		for i in range(0,len(xbRange)-1):
+			title = "output_file_histos_Hist_Ultra_Phi{} < xB < {}_ {} < q2 < {} {} < t < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1],tRange[k],tRange[k+1])
+			histTitle = "Counts vs. Phi, {} < xB < {}_ {} < q2 < {} {} < t < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1],tRange[k],tRange[k+1])
+			type9 = (title,histTitle,"Phi","Counts",0,0,20,0,0,0)
+			print(title)
+			plotdistributer(type9,zz,zzz)
+
+"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 
 """
 for j in range(0,len(q2Range)-1) :
@@ -117,5 +146,7 @@ for j in range(0,len(q2Range)-1) :
 		print(title)
 		plotdistributer(type9,zz,zzz)
 """
+"""
 for type in plots:
 	plotdistributer(type,zz,zzz)
+"""
