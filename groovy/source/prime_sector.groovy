@@ -333,7 +333,7 @@ for (FileName in FilesToProcess){
 	printer("$FileName",2)
 }
 
-printer((total_file_length/Mil).round(2)+"M is the total file size in Bites (?)",2)
+printer((total_file_length/Mil/1000).round(2)+"G is the total file size in Bites (?)",2)
 
 def TotalNumEventsProcessed = 0
 def TotalRunTime = 0
