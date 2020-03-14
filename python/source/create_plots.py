@@ -117,7 +117,7 @@ tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
-  title = obj.GetName())
+  title = obj.GetName()
   if "Ultra_Phi" in title:
 	  histTitle = title
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
