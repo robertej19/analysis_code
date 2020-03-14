@@ -258,7 +258,7 @@ When it comes to presenting, this will be the first question.
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
 								Hist_beta_T[title].fill(tt0)
-								Hist_Ultra_Phi[UltraTitle].fill(LeptHadAngle)
+								Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
 								//printer("title of ispis is : $title",0)
 								println(Math.round(tt0*10)/10)
 								dvmp_counts = dvmp_counts +1
@@ -403,9 +403,16 @@ for(int xBi=0;xBi<=12;xBi++){
 	}
 }
 
-
-def UltraTitle = "88"
-out.addDataSet(Hist_Ultra_Phi[UltraTitle])
+for(int xBi=0;xBi<=12;xBi++){
+	for(int q2i=0;q2i<=16;q2i++){
+		for(int xti=0;xti<=t_bins.size();xti++){
+			def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
+			def low = (t_bins[xti]).toFloat().round(2)
+			def high = (t_bins[xti+1]).toFloat().round(2)
+			def TitleUltra = title +" " + "$low < t <  $high"
+			out.addDataSet(Hist_Ultra_Phi[UltraTitle])
+	}
+}
 
 out.addDataSet(hxB)
 out.addDataSet(heleTheta)
