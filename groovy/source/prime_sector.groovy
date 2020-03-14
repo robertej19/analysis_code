@@ -238,7 +238,8 @@ When it comes to presenting, this will be the first question.
 						}
 						for(int xti=0;xti<=3;xti++){
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
-							println("min bin ${t_bins[xti]} + real value $tt0")
+								println("min bin ${t_bins[xti]} + real value $tt0")
+							}
 						}
 
 						if(isep0){
