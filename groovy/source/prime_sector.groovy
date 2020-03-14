@@ -229,9 +229,13 @@ When it comes to presenting, this will be the first question.
 						//printer("Associated title is $title",2)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
-						//t_bins[0]
-						println(Math.round(tt0*10)/10)
+						println(t_bins)
+						def tRound = (Math.round(tt0*10)/10)
 						def UltraTitle = "88"
+
+						if(tRound<t_bins[0]){
+							println(tRound)
+						}
 
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
