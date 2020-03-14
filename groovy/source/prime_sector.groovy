@@ -238,7 +238,7 @@ When it comes to presenting, this will be the first question.
 						if(isep0){
 							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
 
-								for(int xti=0;xti<=t_bins.size();xti++){
+								for(int xti=0;xti<t_bins.size()-1;xti++){
 									if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
 										def low = (t_bins[xti]).toFloat().round(2)
 										def high = (t_bins[xti+1]).toFloat().round(2)
@@ -418,7 +418,7 @@ for(int xBi=0;xBi<=12;xBi++){
 
 for(int xBi=0;xBi<=12;xBi++){
 	for(int q2i=0;q2i<=16;q2i++){
-		for(int xti=0;xti<=t_bins.size();xti++){
+		for(int xti=0;xti<t_bins.size()-1;xti++){
 			def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
 			def low = (t_bins[xti]).toFloat().round(2)
 			def high = (t_bins[xti+1]).toFloat().round(2)
