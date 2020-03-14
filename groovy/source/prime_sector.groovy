@@ -239,7 +239,7 @@ When it comes to presenting, this will be the first question.
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
 								def low = (t_bins[xti]).toFloat().round(2)
 								def high = (t_bins[xti+1]).toFloat().round(2)
-								def TitleUltra = "title +" " + $low < t <  $high"
+								def TitleUltra = title +" " + "$low < t <  $high"
 								println(TitleUltra)
 							}
 						}
