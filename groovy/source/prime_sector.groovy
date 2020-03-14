@@ -236,8 +236,9 @@ When it comes to presenting, this will be the first question.
 						if(tt0<t_bins[0]){
 							println(tt0)
 						}
-						if(t_bins[0]<tt0 && tt0<t_bins[1]){
-							println("big bin $tt0")
+						for(int xti=0;xti<=3;xti++){
+							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
+							println("min bin ${t_bins[xti]} + real value $tt0")
 						}
 
 						if(isep0){
