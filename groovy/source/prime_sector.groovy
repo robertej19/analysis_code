@@ -237,8 +237,8 @@ When it comes to presenting, this will be the first question.
 
 						for(int xti=0;xti<=t_bins.size();xti++){
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
-								def low = (t_bins[xti]).toFloat()).round(2)
-								def high = (t_bins[xti+1]).toFloat()).round(2)
+								def low = (t_bins[xti]).toFloat().round(2)
+								def high = (t_bins[xti+1]).toFloat().round(2)
 								def TitleUltra = " $low < t <  $high"
 								println(TitleUltra)
 							}
