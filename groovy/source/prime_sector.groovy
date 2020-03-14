@@ -237,7 +237,7 @@ When it comes to presenting, this will be the first question.
 
 						for(int xti=0;xti<=t_bins.size();xti++){
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
-								def TitleUltra = " ${t_bins[xti].round(2)} < t <  ${t_bins[xti+1].round(2)}"
+								def TitleUltra = " ${(t_bins[xti]).round(2)} < t <  ${(t_bins[xti+1]).round(2)}"
 								println(TitleUltra)
 							}
 						}
