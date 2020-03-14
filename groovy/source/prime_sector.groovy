@@ -243,7 +243,7 @@ When it comes to presenting, this will be the first question.
 										def low = (t_bins[xti]).toFloat().round(2)
 										def high = (t_bins[xti+1]).toFloat().round(2)
 										TitleUltra = title +" " + "$low < t <  $high"
-										println(TitleUltra)
+										//println(TitleUltra)
 									}
 								}
 
@@ -266,7 +266,7 @@ When it comes to presenting, this will be the first question.
 								Hist_beta_T[title].fill(tt0)
 								Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
 								//printer("title of ispis is : $title",0)
-								println(Math.round(tt0*10)/10)
+								//println(Math.round(tt0*10)/10)
 								dvmp_counts = dvmp_counts +1
 								//println("num dvmp counts is $dvmp_counts")
 							}
