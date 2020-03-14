@@ -56,10 +56,10 @@ def makeplot(type,logtitle,zz,zzz):
 	c1.Draw()
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
-
+"""
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
-  print(obj.getName())
+  print(obj.GetName())
   print(obj.__class__)
   print(obj.GetTitle())
   print(obj.GetNbinsX())
@@ -67,7 +67,7 @@ for kk in ff.GetListOfKeys():
   #print("value of x bin is: ")
   #print(obj.GetXaxis().FindBin(100))#obj.FindLastBinAbove()))
 #h1 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")#.ProjectionY("cutg",0,40,"[cutg]")#5038_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
-
+"""
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 
 #type1 = "output_file_histos_Hist_xB_Q2"
@@ -113,6 +113,16 @@ os.mkdir("plots/"+zzz+"/original_python_pdfs")
 xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
 q2Range = ["1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
 tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
+
+
+for kk in ff.GetListOfKeys():
+  obj = kk.ReadObj()
+  title = obj.GetName())
+  if "Ultra_Phi" in title:
+	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
+	  print(title)
+	  plotdistributer(type9,zz,zzz)
+
 
 """
 for k in range(0,len(tRange)-1):
