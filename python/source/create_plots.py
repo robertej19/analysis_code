@@ -57,7 +57,7 @@ def makeplot(type,logtitle,zz,zzz):
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
 
-"""for kk in ff.GetListOfKeys():
+for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   print(obj.__class__)
   print(obj.GetTitle())
@@ -68,7 +68,7 @@ def makeplot(type,logtitle,zz,zzz):
 #h1 = ff.Get("5038_H_proton_DeltaBeta_momentum_S2")#.ProjectionY("cutg",0,40,"[cutg]")#5038_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
-"""
+
 #type1 = "output_file_histos_Hist_xB_Q2"
 
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
@@ -113,6 +113,7 @@ xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
 q2Range = ["1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
 tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
 
+"""
 for k in range(0,len(tRange)-1):
 	for j in range(0,len(q2Range)-1) :
 		for i in range(0,len(xbRange)-1):
@@ -121,7 +122,7 @@ for k in range(0,len(tRange)-1):
 			type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 			print(title)
 			plotdistributer(type9,zz,zzz)
-
+"""
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 
 """
