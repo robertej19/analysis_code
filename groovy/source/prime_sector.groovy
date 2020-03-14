@@ -333,7 +333,7 @@ for (FileName in FilesToProcess){
 	printer("$FileName",2)
 }
 
-printer(total_file_length+"This i sthe lenght",2)
+printer((total_file_length/Mil).round(2)+"M is the total file size in Bites (?)",2)
 
 def TotalNumEventsProcessed = 0
 def TotalRunTime = 0
@@ -341,15 +341,6 @@ def num_ep_events = 0
 def num_dvpp_events = 0
 
 def t_bins = [0,0.6,1,1.5,2,3,5,8]
-
-for(int xti=0;xti<t_bins.size()-1;xti++){
-			println(xti)
-			def low = (t_bins[xti]).toFloat().round(2)
-			def high = (t_bins[xti+1]).toFloat().round(2)
-			println(low + high)
-}
-
-println(t_bins[0])
 
 for (int i=0; i < FilesToProcess.size(); i++) {
 	def reader = new HipoDataSource()
