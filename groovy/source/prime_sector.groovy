@@ -340,7 +340,7 @@ def TotalRunTime = 0
 def num_ep_events = 0
 def num_dvpp_events = 0
 
-def t_bins = [0,0.6,1,1.5,2,3,5,8]
+def t_bins = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
 
 for (int i=0; i < FilesToProcess.size(); i++) {
 	def reader = new HipoDataSource()
