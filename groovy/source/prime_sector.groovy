@@ -346,8 +346,6 @@ for(int xti=0;xti<=t_bins.size();xti++){
 			def low = (t_bins[xti]).toFloat().round(2)
 			def high = (t_bins[xti+1]).toFloat().round(2)
 			println(low + high)
-		}
-	}
 }
 
 println(t_bins[0])
