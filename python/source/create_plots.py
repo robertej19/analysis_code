@@ -123,7 +123,7 @@ tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
 
 
 
-
+"""
 
 
 for k in range(0,len(tRange)-1):
@@ -134,7 +134,7 @@ for k in range(0,len(tRange)-1):
 			type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 			print(title)
 			plotdistributer(type9,zz,zzz)
-
+"""
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOFF,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 
 """
@@ -146,7 +146,7 @@ for j in range(0,len(q2Range)-1) :
 		print(title)
 		plotdistributer(type9,zz,zzz)
 """
-"""
+
 for type in plots:
 	plotdistributer(type,zz,zzz)
-"""
+
