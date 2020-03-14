@@ -236,7 +236,7 @@ When it comes to presenting, this will be the first question.
 						if(tt0<t_bins[0]){
 							println(tt0)
 						}
-						elif(t_bins[0]<tt0 && tt0<t_bins[1]){
+						if(t_bins[0]<tt0 && tt0<t_bins[1]){
 							println("big bin $tt0")
 						}
 
