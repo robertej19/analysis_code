@@ -36,6 +36,8 @@ println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n")
 
 Mil = 1000000
 
+dvmp_counts = 0
+
 /////////////////
 
 def printer(string,override){
@@ -246,7 +248,8 @@ When it comes to presenting, this will be the first question.
 								Hist_Ultra_Phi[UltraTitle].fill(LeptHadAngle)
 								//printer("title of ispis is : $title",0)
 
-
+								dvmp_counts = dvmp_counts +1
+								//println("num dvmp counts is $dvmp_counts")
 							}
 						}
 					}
@@ -362,7 +365,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 
 def dateX = new Date()
 printer("Finished processing all files at ${dateX.format('HH:mm:ss')}",1)
-
+printer("Total num DVMP counts is $dvmp_counts",2)
 def OutFileName = "output_file_histos"
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
