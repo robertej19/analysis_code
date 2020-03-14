@@ -233,7 +233,7 @@ When it comes to presenting, this will be the first question.
 						def tRound = (Math.round(tt0*10)/10)
 						def UltraTitle = "88"
 
-
+						def TitleUltra = 0
 
 						for(int xti=0;xti<=t_bins.size();xti++){
 							if(t_bins[xti]<tt0 && tt0<t_bins[xti+1]){
@@ -242,6 +242,10 @@ When it comes to presenting, this will be the first question.
 								def TitleUltra = title +" " + "$low < t <  $high"
 								println(TitleUltra)
 							}
+						}
+
+						if(TitleUltra=0){
+							println("Ultra 0 t is $tt0")
 						}
 
 						if(isep0){
