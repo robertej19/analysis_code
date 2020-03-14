@@ -229,12 +229,15 @@ When it comes to presenting, this will be the first question.
 						//printer("Associated title is $title",2)
 						Hist_beta_p[title].fill(xBjorken,-qvec.mass2())
 
-						println(t_bins)
+						//println(t_bins)
 						def tRound = (Math.round(tt0*10)/10)
 						def UltraTitle = "88"
 
-						if(tRound<t_bins[0]){
-							println(tRound)
+						if(tt0<t_bins[0]){
+							println(tt0)
+						}
+						elif(t_bins[0]<tt0 && tt0<t_bins[1]){
+							println("big bin $tt0")
 						}
 
 						if(isep0){
