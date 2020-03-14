@@ -342,7 +342,7 @@ def num_dvpp_events = 0
 
 def t_bins = [0,0.6,1,1.5,2,3,5,8]
 
-for(int xti=0;xti<t_bins.size();xti++){
+for(int xti=0;xti<t_bins.size()-1;xti++){
 			println(xti)
 			def low = (t_bins[xti]).toFloat().round(2)
 			def high = (t_bins[xti+1]).toFloat().round(2)
