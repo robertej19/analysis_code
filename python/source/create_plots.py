@@ -59,6 +59,7 @@ def makeplot(type,logtitle,zz,zzz):
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
+  print(obj.getName())
   print(obj.__class__)
   print(obj.GetTitle())
   print(obj.GetNbinsX())
