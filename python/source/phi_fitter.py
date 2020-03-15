@@ -14,10 +14,10 @@ from ROOT import TF1
 
 
 def plotdistributer(type,zz,zzz):
-	makeplot(type,"LogOFF",zz,zzz)
+	arx = makeplot(type,"LogOFF",zz,zzz)
 	if type[4]:
-
-		makeplot(type,"LogON",zz,zzz)
+		arx = makeplot(type,"LogON",zz,zzz)
+    return arx
 
 def makeplot(type,logtitle,zz,zzz):
 
@@ -60,8 +60,9 @@ def makeplot(type,logtitle,zz,zzz):
 
 	c1.Draw()
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
-	array = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
-	print(array)
+	arraystr = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
+    array = [float(i) for i in arraystr]
+	return array
 
 
 ff = ROOT.TFile(sys.argv[1])
@@ -77,6 +78,8 @@ zzz = xxx[0]
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
+tlists = []
+
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   title = obj.GetName()
@@ -85,4 +88,10 @@ for kk in ff.GetListOfKeys():
 	  histTitle = title
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 	  print(obj.GetEntries())
-	  plotdistributer(type9,zz,zzz)
+	  array = plotdistributer(type9,zz,zzz)
+
+      if (array[0]=0.4) and (array[2]=1.5):
+          smalist = [array[4],array[6],array[7],array[8]]
+          tlists.append(smalist)
+
+print(tlists)
