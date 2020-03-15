@@ -41,6 +41,8 @@ def makeplot(type,logtitle,zz,zzz):
 
 	h1.Draw("colz")
 
+
+
 	#Use a custom function (altough the build in pol2 would also work)
 	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'QR')
@@ -111,14 +113,16 @@ for kk in ff.GetListOfKeys():
 avaliablex = list(set(xmins))
 avaliableq = list(set(qmins))
 
+avaliablex = [0.4,0.5]
+avaliableq = [1,1.5]
+
 print(avaliableq)
 print(avaliablex)
-
 
 numplots = len(avaliableq)*len(avaliablex)
 
 iii = 0
-gg = 0 
+gg = 0
 for xb in avaliablex:
 	for q2 in avaliableq:
 		iii = iii +1
@@ -143,15 +147,19 @@ for xb in avaliablex:
 			fig, ax = plt.subplots(1)#figure()
 			#fig.autofmt_xdate()
 			print("Plotting {} and {}".format(tvals,p1vals))
-			plt.plot(tvals,p1vals,'+', markersize=12)
-			plt.plot(tvals,p2vals,'o', markersize=12)
-			plt.plot(tvals,p3vals,'x', markersize=12)
+			plt.plot(tvals,p1vals,'+', markersize=12,label=r'$\sigma_T+\epsilon\sigma_L$')
+			plt.plot(tvals,p2vals,'o', markersize=12,label=r'$\epsilon\sigma_{TT}$')
+			plt.plot(tvals,p3vals,'x', markersize=12,label=r'$\sqrt{2\epsilon(1+\epsilon)}\sigma_{LT}$')
 			axes = plt.gca()
-			axes.set_xlim([0,1])
+			axes.set_xlim([0,2.1])
 			axes.set_ylim([-40,50])
 			fig.suptitle('Fits of Phi Dist. vs. t ({}<xb<{},{}<q2<{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=16)
 			plt.xlabel('t', fontsize=16)
 			plt.ylabel('Fit parameter values', fontsize=16)
+
+				#p1 = sigmaT + epsigmaL
+				#p2 = ep sigmaTT
+				#p3 = rad(2ep(1+ep)) sigmaLT
 
 			fig.savefig('plots/test_xb-{}_q2-{}.pdf'.format(xb,q2))
 			fig.clear()
