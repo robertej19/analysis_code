@@ -102,3 +102,12 @@ for kk in ff.GetListOfKeys():
 
 print(tlists)
 print(p1s)
+
+fig, ax = plt.subplots(1)#figure()
+#fig.autofmt_xdate()
+plt.plot(tlists,p1s,'+')
+fig.suptitle('Fitted Standard Deviation vs. Energy', fontsize=20)
+plt.xlabel('Starting Energy (GeV)', fontsize=18)
+plt.ylabel('Std. Dev. (Beta)', fontsize=16)
+
+fig.savefig('plots/test_{}_{}.pdf'.format("energy","sigmas"))
