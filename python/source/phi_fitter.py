@@ -29,9 +29,9 @@ def makeplot(type,logtitle,zz,zzz):
 	#Use a custom function (altough the build in pol2 would also work)
 	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'QR')
-    par = [fit.Get().Parameter(i) for i in range( 3 )]
+	par = [fit.Get().Parameter(i) for i in range( 3 )]
 
-    print("parameter list is: {}".format(par))
+	print("parameter list is: {}".format(par))
 
 	c1.Draw()
 	#g.Draw('AP')
