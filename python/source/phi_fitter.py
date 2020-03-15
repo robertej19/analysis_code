@@ -83,6 +83,9 @@ p1s = []
 p2s = []
 p3s = []
 
+xmin = float(sys.argv[2])
+qmin = float(sys.argv[3])
+
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   title = obj.GetName()
@@ -92,7 +95,7 @@ for kk in ff.GetListOfKeys():
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 	  print(obj.GetEntries())
 	  array = plotdistributer(type9,zz,zzz)
-	  if (array[0]==0.5) and (array[2]==1):
+	  if (array[0]==xmin) and (array[2]==qmin):
           	#smalist = [array[4],array[6],array[7],array[8]]
           	#tlists.append(smalist)
 		tlists.append(array[4])
@@ -100,16 +103,13 @@ for kk in ff.GetListOfKeys():
 		p2s.append(array[7])
 		p3s.append(array[8])
 
-print(tlists)
-print(p1s)
-
 fig, ax = plt.subplots(1)#figure()
 #fig.autofmt_xdate()
-plt.plot(tlists,p1s,'+')
-plt.plot(tlists,p2s,'o')
-plt.plot(tlists,p3s,'x')
-fig.suptitle('Fitted Standard Deviation vs. Energy', fontsize=20)
-plt.xlabel('Starting Energy (GeV)', fontsize=18)
-plt.ylabel('Std. Dev. (Beta)', fontsize=16)
+plt.plot(tlists,p1s,'+', markersize=12)
+plt.plot(tlists,p2s,'o', markersize=12)
+plt.plot(tlists,p3s,'x', markersize=12)
+fig.suptitle('Fits of Phi Distribution vs. t', fontsize=20)
+plt.xlabel('t', fontsize=18)
+plt.ylabel('Fit parameter values (structure functions)', fontsize=16)
 
-fig.savefig('plots/test_{}_{}.pdf'.format("energy","sigmas"))
+fig.savefig('plots/test_{}_{}.pdf'.format(xmin,qmin))
