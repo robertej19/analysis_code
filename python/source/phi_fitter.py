@@ -29,7 +29,7 @@ def makeplot(type,logtitle,zz,zzz):
 	#Use a custom function (altough the build in pol2 would also work)
 	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'QR')
-	fit_params = [fit.GetParameter(i) for i in range(0,2)]
+	fit_params = [func.GetParameter(i) for i in range(0,2)]
 
 	print("parameter list is: {}".format(fit_params))
 
