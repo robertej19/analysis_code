@@ -45,11 +45,21 @@ def makeplot(type,logtitle,zz,zzz):
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
 
+ff = ROOT.TFile(sys.argv[1])
+qq = sys.argv[1]
+ww = qq.split("/")
+zz = ww[-1]
+#print(ff.GetListOfKeys())
+#print(zz)
+xxx = zz.split(".")
+zzz = xxx[0]
+#print(zzz)
+typeX = int(sys.argv[2])
+LogOn = int(sys.argv[3])
+
 
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
-
-ff = ROOT.TFile(sys.argv[1])
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()

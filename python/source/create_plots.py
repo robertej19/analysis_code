@@ -14,12 +14,11 @@ print(ff)
 qq = sys.argv[1]
 ww = qq.split("/")
 zz = ww[-1]
-print(ff.GetListOfKeys())
-print(zz)
+#print(ff.GetListOfKeys())
+#print(zz)
 xxx = zz.split(".")
 zzz = xxx[0]
-print(xxx)
-print(zzz)
+#print(zzz)
 typeX = int(sys.argv[2])
 LogOn = int(sys.argv[3])
 
