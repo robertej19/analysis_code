@@ -96,7 +96,7 @@ for kk in ff.GetListOfKeys():
 		if obj.GetEntries()>10 and obj.GetMaximum()>10:
 			histTitle = title
 			type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
-			print(obj.GetEntries())
+			#print(obj.GetEntries())
 			array = plotdistributer(type9,zz,zzz)
 			#if (array[0]==xmin) and (array[2]==qmin):
 				#smalist = [array[4],array[6],array[7],array[8]]
@@ -121,7 +121,7 @@ for xb in avaliablex:
 		p2vals = []
 		p3vals = []
 		for index,xval in enumerate(xmins):
-			qval = qmins(index)
+			qval = qmins[index]
 			if (xval==xb) and (qval==q2):
 				tvals.append(tlists[index])
 				p1vals.append(p1s[index])
