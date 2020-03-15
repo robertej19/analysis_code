@@ -119,9 +119,10 @@ for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   title = obj.GetName()
   if "Ultra_Phi" in title:
+	if obj.GetEntries()>10:
 	  histTitle = title
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
-	  print(title)
+	  print(obj.GetEntries())
 	  plotdistributer(type9,zz,zzz)
 
 
