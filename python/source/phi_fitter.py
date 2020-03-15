@@ -27,7 +27,7 @@ def makeplot(type,logtitle,zz,zzz):
 	h1.Draw("colz")
 
 	#Use a custom function (altough the build in pol2 would also work)
-	func = TF1('func', '[0] + [1]*cos(x) + [2]*cos(2*x)', 0, 360)
+	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'S')
 
 	c1.Draw()
