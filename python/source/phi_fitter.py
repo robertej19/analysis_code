@@ -114,8 +114,16 @@ avaliableq = list(set(qmins))
 print(avaliableq)
 print(avaliablex)
 
+avaliableq = [0.5,1]
+avaliablex = [0.3,0.4]
+numplots = len(avaliableq)*len(avaliablex)
+
+iii = 0
+
 for xb in avaliablex:
 	for q2 in avaliableq:
+		iii = iii +1
+		print("On plot {} of {}".format(iii,numplots))
 		print("analyzing xb - {} q2 - {}".format(xb,q2))
 		tvals = []
 		p1vals = []
@@ -130,21 +138,25 @@ for xb in avaliablex:
 				p3vals.append(p3s[index])
 
 		print("found tvalues of {}".format(tvals))
-		fig, ax = plt.subplots(1)#figure()
-		#fig.autofmt_xdate()
-		plt.plot(tlists,p1s,'+', markersize=12)
-		plt.plot(tlists,p2s,'o', markersize=12)
-		plt.plot(tlists,p3s,'x', markersize=12)
-		axes = plt.gca()
-		axes.set_xlim([0,1])
-		axes.set_ylim([-40,50])
-		fig.suptitle('Fits of Phi Dist. vs. t [xb={}-{},q2={}-{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=20)
-		plt.xlabel('t', fontsize=18)
-		plt.ylabel('Fit parameter values', fontsize=16)
+		if len(tvalues)>0:
+			fig, ax = plt.subplots(1)#figure()
+			#fig.autofmt_xdate()
+			print("Plotting {} and {}".format(tvals,p1vals))
+			plt.plot(tlists,p1s,'+', markersize=12)
+			plt.plot(tlists,p2s,'o', markersize=12)
+			plt.plot(tlists,p3s,'x', markersize=12)
+			axes = plt.gca()
+			axes.set_xlim([0,1])
+			axes.set_ylim([-40,50])
+			fig.suptitle('Fits of Phi Dist. vs. t [xb={}-{},q2={}-{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=20)
+			plt.xlabel('t', fontsize=18)
+			plt.ylabel('Fit parameter values', fontsize=16)
 
-		fig.savefig('plots/test_xb-{}_q2-{}.pdf'.format(xb,q2))
-		plt.close()
-
+			fig.savefig('plots/test_xb-{}_q2-{}.pdf'.format(xb,q2))
+			fig.clear()
+			plt.close(fig)
+		else:
+			print("TValue length is 0, skipping")
 
 		"""
 		fig, ax = plt.subplots(1)#figure()
