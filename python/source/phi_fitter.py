@@ -26,12 +26,12 @@ def makeplot(type,logtitle,zz,zzz):
 
 	h1.Draw("colz")
 
-    #Use a custom function (altough the build in pol2 would also work)
-    func = TF1('func', '[0] + [1]*x + [2]*x**2', 0, 10)
-    fit = h1.Fit('func', 'S')
+	#Use a custom function (altough the build in pol2 would also work)
+	func = TF1('func', '[0] + [1]*x + [2]*x**2', 0, 10)
+	fit = h1.Fit('func', 'S')
 
-    c.Draw()
-    g.Draw('AP')
+	c.Draw()
+	#g.Draw('AP')
 
 	h1.Draw("colz")
 
