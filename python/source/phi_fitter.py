@@ -17,7 +17,7 @@ def plotdistributer(type,zz,zzz):
 	arx = makeplot(type,"LogOFF",zz,zzz)
 	if type[4]:
 		arx = makeplot(type,"LogON",zz,zzz)
-    return arx
+	return arx
 
 def makeplot(type,logtitle,zz,zzz):
 
@@ -61,7 +61,7 @@ def makeplot(type,logtitle,zz,zzz):
 	c1.Draw()
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 	arraystr = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
-    array = [float(i) for i in arraystr]
+	array = [float(i) for i in arraystr]
 	return array
 
 
@@ -79,6 +79,9 @@ os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
 tlists = []
+p1s = []
+p2s = []
+p3s = []
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
@@ -89,9 +92,13 @@ for kk in ff.GetListOfKeys():
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 	  print(obj.GetEntries())
 	  array = plotdistributer(type9,zz,zzz)
-
-      if (array[0]=0.4) and (array[2]=1.5):
-          smalist = [array[4],array[6],array[7],array[8]]
-          tlists.append(smalist)
+	  if (array[0]==0.5) and (array[2]==1):
+          	#smalist = [array[4],array[6],array[7],array[8]]
+          	#tlists.append(smalist)
+		tlists.append(array[4])
+		p1s.append(array[6])
+		p2s.append(array[7])
+		p3s.append(array[8])
 
 print(tlists)
+print(p1s)
