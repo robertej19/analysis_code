@@ -23,9 +23,27 @@ def makeplot(type,logtitle,zz,zzz):
 
 	hist_title = type[0]
 
-    splits = hist_title.split("<")
-    print(splits)
-    h1 = ff.Get(hist_title)
+	split1 = hist_title.split("Phi")[1]
+	splits = split1.split("<")
+	print(splits)	
+	xl = splits[0]
+	group1 = (splits[2]).split("_")
+	print(group1)
+	xh = group1[0]
+	ql = group1[1]
+
+	group2 = (splits[4]).split(" ")
+	print(group2)	
+	qh = group2[1]
+	tl = group2[2]
+	th = splits[6]
+
+
+	print(splits)
+	print("The splits are {} {} {} {} {} {}".format(xl,xh,ql,qh,tl,th))
+
+	h1 = ff.Get(hist_title)
+	
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	h1.Draw("colz")
@@ -49,7 +67,7 @@ def makeplot(type,logtitle,zz,zzz):
 	h1.SetLineWidth(5)
 
 	c1.Draw()
-	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
+	#c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
 
 
 ff = ROOT.TFile(sys.argv[1])
@@ -62,8 +80,8 @@ xxx = zz.split(".")
 zzz = xxx[0]
 #print(zzz)
 
-os.mkdir("plots/"+zzz)
-os.mkdir("plots/"+zzz+"/original_python_pdfs")
+#os.mkdir("plots/"+zzz)
+#os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
