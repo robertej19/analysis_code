@@ -20,8 +20,12 @@ def plotdistributer(type,zz,zzz):
 		makeplot(type,"LogON",zz,zzz)
 
 def makeplot(type,logtitle,zz,zzz):
+
 	hist_title = type[0]
-	h1 = ff.Get(hist_title)
+
+    splits = hist_title.split("<")
+    print(splits)
+    h1 = ff.Get(hist_title)
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	h1.Draw("colz")
@@ -31,7 +35,7 @@ def makeplot(type,logtitle,zz,zzz):
 	fit = h1.Fit('func', 'QR')
 	fit_params = [func.GetParameter(i) for i in range(0,3)]
 
-	print("parameter list is: {}".format(fit_params))
+	#print("parameter list is: {}".format(fit_params))
 
 	c1.Draw()
 	#g.Draw('AP')
