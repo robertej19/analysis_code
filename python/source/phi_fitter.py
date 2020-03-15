@@ -23,27 +23,20 @@ def makeplot(type,logtitle,zz,zzz):
 
 	hist_title = type[0]
 
+    #Title comprehension. Should be built in a separte function.
 	split1 = hist_title.split("Phi")[1]
 	splits = split1.split("<")
-	print(splits)	
 	xl = splits[0]
 	group1 = (splits[2]).split("_")
-	print(group1)
 	xh = group1[0]
 	ql = group1[1]
-
 	group2 = (splits[4]).split(" ")
-	print(group2)	
 	qh = group2[1]
 	tl = group2[2]
 	th = splits[6]
 
-
-	print(splits)
-	print("The splits are {} {} {} {} {} {}".format(xl,xh,ql,qh,tl,th))
-
 	h1 = ff.Get(hist_title)
-	
+
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	h1.Draw("colz")
@@ -52,11 +45,10 @@ def makeplot(type,logtitle,zz,zzz):
 	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'QR')
 	fit_params = [func.GetParameter(i) for i in range(0,3)]
-
+    fp = fit_params
 	#print("parameter list is: {}".format(fit_params))
 
 	c1.Draw()
-	#g.Draw('AP')
 
 	h1.Draw("colz")
 
@@ -67,7 +59,9 @@ def makeplot(type,logtitle,zz,zzz):
 	h1.SetLineWidth(5)
 
 	c1.Draw()
-	#c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
+	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
+    array = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
+    print(array)
 
 
 ff = ROOT.TFile(sys.argv[1])
