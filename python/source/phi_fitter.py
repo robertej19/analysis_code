@@ -45,7 +45,7 @@ def makeplot(type,logtitle,zz,zzz):
 	func = TF1('func', '[0] + [1]*cos(x*3.14159/180) + [2]*cos(2*x*3.14159/180)', 0, 360)
 	fit = h1.Fit('func', 'QR')
 	fit_params = [func.GetParameter(i) for i in range(0,3)]
-    fp = fit_params
+	fp = fit_params
 	#print("parameter list is: {}".format(fit_params))
 
 	c1.Draw()
@@ -60,8 +60,8 @@ def makeplot(type,logtitle,zz,zzz):
 
 	c1.Draw()
 	c1.Print("plots/{}/original_python_pdfs/{}_{}.pdf".format(zzz,logtitle,type[0]))
-    array = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
-    print(array)
+	array = [xl, xh, ql, qh, tl, th, fp[0], fp[1], fp[2]]
+	print(array)
 
 
 ff = ROOT.TFile(sys.argv[1])
@@ -74,8 +74,8 @@ xxx = zz.split(".")
 zzz = xxx[0]
 #print(zzz)
 
-#os.mkdir("plots/"+zzz)
-#os.mkdir("plots/"+zzz+"/original_python_pdfs")
+os.mkdir("plots/"+zzz)
+os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
 for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
