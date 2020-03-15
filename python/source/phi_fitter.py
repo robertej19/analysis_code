@@ -138,7 +138,7 @@ for xb in avaliablex:
 				p3vals.append(p3s[index])
 
 		print("found tvalues of {}".format(tvals))
-		if len(tvalues)>0:
+		if len(tvals)>0:
 			fig, ax = plt.subplots(1)#figure()
 			#fig.autofmt_xdate()
 			print("Plotting {} and {}".format(tvals,p1vals))
