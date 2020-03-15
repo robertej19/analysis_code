@@ -7,7 +7,7 @@ import ROOT
 from ROOT import gStyle
 from ROOT import gROOT
 from ROOT import TStyle
-
+import matplotlib.pyplot as plt
 import numpy as np
 from ROOT import TCanvas, TGraph
 from ROOT import TF1
