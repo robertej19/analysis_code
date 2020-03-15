@@ -119,7 +119,7 @@ for kk in ff.GetListOfKeys():
   obj = kk.ReadObj()
   title = obj.GetName()
   if "Ultra_Phi" in title:
-	if obj.GetEntries()>10:
+	if obj.GetEntries()>10 and obj.GetMaximum()>10:
 	  histTitle = title
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 	  print(obj.GetEntries())
