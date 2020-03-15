@@ -23,7 +23,7 @@ def makeplot(type,logtitle,zz,zzz):
 
 	hist_title = type[0]
 
-    #Title comprehension. Should be built in a separte function.
+	#Title comprehension. Should be built in a separte function.
 	split1 = hist_title.split("Phi")[1]
 	splits = split1.split("<")
 	xl = splits[0]
@@ -78,6 +78,9 @@ zzz = xxx[0]
 #os.mkdir("plots/"+zzz)
 #os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
+
+xmins = []
+qmins = []
 tlists = []
 p1s = []
 p2s = []
@@ -87,29 +90,37 @@ xmin = float(sys.argv[2])
 qmin = float(sys.argv[3])
 
 for kk in ff.GetListOfKeys():
-  obj = kk.ReadObj()
-  title = obj.GetName()
-  if "Ultra_Phi" in title:
-	if obj.GetEntries()>10 and obj.GetMaximum()>10:
-	  histTitle = title
-	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
-	  print(obj.GetEntries())
-	  array = plotdistributer(type9,zz,zzz)
-	  if (array[0]==xmin) and (array[2]==qmin):
-          	#smalist = [array[4],array[6],array[7],array[8]]
-          	#tlists.append(smalist)
-		tlists.append(array[4])
-		p1s.append(array[6])
-		p2s.append(array[7])
-		p3s.append(array[8])
+	obj = kk.ReadObj()
+	title = obj.GetName()
+	if "Ultra_Phi" in title:
+		if obj.GetEntries()>10 and obj.GetMaximum()>10:
+			histTitle = title
+			type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
+			print(obj.GetEntries())
+			array = plotdistributer(type9,zz,zzz)
+			#if (array[0]==xmin) and (array[2]==qmin):
+				#smalist = [array[4],array[6],array[7],array[8]]
+				#tlists.append(smalist)
+			xmins.append(array[0])
+			qmins.append(array[2])
+			tlists.append(array[4])
+			p1s.append(array[6])
+			p2s.append(array[7])
+			p3s.append(array[8])
 
-fig, ax = plt.subplots(1)#figure()
-#fig.autofmt_xdate()
-plt.plot(tlists,p1s,'+', markersize=12)
-plt.plot(tlists,p2s,'o', markersize=12)
-plt.plot(tlists,p3s,'x', markersize=12)
-fig.suptitle('Fits of Phi Distribution vs. t', fontsize=20)
-plt.xlabel('t', fontsize=18)
-plt.ylabel('Fit parameter values (structure functions)', fontsize=16)
 
-fig.savefig('plots/test_{}_{}.pdf'.format(xmin,qmin))
+for Xindex, xb in xmins:
+	for Qindex, q2 in qmins:
+		fig, ax = plt.subplots(1)#figure()
+		#fig.autofmt_xdate()
+		plt.plot(tlists,p1s,'+', markersize=12)
+		plt.plot(tlists,p2s,'o', markersize=12)
+		plt.plot(tlists,p3s,'x', markersize=12)
+		axes = plt.gca()
+		axes.set_xlim([0,1])
+		axes.set_ylim([-40,50])
+		fig.suptitle('Fits of Phi Dist. vs. t [xb={}-{},q2={}-{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=20)
+		plt.xlabel('t', fontsize=18)
+		plt.ylabel('Fit parameter values (structure functions)', fontsize=16)
+
+		fig.savefig('plots/test_xb-{}_q2-{}.pdf'.format(xb,q2))
