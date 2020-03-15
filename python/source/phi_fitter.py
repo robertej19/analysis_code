@@ -116,6 +116,7 @@ print(avaliablex)
 
 for xb in avaliablex:
 	for q2 in avaliableq:
+		print("analyzing xb - {} q2 - {}".format(xb,q2))
 		tvals = []
 		p1vals = []
 		p2vals = []
@@ -128,6 +129,7 @@ for xb in avaliablex:
 				p2vals.append(p2s[index])
 				p3vals.append(p3s[index])
 
+		print("found tvalues of {}".format(tvals))
 		fig, ax = plt.subplots(1)#figure()
 		#fig.autofmt_xdate()
 		plt.plot(tlists,p1s,'+', markersize=12)
@@ -138,9 +140,10 @@ for xb in avaliablex:
 		axes.set_ylim([-40,50])
 		fig.suptitle('Fits of Phi Dist. vs. t [xb={}-{},q2={}-{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=20)
 		plt.xlabel('t', fontsize=18)
-		plt.ylabel('Fit parameter values (structure functions)', fontsize=16)
+		plt.ylabel('Fit parameter values', fontsize=16)
 
 		fig.savefig('plots/test_xb-{}_q2-{}.pdf'.format(xb,q2))
+		plt.close()
 
 
 		"""
