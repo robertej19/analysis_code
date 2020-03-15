@@ -118,7 +118,7 @@ print(avaliablex)
 numplots = len(avaliableq)*len(avaliablex)
 
 iii = 0
-
+gg = 0 
 for xb in avaliablex:
 	for q2 in avaliableq:
 		iii = iii +1
@@ -138,6 +138,8 @@ for xb in avaliablex:
 
 		print("found tvalues of {}".format(tvals))
 		if len(tvals)>0:
+			gg = gg + 1
+			print("Plotting nonzero t plot number {}".format(gg))
 			fig, ax = plt.subplots(1)#figure()
 			#fig.autofmt_xdate()
 			print("Plotting {} and {}".format(tvals,p1vals))
@@ -147,7 +149,7 @@ for xb in avaliablex:
 			axes = plt.gca()
 			axes.set_xlim([0,1])
 			axes.set_ylim([-40,50])
-			fig.suptitle('Fits of Phi Dist. vs. t ({}<xb<{},{}<q2<{}}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=16)
+			fig.suptitle('Fits of Phi Dist. vs. t ({}<xb<{},{}<q2<{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=16)
 			plt.xlabel('t', fontsize=16)
 			plt.ylabel('Fit parameter values', fontsize=16)
 
