@@ -156,6 +156,7 @@ for xb in avaliablex:
 			fig.suptitle('Fits of Phi Dist. vs. t ({}<xb<{},{}<q2<{}]'.format(xb,xb+0.1,q2,q2+0.5), fontsize=16)
 			plt.xlabel('t', fontsize=16)
 			plt.ylabel('Fit parameter values', fontsize=16)
+			plt.legend(loc="upper left")
 
 				#p1 = sigmaT + epsigmaL
 				#p2 = ep sigmaTT
