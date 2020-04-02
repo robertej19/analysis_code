@@ -89,20 +89,20 @@ type5 = ("output_file_histos_Hist_LeptHadAngle",
 
 type6 = ("output_file_histos_Hist_hproThetaCD",
 	"Proton Angle (Theta) in CD (Status > 4000)","Angle","Counts",
-	0,0,0,500,0,0)
+	0,0,0,300,0,0)
 
 type7 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD (2000 < Status < 4000)","Angle","Counts",
-	0,0,0,500,0,0)
+	0,0,0,300,0,0)
 
 
 Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
-	0,0,0,110000,1,"output_file_histos_Hist_hproThetaCD")
+	0,0,0,200000,1,"output_file_histos_Hist_hproThetaCD")
 
 Dtype9 = ("output_file_histos_Hist_hproThetaFDaftercuts",
 	"Proton Angle (Theta) in FD and in CD after Excl. Cuts","Angle","Counts",
-	0,0,0,500,1,"output_file_histos_Hist_hproThetaCDaftercuts")
+	0,0,0,300,1,"output_file_histos_Hist_hproThetaCDaftercuts")
 
 
 #plots = [type1,type9]
