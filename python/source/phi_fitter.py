@@ -113,7 +113,7 @@ for kk in ff.GetListOfKeys():
 avaliablex = list(set(xmins))
 avaliableq = list(set(qmins))
 
-#valiablex = [0.4,0.5]
+#avaliablex = [0.4,0.5]
 #avaliableq = [1,1.5]
 
 print(avaliableq)

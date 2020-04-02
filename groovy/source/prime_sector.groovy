@@ -67,7 +67,7 @@ def FileGetter(FileLocation){
 	return FileList
 }
 
-def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins) {
+def processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins,hproThetaFD-aftercuts,hproThetaCD-aftercuts) {
 	def beam = LorentzVector.withPID(11,0,0,10.6)
 	def target = LorentzVector.withPID(2212,0,0,0)
 
@@ -264,6 +264,15 @@ When it comes to presenting, this will be the first question.
 								heleproThetaDVPP.fill(protheta,eletheta)
 								hLeptHadAngle.fill(LeptHadAngle)
 								Hist_beta_T[title].fill(tt0)
+
+								if (partb.getInt('status',ipro) > 4000){
+									hproThetaCD-aftercuts.fill(protheta)
+								}
+								if ((partb.getInt('status',ipro) < 4000) && (partb.getInt('status',ipro) > 2000)){
+									hproThetaFD-aftercuts.fill(protheta)
+								}
+
+
 								Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
 								if(tt0<0.9){
 									println("TilteUltra is: $TitleUltra")
@@ -315,6 +324,8 @@ def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def hproThetaFD = new H1F("Hist_hproThetaFD","Proton Theta Distribution in FD",2500,0,150)
 def hproThetaCD = new H1F("Hist_hproThetaCD","Proton Theta Distribution in CD",2500,0,150)
+def hproThetaFD-aftercuts = new H1F("Hist_hproThetaFD-aftercuts","Proton Theta Distribution in FD After Excl. Cuts",2500,0,150)
+def hproThetaCD-aftercuts = new H1F("Hist_hproThetaCD-aftercuts","Proton Theta Distribution in CD After Excl. Cuts",2500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
 def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,55)
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
@@ -366,7 +377,7 @@ for (int i=0; i < FilesToProcess.size(); i++) {
 		evcount.getAndIncrement()
 		screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess)
 		def event = reader.getNextEvent()
-		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins)
+		processEvent(event,hhel,hphi,hq2,hW,hxB,H_xB_Q2,heleTheta,hproTheta,heleproTheta,heleproThetaDVPP,htmom,htmomrecon,hLeptHadAngle,hproThetaFD,hproThetaCD,Hist_beta_p,Hist_beta_T,Hist_Ultra_Phi,t_bins,hproThetaFD-aftercuts,hproThetaCD-aftercuts)
 		//println "num ep events = " + num_ep_events
 		//println "num dvpp evnets = " + num_dvpp_events
 	}
@@ -430,6 +441,10 @@ out.addDataSet(heleproTheta)
 out.addDataSet(heleproThetaDVPP)
 out.addDataSet(hproThetaFD)
 out.addDataSet(hproThetaCD)
+
+out.addDataSet(hproThetaFD-aftercuts)
+out.addDataSet(hproThetaCD-aftercuts)
+
 out.addDataSet(H_xB_Q2)
 out.addDataSet(htmom)
 out.addDataSet(htmomrecon)
