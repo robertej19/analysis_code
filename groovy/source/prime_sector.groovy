@@ -247,9 +247,9 @@ When it comes to presenting, this will be the first question.
 									}
 								}
 
-								if(TitleUltra==0){
-									println("Ultra is 0, t is $tt0")
-								}
+								//if(TitleUltra==0){
+							//		println("Ultra is 0, t is $tt0")
+							//	}
 
 
 								//num_dvpp_events = num_dvpp_events + 1
@@ -274,9 +274,9 @@ When it comes to presenting, this will be the first question.
 
 
 								Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
-								if(tt0<0.9){
-									println("TilteUltra is: $TitleUltra")
-								}
+								//if(tt0<0.9){
+								//	println("TilteUltra is: $TitleUltra")
+								//}
 								//printer("title of ispis is : $title",0)
 								//println(Math.round(tt0*10)/10)
 								dvmp_counts = dvmp_counts +1
