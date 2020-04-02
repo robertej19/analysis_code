@@ -48,7 +48,7 @@ def makeplot(type,logtitle,zz,zzz):
 	h1.SetTitle(type[1])
 	h1.SetXTitle(type[2])
 	h1.SetYTitle(type[3])
-	h1.SetLineWidth(5)
+	#h1.SetLineWidth(5) #use this to make line width thicker
 
 	if logtitle == "LogON":
 		c1.SetLogz()
