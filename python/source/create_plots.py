@@ -89,18 +89,26 @@ type5 = ("output_file_histos_Hist_LeptHadAngle",
 
 type6 = ("output_file_histos_Hist_hproThetaCD",
 	"Proton Angle (Theta) in CD (Status > 4000)","Angle","Counts",
-	0,0,0,110000,0,0)
+	0,0,0,500,0,0)
 
 type7 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD (2000 < Status < 4000)","Angle","Counts",
-	0,0,0,110000,0,0)
+	0,0,0,500,0,0)
+
 
 Dtype8 = ("output_file_histos_Hist_hproThetaFD",
 	"Proton Angle (Theta) in FD and in CD","Angle","Counts",
 	0,0,0,110000,1,"output_file_histos_Hist_hproThetaCD")
 
+Dtype9 = ("output_file_histos_Hist_hproThetaFDaftercuts",
+	"Proton Angle (Theta) in FD and in CD after Excl. Cuts","Angle","Counts",
+	0,0,0,500,1,"output_file_histos_Hist_hproThetaCDaftercuts")
+
+
 #plots = [type1,type9]
-plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
+#plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
+plots = [type6,type7,Dtype8,Dtype9]
+
 
 os.mkdir("plots/"+zzz)
 os.mkdir("plots/"+zzz+"/original_python_pdfs")
@@ -109,6 +117,8 @@ os.mkdir("plots/"+zzz+"/original_python_pdfs")
 #xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
 #Full q2 range:
 #q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0", "6.5", "7.0","7.5","8.0", "8.5"]
+
+"""
 xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
 q2Range = ["1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
 tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
@@ -123,7 +133,7 @@ for kk in ff.GetListOfKeys():
 	  type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
 	  print(obj.GetEntries())
 	  plotdistributer(type9,zz,zzz)
-
+"""
 
 """
 for k in range(0,len(tRange)-1):
@@ -146,7 +156,5 @@ for j in range(0,len(q2Range)-1) :
 		print(title)
 		plotdistributer(type9,zz,zzz)
 """
-"""
 for type in plots:
 	plotdistributer(type,zz,zzz)
-"""
