@@ -175,55 +175,56 @@ def procStartTime = starttime.getTime()
 
 
 
-
-
-for (int i=0; i < FilesToProcess.size(); i++) {
+GParsPool.withPool 6, {
+	
+		//for (int i=0; i < FilesToProcess.size(); i++) {
 			//print(args.length)
 			//args.eachParallel{fname->
-			//FilesToProcess.eachParallel{fname->
-			def reader = new HipoDataSource()
-			def fname = FilesToProcess[i]
-			reader.open(fname)
-			printer("processing file ${fname}",1)
-			def NumEventsInFile= reader.getSize().toInteger()
-			def NumEventsToProcess = DesiredNumEventsToProcess
-			if (DesiredNumEventsToProcess == 0){NumEventsToProcess = NumEventsInFile}
-			//printer("\n \n $fname has ${(NumEventsToProcess/Mil).round(2)} M events, is file number ${i+1} of ${FilesToProcess.size()}",2)
-			def evcount = new AtomicInteger()
-			evcount.set(0)
+			FilesToProcess.eachParallel{fname->
+				def reader = new HipoDataSource()
+				//def fname = FilesToProcess[i]
+				reader.open(fname)
+				printer("processing file ${fname}",1)
+				def NumEventsInFile= reader.getSize().toInteger()
+				def NumEventsToProcess = DesiredNumEventsToProcess
+				if (DesiredNumEventsToProcess == 0){NumEventsToProcess = NumEventsInFile}
+				//printer("\n \n $fname has ${(NumEventsToProcess/Mil).round(2)} M events, is file number ${i+1} of ${FilesToProcess.size()}",2)
+				def evcount = new AtomicInteger()
+				evcount.set(0)
 
-			def date = new Date()
-			def FileStartTime = date.getTime()
-			printer("Process file $fname at ${date.format('HH:mm:ss')}",1)
+				def date = new Date()
+				def FileStartTime = date.getTime()
+				printer("Process file $fname at ${date.format('HH:mm:ss')}",1)
 
 
-			def CountRate = NumEventsToProcess/10
-			for (int j=0; j < NumEventsToProcess; j++) {
-				evcount.getAndIncrement()
-				screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname)
-				def event = reader.getNextEvent()
-				processEvent(event,hxB)
+				def CountRate = NumEventsToProcess/10
+				for (int j=0; j < NumEventsToProcess; j++) {
+					evcount.getAndIncrement()
+					screen_updater(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname)
+					def event = reader.getNextEvent()
+					processEvent(event,hxB)
+				}
+
+				endtime = new Date()
+				def TotalFileRunTime = (endtime.getTime() - FileStartTime)/1000/60
+				printer("Finished processing ${(NumEventsToProcess/Mil).round(2)} M events at ${date.format('HH:mm:ss')},total run time ${TotalFileRunTime.round(2)} minutes",1)
+				reader.close()
+
+				TotalRunTime += TotalFileRunTime
+				TotalNumEventsProcessed += NumEventsToProcess
+				//printer("Processed ${(i+1)} files, ${(TotalNumEventsProcessed/Mil).round(2)} M events, have ${FilesToProcess.size()-i-1} files left to process",1)
+
+				//def TotalTimeLeft = TotalRunTime*(FilesToProcess.size()-i-1)/(i+1)
+				//file_length_processed += fname.length()
+				//def TotalTimeLeft = TotalRunTime*(total_file_length-file_length_processed)/file_length_processed
+				//uTSX = Math.round(TotalTimeLeft*60+endtime.getTime()/1000)
+				//def etaTotal = Date.from(Instant.ofEpochSecond(uTSX)).format('HH:mm:ss')
+				//p//rinter("Total Run Time of ${TotalRunTime.round(2)} minutes, approximate finish time at ${etaTotal} ",1)
+				//printer("Total num DVMP counts so far is $dvmp_counts",2)
+				reader.close()
+
 			}
-
-			endtime = new Date()
-			def TotalFileRunTime = (endtime.getTime() - FileStartTime)/1000/60
-			printer("Finished processing ${(NumEventsToProcess/Mil).round(2)} M events at ${date.format('HH:mm:ss')},total run time ${TotalFileRunTime.round(2)} minutes",1)
-			reader.close()
-
-			TotalRunTime += TotalFileRunTime
-			TotalNumEventsProcessed += NumEventsToProcess
-			//printer("Processed ${(i+1)} files, ${(TotalNumEventsProcessed/Mil).round(2)} M events, have ${FilesToProcess.size()-i-1} files left to process",1)
-
-			//def TotalTimeLeft = TotalRunTime*(FilesToProcess.size()-i-1)/(i+1)
-			//file_length_processed += fname.length()
-			//def TotalTimeLeft = TotalRunTime*(total_file_length-file_length_processed)/file_length_processed
-			//uTSX = Math.round(TotalTimeLeft*60+endtime.getTime()/1000)
-			//def etaTotal = Date.from(Instant.ofEpochSecond(uTSX)).format('HH:mm:ss')
-			//p//rinter("Total Run Time of ${TotalRunTime.round(2)} minutes, approximate finish time at ${etaTotal} ",1)
-			//printer("Total num DVMP counts so far is $dvmp_counts",2)
-			reader.close()
-
-		}
+	}
 //}
 
 
@@ -236,7 +237,6 @@ out.cd('/'+OutFileName)
 out.addDataSet(hxB)
 out.writeFile(" ${OutFileName} ${dateX.format('HH:mm:ss')}.hipo")
 
-//printer("confirm start time of ${procStartTime}",1)
-
+//printer("confirm start time of ${procStartTime.format('HH:mm:ss')}",1)
 
 //exe.shutdown()

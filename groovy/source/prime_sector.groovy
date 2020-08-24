@@ -132,7 +132,7 @@ When it comes to presenting, this will be the first question.
 			printer("first electron is"+ele,0)
 
 			if(event.hasBank("MC::Particle")) {
-				printer("Event has MC Particle bank!",0)
+				printer("Event has MC Particle bank!",1)
 				def mcb = event.getBank("MC::Particle")
 				def mfac = (partb.getShort('status',ipro)/1000).toInteger()==2 ? 3.2 : 2.5
 

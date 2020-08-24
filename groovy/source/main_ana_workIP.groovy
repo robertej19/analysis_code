@@ -84,33 +84,12 @@ def processEvent(event,hxB) {
 		def ihel = evb.getByte('helicity',0)
 		printer("ihel is "+ihel,0)
 
+		def fcupBeamCharge = evb.getFloat('beamCharge',0)
 
-		def index_of_electrons_and_protons = (0..<partb.rows()).findAll{partb.getInt('pid',it)==11 && partb.getShort('status',it)<0}
-			.collectMany{iele->(0..<partb.rows()).findAll{partb.getInt('pid',it)==2212}.collect{ipro->[iele,ipro]}
-		}
-		printer("index_of_electrons_and_protons "+index_of_electrons_and_protons,0)
-
-
-		def isep0s = index_of_electrons_and_protons.findAll{iele,ipro->
-			def ele = LorentzVector.withPID(11,*['px','py','pz'].collect{partb.getFloat(it,iele)})
-			def pro = LorentzVector.withPID(2212,*['px','py','pz'].collect{partb.getFloat(it,ipro)})
-			printer("first electron is"+ele,0)
-
-
+		printer("fcup charge is ${fcupBeamCharge}",1)
 
 		
 
-			def qvec = beam-ele
-
-
-
-			def xBjorken = -qvec.mass2()/(2*pro.vect().dot(qvec.vect()))
-			printer("adding XB to hist "+index_of_electrons_and_protons,0)
-
-			hxB.fill(xBjorken)
-
-			
-		}
 	}
 }
 
