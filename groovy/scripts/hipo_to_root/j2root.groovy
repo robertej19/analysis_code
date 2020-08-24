@@ -173,7 +173,7 @@ ff.Close()
 def pythonFile = File.createTempFile('j2root','.py')
 pythonFile<<pythonCode
 
-def pycmd = 'python '+pythonFile.getAbsolutePath()+' '+fout.getAbsolutePath()+' '+args[0]
+def pycmd = 'python2 '+pythonFile.getAbsolutePath()+' '+fout.getAbsolutePath()+' '+args[0]
 println pycmd
 def proc = pycmd.execute()
 println proc.text
