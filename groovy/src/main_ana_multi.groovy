@@ -77,11 +77,10 @@ def OutFileName = "output_file_histos"
 
 total_counts = 0
 lumi_total = 0
-dvmp_counts = 0
 def GlobalNumEventsProcessed = 0
 def GlobalRunTime = 0
 def num_ep_events = 0
-def num_dvpp_events = 0
+def NumGlobalDVPPEvents = 0
 def NumFilesProcessed = 0
 def GlobalFileSizeToProcess = 0
 def GlobalFileSizeProcessed = 0
@@ -127,20 +126,12 @@ GParsPool.withPool NumCores, {
 		def evcount = new AtomicInteger() // for counting how many events have been processed
 		evcount.set(0)
 		def Float fcc_final = 0 //For counting charge on faraday cup
-
-		// ***************** FIX HERE *********** 
-
-		
-		dvmp_counts = 0
-
+		def NumLocalDVPPEvents = 0
+	
 		def FileStartTime = date.getTime()
 		printerUtil.printer("Processing file $fname - ${(NumEventsToProcess/Mil).round(3)} M events events at ${date.format('HH:mm:ss')}",1)
 
 
-
-		// ************* Fix above **********
-		
-		
 		
 		// ******* Pass to event processor, increment variables of interest ****** //
 		for (int j=0; j < NumEventsToProcess; j++) {
@@ -149,24 +140,13 @@ GParsPool.withPool NumCores, {
 			def event = reader.getNextEvent()
 			funreturns = eventProcessor.processEvent(event,hxB,fcc_final)
 			fcc_final = funreturns[0]
-			hxB = funreturns[1]
+			NumLocalDVPPEvents += funreturns[1]
+			hxB = funreturns[2]
 		}
 
 		reader.close()
 
-		// ******* Compile and print statistics ****** //
-
-
-		//**
-		//println("processing file ${fname}")
-		//println("final fcup charge in nc: "+fcc_final)
-		//println(lumicalc.CalcLumi(fcc_final))
-		//total_counts = total_counts + dvmp_counts
-		//println("total caounts of dvmp is " + total_counts)
-		//lumi_total = lumi_total + lumicalc.CalcLumi(fcc_final)
-		//println("total lumi is " + lumi_total)
-		//printerUtil.printer("Total num DVMP counts so far is $dvmp_counts",2)
-
+		// ******* Compile and print runtime statistics ****** //
 
 		FileEndTime = new Date()
 		def TotalFileRunTime = (FileEndTime.getTime() - FileStartTime)/1000/60 //Time to process file in minutes
@@ -180,14 +160,27 @@ GParsPool.withPool NumCores, {
 		
 
 		print("Finished processing ${(NumEventsToProcess/Mil).round(2)} M events at ${date.format('HH:mm:ss')}, ")
+		println("Processed $GlobalNumEventsProcessed events globally")
 		if(TotalFileRunTime > 1){
-			printerUtil.printer("total run time ${TotalFileRunTime.round(2)} minutes",1)
+			print("Total run time of ${TotalFileRunTime.round(2)} minutes, ")
 		}
 		else{
-			printerUtil.printer("total run time ${(TotalFileRunTime*60).round(2)} seconds",1)
+			print("Total run time of ${(TotalFileRunTime*60).round(2)} seconds, ")
 		}
-		println("Processed $GlobalNumEventsProcessed events globally")
-		printerUtil.printer("Total Run Time of ${GlobalRunTime.round(2)} minutes, approximate finish time at ${ReadableETA} ",1)
+		printerUtil.printer(" approximate global finish time at ${ReadableETA} ",1)
+
+		// ******* Compile and print Physics statistics ****** //
+
+		NumGlobalDVPPEvents += NumLocalDVPPEvents
+
+
+		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
+
+		//println("final fcup charge in nc: "+fcc_final)
+		//println(lumicalc.CalcLumi(fcc_final))
+		//lumi_total = lumi_total + lumicalc.CalcLumi(fcc_final)
+		//println("total lumi is " + lumi_total)
+
 	}
 }
 
@@ -205,8 +198,8 @@ if(ScriptRunTime > 1){
 else{
 	println("total runtime: ${(ScriptRunTime*60).round(2)} seconds \n \n \n \n")
 }
+println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed")
 
-//println("final total caounts of dvmp is " + total_counts)
 //println("final total lumi is " + lumi_total)
 
 //********* Save data in hipo file *****************

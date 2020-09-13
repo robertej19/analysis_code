@@ -40,7 +40,7 @@ import groovy.io.FileType
 
 class EventProcessor {
 
-	
+	def dvpp_event = 0
 
 	def processEvent(event,hxB,fcc_final) {
 
@@ -218,11 +218,7 @@ class EventProcessor {
 								//		println("Ultra is 0, t is $tt0")
 								//	}
 
-
-									//num_dvpp_events = num_dvpp_events + 1
-								
-									//dvmp_counts = dvmp_counts +1
-									//println("num dvmp counts is $dvmp_counts")
+									dvpp_event = 1
 								}
 							}
 						}
@@ -232,7 +228,7 @@ class EventProcessor {
 				//return false
 			}
 		}
-		return [fcc_final, hxB]
+		return [fcc_final, dvpp_event, hxB]
 	}
 
 }
