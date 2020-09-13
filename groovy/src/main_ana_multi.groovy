@@ -75,8 +75,7 @@ def FilesToProcess = fg.GetFile(args[0]).take(NumFilesToProcess) //args[0] is th
 Mil = 1000000
 def OutFileName = "output_file_histos"
 
-total_counts = 0
-lumi_total = 0
+def GlobalLumiTotal = 0
 def GlobalNumEventsProcessed = 0
 def GlobalRunTime = 0
 def num_ep_events = 0
@@ -112,6 +111,8 @@ GParsPool.withPool NumCores, {
 		def reader = new HipoDataSource()
 		reader.open(fname)
 
+		def fname_short = fname.toString().split('/').last()
+
 		def NumEventsInFile= reader.getSize().toInteger()
 		def NumEventsToProcess = DesiredNumEventsToProcess
 			if (DesiredNumEventsToProcess > NumEventsInFile){NumEventsToProcess = NumEventsInFile}
@@ -122,34 +123,34 @@ GParsPool.withPool NumCores, {
 		
 
 		// *********** Define file specific stats *********
-		def date = new Date() // for runtime statistics
 		def evcount = new AtomicInteger() // for counting how many events have been processed
 		evcount.set(0)
-		def Float fcc_final = 0 //For counting charge on faraday cup
+		def Float FCupCharge = 0 //For counting charge on faraday cup
 		def NumLocalDVPPEvents = 0
-	
-		def FileStartTime = date.getTime()
-		printerUtil.printer("Processing file $fname - ${(NumEventsToProcess/Mil).round(3)} M events events at ${date.format('HH:mm:ss')}",1)
+		def FileStartTime = new Date()
+		println("\n \n \n \n Processing file $fname_short - ${(NumEventsToProcess/Mil).round(3)} M events events at ${FileStartTime.format('HH:mm:ss')}")
 
 
 		
 		// ******* Pass to event processor, increment variables of interest ****** //
 		for (int j=0; j < NumEventsToProcess; j++) {
 			evcount.getAndIncrement()
-			su.UpdateScreen(FileStartTime,evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname)
+			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(event,hxB,fcc_final)
-			fcc_final = funreturns[0]
+			funreturns = eventProcessor.processEvent(event,hxB,FCupCharge)
+			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			hxB = funreturns[2]
 		}
 
 		reader.close()
 
+		println("Num DVPP Events found in file $fname_short is $NumLocalDVPPEvents")
+
 		// ******* Compile and print runtime statistics ****** //
 
 		FileEndTime = new Date()
-		def TotalFileRunTime = (FileEndTime.getTime() - FileStartTime)/1000/60 //Time to process file in minutes
+		def TotalFileRunTime = (FileEndTime.getTime() - FileStartTime.getTime())/1000/60 //Time to process file in minutes
 		NumFilesProcessed++
 		GlobalRunTime += TotalFileRunTime
 		GlobalNumEventsProcessed += NumEventsToProcess
@@ -159,7 +160,7 @@ GParsPool.withPool NumCores, {
 		def ReadableETA = Date.from(Instant.ofEpochSecond(unixtimeETA)).format('HH:mm:ss') //convert unix timestamp to readable time
 		
 
-		print("Finished processing ${(NumEventsToProcess/Mil).round(2)} M events at ${date.format('HH:mm:ss')}, ")
+		print("Finished processing ${(NumEventsToProcess/Mil).round(2)} M events at ${FileEndTime.format('HH:mm:ss')}, ")
 		println("Processed $GlobalNumEventsProcessed events globally")
 		if(TotalFileRunTime > 1){
 			print("Total run time of ${TotalFileRunTime.round(2)} minutes, ")
@@ -172,14 +173,11 @@ GParsPool.withPool NumCores, {
 		// ******* Compile and print Physics statistics ****** //
 
 		NumGlobalDVPPEvents += NumLocalDVPPEvents
-
+		GlobalLumiTotal += lumicalc.CalcLumi(FCupCharge)
 
 		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
-
-		//println("final fcup charge in nc: "+fcc_final)
-		//println(lumicalc.CalcLumi(fcc_final))
-		//lumi_total = lumi_total + lumicalc.CalcLumi(fcc_final)
-		//println("total lumi is " + lumi_total)
+		println("Charge on FCup from this run: $FCupCharge in nanoColoumbs")
+		println("Total Integrated Luminosity so far is $GlobalLumiTotal-- UNITS???")
 
 	}
 }
@@ -198,9 +196,9 @@ if(ScriptRunTime > 1){
 else{
 	println("total runtime: ${(ScriptRunTime*60).round(2)} seconds \n \n \n \n")
 }
+println("Processed a total of $NumFilesProcessed files")
 println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed")
-
-//println("final total lumi is " + lumi_total)
+println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS???")
 
 //********* Save data in hipo file *****************
 TDirectory out = new TDirectory()

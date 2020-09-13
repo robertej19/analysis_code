@@ -228,7 +228,7 @@ class EventProcessor {
 				//return false
 			}
 		}
-		return [fcc_final, dvpp_event, hxB]
+		return [fcc_final, 1, hxB]
 	}
 
 }
