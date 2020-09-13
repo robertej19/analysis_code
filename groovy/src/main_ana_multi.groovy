@@ -45,15 +45,31 @@ import utils.EventProcessor
 
 MyMods.enable() //I don't know what this does, its from Andrey, don't touch it, it works
 
-println("\n \n \n \n \n \n \n \n \n \n \n \n \n \n")
+startTime = new Date()
+println("\n \n Starting Groovy Script at ${startTime.format('HH:mm:ss')} \n \n \n \n")
 
-Mil = 1000000
+//Read in command line arguements and initilaze globals and objets
+if (args.size()<4) {
+	println("You need to include the number of events and files you want to process in the start command, and number of cores!")
+	println("THe first arg is the number of events per file to process, the second arg is the number of files to process, and the third is the number of cores")
+	println("You can put a 0 for either files or number of events, this will result in all files / events being processed")
+	println("For example, <run-groovy filename.groovy hipo_file_to_process.hipo 1000 10 3")
+	println("Please enter this correctly, and try again. Exiting. \n \n")
+	System.exit(0)
+}
 
-dvmp_counts = 0
+def DesiredNumEventsToProcess = args[1].toInteger()
+def NumFilesToProcess = args[2].toInteger()
+def NumCores = args[3].toInteger()
 
 def eventProcessor = new EventProcessor()
 def fg = new FileGetter()
 printerUtil = new Printer() //This needs to be defined as global (no def before the object name) so that it can be used in all methods
+
+Mil = 1000000
+
+
+
 
 def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts,filename){
 	if(CurrentCounter % CountRate == 0){
@@ -75,20 +91,15 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts,filenam
 
 
 
-def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 
-if (args.size()<3) {
-	printerUtil.printer("You need to include the number of events and files you want to process in the start command!",1)
-	printerUtil.printer("For example, <run-groovy filename.groovy hipo_file_to_process.hipo 1000 10",1)
-}
+def procStartTime = starttime.getTime()
 
 
 
-def NumFilesToProcess = args[2].toInteger()
 
 def FilesToProcess = fg.GetFile(args[0]).take(NumFilesToProcess)
 
-def DesiredNumEventsToProcess = args[1].toInteger()
+
 printerUtil.printer("The following files have been found: ",1)
 def total_file_length = 0
 def file_length_processed = 0
@@ -108,9 +119,8 @@ def num_dvpp_events = 0
 
 total_counts = 0
 lumi_total = 0
+dvmp_counts = 0
 
-starttime = new Date()
-def procStartTime = starttime.getTime()
 
 
 def CalcLumi(qFcup) {
@@ -128,9 +138,15 @@ def CalcLumi(qFcup) {
 }
 
 
+def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 
 
-GParsPool.withPool 6, {
+
+
+
+
+
+GParsPool.withPool NumCores, {
 	FilesToProcess.eachParallel{fname->
 		def reader = new HipoDataSource()
 		def Float fcc_final = 0
@@ -159,7 +175,6 @@ GParsPool.withPool 6, {
 			funreturns = eventProcessor.processEvent(event,hxB,fcc_final)
 			fcc_final = funreturns[0]
 			hxB = funreturns[1]
-			println(dvmp_counts)
 		}
 
 
