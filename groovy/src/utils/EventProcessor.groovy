@@ -58,7 +58,7 @@ class EventProcessor {
 			def fcupBeamCharge = evb.getFloat('beamCharge',0)
 
 			if(fcupBeamCharge > fcc_final){
-				println("fcup charge increashing to "+ fcupBeamCharge)
+				//println("fcup charge increashing to "+ fcupBeamCharge)
 				fcc_final = fcupBeamCharge
 					}
 
