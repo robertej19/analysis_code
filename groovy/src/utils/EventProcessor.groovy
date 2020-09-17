@@ -38,45 +38,8 @@ import org.jlab.io.hipo.HipoDataSync
 import groovyx.gpars.GParsPool
 import groovy.io.FileType
 
-class EventProcessor {
 
-
-	//NEED Q2 GREATER THAN 1
-	def processEvent(event,histo_array_in,fcc_final) {
-
-		//Unfold histograms
-		def hxB = histo_array_in[0]
-
-
-		//Define standard variables
-		def dvpp_event = 0
-		def beam = LorentzVector.withPID(11,0,0,10.6)
-		def target = LorentzVector.withPID(2212,0,0,0)
-
-		def banknames = ['REC::Event','REC::Particle','REC::Cherenkov','REC::Calorimeter','REC::Traj','REC::Track','REC::Scintillator']
-
-		if(!(banknames.every{event.hasBank(it)})) {
-			println("Not all bank events found, returning")
-			return [fcc_final, dvpp_event, histo_array_in]
-		}
-		
-		
-		def (evb,partb,cc,ec,traj,trck,scib) = banknames.collect{event.getBank(it)}
-		def banks = [cc:cc,ec:ec,part:partb,traj:traj,trck:trck]
-		def ihel = evb.getByte('helicity',0)
-		//printerUtil.printer("ihel is "+ihel,0)
-
-		def fcupBeamCharge = evb.getFloat('beamCharge',0)
-
-		if(fcupBeamCharge > fcc_final){
-			//println("fcup charge increashing to "+ fcupBeamCharge)
-			fcc_final = fcupBeamCharge
-				}
-
-		//println partb.getInt('status')
-
-
-
+		//println bankParticle.getInt('status')
 		/*
 		if bankname[scint][particle_index] == 4 OR particle.status > 4000
 			proton in CD
@@ -104,145 +67,174 @@ class EventProcessor {
 		*/
 
 
+class EventProcessor {
 
 
-		def index_of_electrons_and_protons = (0..<partb.rows()).findAll{partb.getInt('pid',it)==11 && partb.getShort('status',it)<0}
-			.collectMany{iele->(0..<partb.rows()).findAll{partb.getInt('pid',it)==2212}.collect{ipro->[iele,ipro]}
+	//NEED Q2 GREATER THAN 1
+	def processEvent(event,histo_array_in,fcupBeamChargeMax) {
+		println("starting to process event")
+
+		//Unfold histograms
+		def hxB = histo_array_in[0]
+
+
+		//Define standard variables
+		def dvpp_event = 0
+		def beam = LorentzVector.withPID(11,0,0,10.6)
+		def target = LorentzVector.withPID(2212,0,0,0)
+
+		def banknames = ['REC::Event','REC::Particle','REC::Cherenkov','REC::Calorimeter','REC::Traj','REC::Track','REC::Scintillator']
+
+
+		// Leave event if not all banks are present
+		if(!(banknames.every{event.hasBank(it)})) {
+			println("Not all bank events found, returning")
+			return [fcupBeamChargeMax, dvpp_event, histo_array_in]
 		}
-		//printerUtil.printer("index_of_electrons_and_protons "+index_of_electrons_and_protons,0)
+		
+		
+		def (bankEvent,bankParticle,bankCherenkov,bankECal,bankTraj,bankTrack,bankScintillator) = banknames.collect{event.getBank(it)}
+		def banks = [bankCherenkov:bankCherenkov,bankECal:bankECal,part:bankParticle,bankTraj:bankTraj,bankTrack:bankTrack]
 
-		def index_of_pions = (0..<partb.rows()-1).findAll{partb.getInt('pid',it)==22 && partb.getShort('status',it)>=2000}
-			.findAll{ig1->'xyz'.collect{partb.getFloat("p$it",ig1)**2}.sum()>0.16}
-			.collectMany{ig1->
-			(ig1+1..<partb.rows()).findAll{partb.getInt('pid',it)==22 && partb.getShort('status',it)>=2000}
-			.findAll{ig2->'xyz'.collect{partb.getFloat("p$it",ig2)**2}.sum()>0.16}
-			.collect{ig2->[ig1,ig2]}
+		def fcupBeamCharge = bankEvent.getFloat('beamCharge',0) //This is the (un?)gated beam charge in nanoColoumbs
+
+		if(fcupBeamCharge > fcupBeamChargeMax){ fcupBeamChargeMax = fcupBeamCharge	} //Replace fcupBeamcharge with the largest value
+
+		def ihel = bankEvent.getByte('helicity',0) //Helicity of ... something
+
+
+		//For each event, index where pid is 11 (electron) and 2212 (proton) and put into array, e.g. [[0,3]] - electron = index 0, proton = index 3
+		def index_of_electrons_and_protons = (0..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==11 && bankParticle.getShort('status',it)<0}
+			.collectMany{iele->(0..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==2212}.collect{ipro->[iele,ipro]}
 		}
-		///printerUtil.printer("index of pions is " + index_of_pions,0)
-
-		def isep0s = index_of_electrons_and_protons.findAll{iele,ipro->
-			def ele = LorentzVector.withPID(11,*['px','py','pz'].collect{partb.getFloat(it,iele)})
-			def pro = LorentzVector.withPID(2212,*['px','py','pz'].collect{partb.getFloat(it,ipro)})
-			//printerUtil.printer("first electron is"+ele,0)
-
-			if(event.hasBank("MC::Particle")) {
-				printer("Event has MC Particle bank!",1)
-				def mcb = event.getBank("MC::Particle")
-				def mfac = (partb.getShort('status',ipro)/1000).toInteger()==2 ? 3.2 : 2.5
-
-				def profac = 0.9
-
-				//mfac=1
-				profac = 1.0
-
-				ele = LorentzVector.withPID(11,*['px','py','pz'].collect{mcb.getFloat(it,0) + (partb.getFloat(it,iele)-mcb.getFloat(it,0))*mfac})
-				pro = LorentzVector.withPID(2212,*['px','py','pz'].collect{profac*(mcb.getFloat(it,1) + (partb.getFloat(it,ipro)-mcb.getFloat(it,1))*mfac)})
-				//printerUtil.printer("second electron is"+ele)
-				def evec = new Vector3()
-				evec.setMagThetaPhi(ele.p(), ele.theta(), ele.phi())
-				def pvec = new Vector3()
-				pvec.setMagThetaPhi(pro.p(), pro.theta(), pro.phi())
-			}
-
-			def eletheta = Math.toDegrees(ele.theta())
-			def protheta = Math.toDegrees(pro.theta())
-			if(protheta<0) protheta+=360
+		println("index_of_electrons_and_protons "+index_of_electrons_and_protons)
 
 
+		//Not sure exactly what this is, but returns e.g.: [[6, 7], [6, 8], [6, 9], [7, 8], [7, 9], [8, 9]] 
+		def index_of_pions = (0..<bankParticle.rows()-1).findAll{bankParticle.getInt('pid',it)==22 && bankParticle.getShort('status',it)>=2000}
+			.findAll{ipart_gamma_1->'xyz'.collect{bankParticle.getFloat("p$it",ipart_gamma_1)**2}.sum()>0.16}
+			.collectMany{ipart_gamma_1->
+			(ipart_gamma_1+1..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==22 && bankParticle.getShort('status',it)>=2000}
+			.findAll{ig2->'xyz'.collect{bankParticle.getFloat("p$it",ig2)**2}.sum()>0.16}
+			.collect{ig2->[ipart_gamma_1,ig2]}
+		}
+		//println("index of pions is " + index_of_pions)
+	
+		
+		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
+		//Some of the tiem there are multiple pairs, e.g. [[0,1],[0,3]]
+		index_of_electrons_and_protons.findAll{iele,ipro-> //For each electron index, proton index, do the following:
 
-			def wvec = beam+target-ele
-			def qvec = beam-ele
-			def epx = beam+target-ele-pro
-			//def t_sqrt = pro - target //t = (p'-p)^2
+			def part_electron = LorentzVector.withPID(11,*['px','py','pz'].collect{bankParticle.getFloat(it,iele)}) 
+			//create a lorentz vector out of electron index. The "collect" command picks up px, py, and pz from bankParticle at index iele
+			def part_proton = LorentzVector.withPID(2212,*['px','py','pz'].collect{bankParticle.getFloat(it,ipro)}) 
+			//println("first electron is"+ele.e())
+			//println("iele and ipro are " + ['px','py','pz'].collect{bankParticle.getFloat(it,iele)})
+
+			def part_electron_theta = Math.toDegrees(part_electron.theta())
+			def part_proton_theta = Math.toDegrees(part_proton.theta())
+			if(part_proton_theta<0) part_proton_theta+=360 //Make angles be non-negative
+
+			def wvec = beam+target-part_electron
+			def qvec = beam-part_electron
+			def part_X = beam+target-part_electron-part_proton
+			//def t_sqrt = part_proton - target //t = (p'-p)^2
 			//def t_MomTran = t_sqrt.vect().dot(t_sqrt.vect())
 
-			//printerUtil.printer("epx mass squared is:${epx.mass2()}",0)
-			def xBjorken = -qvec.mass2()/(2*pro.vect().dot(qvec.vect()))
+			//printerUtil.printer("part_X mass squared is:${part_X.mass2()}",0)
+			def xBjorken = -qvec.mass2()/(2*part_proton.vect().dot(qvec.vect()))
 			//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
 			hxB.fill(xBjorken)
 
-			def pdet = (partb.getShort('status',ipro)/1000).toInteger()==2 ? 'FD':'CD'
 
-			def profi = Math.toDegrees(pro.phi())
-			if(profi<0) profi+=360
+			/////////////// NO IDEA WHAT THIS IS DOING BELOW
+			def pdet = (bankParticle.getShort('status',ipro)/1000).toInteger()==2 ? 'FD':'CD' 
 
-			def esec = (0..<scib.rows()).find{scib.getShort('pindex',it)==iele}?.with{scib.getByte('sector',it)}
-			def psec = (0..<scib.rows()).find{scib.getShort('pindex',it)==ipro}?.with{scib.getByte('sector',it)}
+			def part_protonfi = Math.toDegrees(part_proton.phi())
+			if(part_protonfi<0) part_protonfi+=360
+
+			def esec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==iele}?.with{bankScintillator.getByte('sector',it)}
+			def psec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==ipro}?.with{bankScintillator.getByte('sector',it)}
 			if(psec==0) {
-				psec = Math.floor(profi/60).toInteger() +2
+				psec = Math.floor(part_protonfi/60).toInteger() +2
 				if(psec==7) psec=1
 			}
 
-			def isep0 = epx.mass2()<1 && wvec.mass()>2
-
-			def pi0s = index_of_pions.collect{ig1,ig2->
-				def g1 = LorentzVector.withPID(22,*['px','py','pz'].collect{partb.getFloat(it,ig1)})
-				def g2 = LorentzVector.withPID(22,*['px','py','pz'].collect{partb.getFloat(it,ig2)})
-				if(ele.vect().theta(g1.vect())>8 && ele.vect().theta(g2.vect())>8) {
-					def gg = g1+g2
-					def ggmass = gg.mass()
-					def ispi0 = ggmass<0.2 && ggmass>0.07// && gg.p()>1.5
-
-					if(ispi0) {
-						def epggx = epx-gg
-						def thetaXPi = epx.vect().theta(gg.vect())
-						def dpt0 = epggx.px().abs()<0.3 && epggx.py().abs()<0.3
-						def dmisse0 = epggx.e()<1
-						def tt0 = -(pro-target).mass2()
-						def procalc = beam+target-ele-gg
-						def tt1 = -(procalc-target).mass2()
+			def bool_ep0_event = part_X.mass2()<1 && wvec.mass()>2
 
 
-						def vLept = beam.vect().cross(ele.vect())
-						def vHad = pro.vect().cross(gg.vect())
-						def PlaneDot = vLept.dot(vHad)
-						def cosangle = PlaneDot/vLept.mag()/vHad.mag()
-						def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
-						if (pro.vect().dot(vLept)<0){
-							LeptHadAngle = -LeptHadAngle+360
-						}
+			// index of pions is a set of pairs of photon indicies, it is a full permutation over all possible pairwise combinations (possible pions)
+			// looping over each pair to find the "best" pion
+			def pi0s = index_of_pions.collect{ipart_gamma_1,ig2->
 
-						def xb_bins = 10
-						def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
-						def xBRound = Math.round(xb_bins*xBjorken+0.5)
-						//printerUtil.printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
-
-						//if (q2Round < 0.4){
-							//print("Q2 is low at $q2round",2)
-						//}
-
-						def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round+0.0}"
-						//printer("Associated title is $title",2)
-
-						//println(t_bins)
-						def tRound = (Math.round(tt0*10)/10)
-						def UltraTitle = "88"
-
-						def TitleUltra = 0
-
-						if(isep0){
-							if(ispi0 && isep0 && dmisse0 && dpt0 && thetaXPi<2){
-
-
-								TitleUltra = 1
-								//if(TitleUltra==0){
-							//		println("Ultra is 0, t is $tt0")
-							//	}
-
-								dvpp_event = 1
-							}
-						}
-					}
-					//return ispi0
+				def part_gamma_1 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,ipart_gamma_1)})
+				def part_gamma_2 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,ig2)})
+				
+				if(!(part_electron.vect().theta(part_gamma_1.vect())>8 && part_electron.vect().theta(g2.vect())>8)) {
+					//println("Not bool_ep0_event event, returning")
+					return [fcupBeamChargeMax, dvpp_event, histo_array_in]
 				}
+
+
+				def gg = part_gamma_1+g2
+				def ggmass = gg.mass()
+				def ispi0 = ggmass<0.2 && ggmass>0.07// && gg.p()>1.5
+
+				if(!(ispi0)) {
+					//println("Not bool_ep0_event event, returning")
+					return [fcupBeamChargeMax, dvpp_event, histo_array_in]
+				}
+	
+				def epggx = part_X-gg
+				def thetaXPi = part_X.vect().theta(gg.vect())
+				def dpt0 = epggx.px().abs()<0.3 && epggx.py().abs()<0.3
+				def dmisse0 = epggx.e()<1
+				def tt0 = -(part_proton-target).mass2()
+				def part_protoncalc = beam+target-part_electron-gg
+				def tt1 = -(part_protoncalc-target).mass2()
+
+
+				def vLept = beam.vect().cross(part_electron.vect())
+				def vHad = part_proton.vect().cross(gg.vect())
+				def PlaneDot = vLept.dot(vHad)
+				def cosangle = PlaneDot/vLept.mag()/vHad.mag()
+				def LeptHadAngle = Math.toDegrees( Math.acos(cosangle))
+				if (part_proton.vect().dot(vLept)<0){
+					LeptHadAngle = -LeptHadAngle+360
+				}
+
+				def xb_bins = 10
+				def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
+				def xBRound = Math.round(xb_bins*xBjorken+0.5)
+				//printerUtil.printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
+
+				//if (q2Round < 0.4){
+					//print("Q2 is low at $q2round",2)
+				//}
+
+				def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round+0.0}"
+				//printer("Associated title is $title",2)
+
+				//println(t_bins)
+				def tRound = (Math.round(tt0*10)/10)
+
+				if(!(bool_ep0_event)) {
+					//println("Not bool_ep0_event event, returning")
+					return [fcupBeamChargeMax, dvpp_event, histo_array_in]
+				}
+
+				if(!(ispi0 && bool_ep0_event && dmisse0 && dpt0 && thetaXPi<2)) {
+					//println("Not all bank events found, returning")
+					return [fcupBeamChargeMax, dvpp_event, histo_array_in]
+				}
+
+				dvpp_event = 1
 			}
-			//return false
 		}
 
-		
 		//Set up and return arguements
 		def histo_arr_out = [hxB,]
-		return [fcc_final, dvpp_event, histo_arr_out]
+		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
 	}
 
 }
