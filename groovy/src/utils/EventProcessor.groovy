@@ -42,7 +42,9 @@ class EventProcessor {
 
 	def dvpp_event = 0
 
-	def processEvent(event,hxB,fcc_final) {
+	def processEvent(event,histo_array,fcc_final) {
+
+		def hxB = histo_array[0]
 
 		def beam = LorentzVector.withPID(11,0,0,10.6)
 		def target = LorentzVector.withPID(2212,0,0,0)
@@ -228,7 +230,10 @@ class EventProcessor {
 				//return false
 			}
 		}
-		return [fcc_final, 1, hxB]
+
+		def histo_arr_out = [hxB,]
+
+		return [fcc_final, 1, histo_arr_out]
 	}
 
 }

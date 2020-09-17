@@ -87,6 +87,8 @@ def GlobalFileSizeProcessed = 0
 //********************* Define Histograms **************** //
 def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
 
+def histogram_array = [hxB,]
+
 
 
 
@@ -137,10 +139,10 @@ GParsPool.withPool NumCores, {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(event,hxB,FCupCharge)
+			funreturns = eventProcessor.processEvent(event,histogram_array,FCupCharge)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
-			hxB = funreturns[2]
+			histogram_array = funreturns[2]
 		}
 
 		reader.close()
@@ -204,5 +206,7 @@ println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
-out.addDataSet(hxB)
+histogram_array.each { i ->
+	out.addDataSet(i)
+}
 out.writeFile("${OutFileName}${ScriptEndTime.format('HH:mm')}.hipo")
