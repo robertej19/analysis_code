@@ -115,8 +115,8 @@ class EventProcessor {
 			.findAll{ipart_gamma_1->'xyz'.collect{bankParticle.getFloat("p$it",ipart_gamma_1)**2}.sum()>0.16}
 			.collectMany{ipart_gamma_1->
 			(ipart_gamma_1+1..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==22 && bankParticle.getShort('status',it)>=2000}
-			.findAll{ig2->'xyz'.collect{bankParticle.getFloat("p$it",ig2)**2}.sum()>0.16}
-			.collect{ig2->[ipart_gamma_1,ig2]}
+			.findAll{ipart_gamma_2->'xyz'.collect{bankParticle.getFloat("p$it",ipart_gamma_2)**2}.sum()>0.16}
+			.collect{ipart_gamma_2->[ipart_gamma_1,ipart_gamma_2]}
 		}
 		//println("index of pions is " + index_of_pions)
 	
@@ -165,18 +165,18 @@ class EventProcessor {
 
 			// index of pions is a set of pairs of photon indicies, it is a full permutation over all possible pairwise combinations (possible pions)
 			// looping over each pair to find the "best" pion
-			def pi0s = index_of_pions.collect{ipart_gamma_1,ig2->
+			def pi0s = index_of_pions.collect{ipart_gamma_1,ipart_gamma_2->
 
 				def part_gamma_1 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,ipart_gamma_1)})
-				def part_gamma_2 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,ig2)})
+				def part_gamma_2 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,ipart_gamma_2)})
 				
-				if(!(part_electron.vect().theta(part_gamma_1.vect())>8 && part_electron.vect().theta(g2.vect())>8)) {
+				if(!(part_electron.vect().theta(part_gamma_1.vect())>8 && part_electron.vect().theta(part_gamma_2.vect())>8)) {
 					//println("Not bool_ep0_event event, returning")
 					return [fcupBeamChargeMax, dvpp_event, histo_array_in]
 				}
 
 
-				def gg = part_gamma_1+g2
+				def gg = part_gamma_1+part_gamma_2
 				def ggmass = gg.mass()
 				def ispi0 = ggmass<0.2 && ggmass>0.07// && gg.p()>1.5
 
