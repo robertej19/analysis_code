@@ -125,37 +125,13 @@ class EventProcessor {
 		if (good_photons_in_event.size() > 0){
 			for (int gpg in 0..<(good_photons_in_event.size()-1)){
 				for (int gpg2 in (gpg+1)..<good_photons_in_event.size()){
-				//println(good_photons_in_event[gpg] + " and " + good_photons_in_event[gpg2])
-
-				possible_comb = [good_photons_in_event[gpg], good_photons_in_event[gpg2]]
-
-				photon_perms.add(possible_comb)
-				
+					possible_comb = [good_photons_in_event[gpg], good_photons_in_event[gpg2]]
+					photon_perms.add(possible_comb)
 				}
 			}
 		}
 
-		//println("photon perms are: " + photon_perms)
 
-		//println("good photons in event are: " + good_photons_in_event)
-	
-
-		def index_of_pions = (0..<bankParticle.rows()-1).findAll{bankParticle.getInt('pid',it)==22 && bankParticle.getShort('status',it)>=2000}
-			.findAll{indexParticleGamma_1->'xyz'.collect{bankParticle.getFloat("p$it",indexParticleGamma_1)**2}.sum()>0.16}
-			.collectMany{indexParticleGamma_1->
-			(indexParticleGamma_1+1..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==22 && bankParticle.getShort('status',it)>=2000}
-			.findAll{indexParticleGamma_2->'xyz'.collect{bankParticle.getFloat("p$it",indexParticleGamma_2)**2}.sum()>0.16}
-			.collect{indexParticleGamma_2->[indexParticleGamma_1,indexParticleGamma_2]}
-		}
-
-
-		if (photon_perms != index_of_pions){
-			println("ERROR MATRICIES NOT THE SAME:")
-			println("photon perms are: " + photon_perms)
-			println("index of pions are: " +index_of_pions)
-		}
-		//println("index of pions are: " +index_of_pions)
-	
 		
 		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
 		//Some of the tiem there are multiple pairs, e.g. [[0,1],[0,3]]
@@ -186,6 +162,7 @@ class EventProcessor {
 
 				/////////////// NO IDEA WHAT THIS IS DOING BELOW
 				def pdet = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' 
+				///////// FIGURE THIS OUT ABOVE
 
 				def particleProtonfi = Math.toDegrees(particleProton.phi())
 				if(particleProtonfi<0) particleProtonfi+=360
@@ -208,32 +185,17 @@ class EventProcessor {
 					def indexParticleGamma_1 = gamma_pair[0]
 					def indexParticleGamma_2 = gamma_pair[1]
 
-					//println("gamma pair is"+ indexParticleGamma_1 +" and" + indexParticleGamma_2)
-				}
-				def pi0s = index_of_pions.collect{indexParticleGamma_1,indexParticleGamma_2->
-
-
-					
-
-
-
 					def particleGamma_1 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,indexParticleGamma_1)})
 					def particleGamma_2 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,indexParticleGamma_2)})
 					
-					if(!(particleElectron.vect().theta(particleGamma_1.vect())>8 && particleElectron.vect().theta(particleGamma_2.vect())>8)) {
-						//println("Not bool_ep0_event event, returning")
-						return [fcupBeamChargeMax, dvpp_event, histo_array_in]
-					}
+					if(!(particleElectron.vect().theta(particleGamma_1.vect())>8 && particleElectron.vect().theta(particleGamma_2.vect())>8)) { continue }
 
 
 					def particleGammaGammaPair = particleGamma_1+particleGamma_2
 					def particleGammaGammaPairmass = particleGammaGammaPair.mass()
 					def ispi0 = particleGammaGammaPairmass<0.2 && particleGammaGammaPairmass>0.07// && particleGammaGammaPair.p()>1.5
 
-					if(!(ispi0)) {
-						//println("Not bool_ep0_event event, returning")
-						return [fcupBeamChargeMax, dvpp_event, histo_array_in]
-					}
+					if(!(ispi0)) { continue	}
 		
 					def diff_between_X_and_GG = particleX-particleGammaGammaPair
 					def thetaXPi = particleX.vect().theta(particleGammaGammaPair.vect())
@@ -268,18 +230,9 @@ class EventProcessor {
 					//println(t_bins)
 					def tRound = (Math.round(tt0*10)/10)
 
-					if(!(bool_ep0_event)) {
-						//println("Not bool_ep0_event event, returning")
-						return [fcupBeamChargeMax, dvpp_event, histo_array_in]
-					}
+					if(!(bool_ep0_event)) { continue }
 
-					if(!(ispi0 && bool_ep0_event && dmisse0 && dpt0 && thetaXPi<2)) {
-						//println("Not all bank events found, returning")
-						return [fcupBeamChargeMax, dvpp_event, histo_array_in]
-					}
-
-					println("DVEP EVENT AT: "+j)
-					println("Indiceis are:" +indexParticleGamma_1 + "and " +indexParticleGamma_2 )	
+					if(!(ispi0 && bool_ep0_event && dmisse0 && dpt0 && thetaXPi<2)) { continue}
 					
 					dvpp_event = 1
 				}
