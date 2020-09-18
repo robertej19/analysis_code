@@ -40,6 +40,7 @@ import groovy.io.FileType
 
 //From Local
 import utils.subutils.ParticleGetter
+import utils.subutils.PermutationMaker
 
 
 		//println bankParticle.getInt('status')
@@ -114,23 +115,10 @@ class EventProcessor {
 		def protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
 
 
-		//Not sure exactly what this is, but returns e.g.: [[6, 7], [6, 8], [6, 9], [7, 8], [7, 9], [8, 9]] 
-
+		//Get a list of "good" photons in the event
 		def good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
-
-		def photon_perms = []
-		def possible_comb = []
-
-
-		if (good_photons_in_event.size() > 0){
-			for (int gpg in 0..<(good_photons_in_event.size()-1)){
-				for (int gpg2 in (gpg+1)..<good_photons_in_event.size()){
-					possible_comb = [good_photons_in_event[gpg], good_photons_in_event[gpg2]]
-					photon_perms.add(possible_comb)
-				}
-			}
-		}
-
+		//Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
+		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
 
 		
 		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
