@@ -36,12 +36,54 @@ import org.jlab.io.hipo.HipoDataSync
 
 class ParticleGetter {
 
+	//def criteria_proton = bankParticle.getInt('pid',it)==2212
+
 
 	//NEED Q2 GREATER THAN 1
-	static def getParticle(event) {
-		print{"I HAVE THE POWER"}
+	static def getParticle(bankParticle,particleType) {
 
-		return 0
+		def particle_index = []
+
+		for (int index in 0..<bankParticle.rows()){
+
+			if(particleType == "electron"){
+				if (bankParticle.getInt('pid',index)==11 && bankParticle.getShort('status',index)<0){
+						particle_index.add(index)
+				}
+			}
+
+			if(particleType == "proton"){
+				if (bankParticle.getInt('pid',index)==2212){
+					particle_index.add(index)
+				}
+			}
+
+			if(particleType == "photon"){
+				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){
+					//println("index is: " + index)
+
+					def px = bankParticle.getFloat("px",index)
+					def py = bankParticle.getFloat("py",index)
+					def pz = bankParticle.getFloat("pz",index)
+
+					//println("px is: " + px)
+					//println("py is: " + py)
+					//println("pz is: " + pz)
+
+					def p2 = px**2 + py**2 + pz**2
+
+					//println("p squared is: " + p2)
+
+					if (p2 > 0.16){
+						particle_index.add(index)
+					}
+				}
+
+			}
+
+		}			
+
+		return particle_index
 	}
 
 }

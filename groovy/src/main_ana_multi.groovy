@@ -138,8 +138,9 @@ GParsPool.withPool NumCores, {
 		for (int j=0; j < NumEventsToProcess; j++) {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
+			//println("event number: " + j)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(event,histogram_array,FCupCharge)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			histogram_array = funreturns[2]
@@ -203,6 +204,8 @@ println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a
 println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS???")
 
 //********* Save data in hipo file *****************
+
+/*
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
@@ -210,3 +213,4 @@ histogram_array.each { i ->
 	out.addDataSet(i)
 }
 out.writeFile("${OutFileName}${ScriptEndTime.format('HH:mm')}.hipo")
+*/
