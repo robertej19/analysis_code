@@ -38,6 +38,9 @@ import org.jlab.io.hipo.HipoDataSync
 import groovyx.gpars.GParsPool
 import groovy.io.FileType
 
+//From Local
+import utils.subutils.ParticleGetter
+
 
 		//println bankParticle.getInt('status')
 		/*
@@ -72,8 +75,9 @@ class EventProcessor {
 
 	//NEED Q2 GREATER THAN 1
 	def processEvent(event,histo_array_in,fcupBeamChargeMax) {
-		println("starting to process event")
+		//println("starting to process event")
 
+		
 		//Unfold histograms
 		def hxB = histo_array_in[0]
 
@@ -103,11 +107,19 @@ class EventProcessor {
 		def ihel = bankEvent.getByte('helicity',0) //Helicity of ... something
 
 
-		//For each event, index where pid is 11 (electron) and 2212 (proton) and put into array, e.g. [[0,3]] - electron = index 0, proton = index 3
+
+		
+		//For each event, index where pid is 11 (electron) and 2212 (proton) and put into array, 
+		//e.g. [[0,3]] - electron = index 0, proton = index 3
+		electrons_in_event = ParticleGetter.getParticle(event)
+		protons_in_event = ParticleGetter.getParticle(event)
+		
 		def index_of_electrons_and_protons = (0..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==11 && bankParticle.getShort('status',it)<0}
 			.collectMany{iele->(0..<bankParticle.rows()).findAll{bankParticle.getInt('pid',it)==2212}.collect{ipro->[iele,ipro]}
 		}
-		println("index_of_electrons_and_protons "+index_of_electrons_and_protons)
+
+		index_of_electrons_and_protons 
+		//println("index_of_electrons_and_protons "+index_of_electrons_and_protons)
 
 
 		//Not sure exactly what this is, but returns e.g.: [[6, 7], [6, 8], [6, 9], [7, 8], [7, 9], [8, 9]] 
