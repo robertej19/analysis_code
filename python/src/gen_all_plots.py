@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import subprocess
 import os
 import ROOT
 from ROOT import gStyle
@@ -14,7 +15,6 @@ LogOn = int(sys.argv[3])
 
 root_tree = ROOT.TFile(rootfilename)
 fileID = ((rootfilename.split("/"))[-1]).split(".")[0]
-print(root_tree.GetListOfKeys())
 
 """
 for key in root_tree.GetListOfKeys():
@@ -33,7 +33,7 @@ def plotdistributer(plots_dir,typeX,zz,zzz):
 		makeplot(plots_dir,typeX,"LogON",zz,zzz)
 
 def makeplot(plots_dir,typeXX,logtitle,zz,zzz):
-	print(type(typeXX))
+	#print(type(typeXX))
 	hist_title = typeXX[0]
 	h1 = root_tree.Get(hist_title)
 	c1 = ROOT.TCanvas('c1','c1',120,100)
@@ -58,15 +58,30 @@ def makeplot(plots_dir,typeXX,logtitle,zz,zzz):
 	if logtitle == "LogON":
 		c1.SetLogz()
 	#c1.Draw()
-	c1.Print("{}/{}_{}.pdf".format(plots_dir,zzz,typeXX[1]))
+	c1.Print(".{}/{}_{}.pdf".format(plots_dir,zzz,typeXX[1]))
 
 
-plots_dir = "../plots/{}/original_python_pdfs".format(fileID)
-os.makedirs(plots_dir)
+plots_dir = "/../plots/{}/original_python_pdfs".format(fileID)
+plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
 
+
+
+if os.path.isdir(plots_folder):
+	print('removing previous database file')
+	subprocess.call(['rm','-rf',plots_folder])
+else:
+	print(plots_folder+" is not present, not deleteing")
+
+subprocess.call(['mkdir','-p',plots_folder])
+print(plots_folder+" is now present")
+
+
+"""
 title1 = "output_file_histos_hist_xB_excuts"
 type9 = (title1,"This is the title","xais","y axis",0,0,0,0,0,0)
 plotdistributer(plots_dir,type9,fileID,fileID)
+
+"""
 
 """
 Make a dictionary mappping hist titles to axis titles, other properities
@@ -74,12 +89,15 @@ Add date to filename!
 """
 
 
+
+
 for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
-	title = obj.GetName()
-	print(title)
-	type9 = (title,"{}".format(title),"xais","y axis",0,0,0,0,0,0)
-	plotdistributer(plots_dir,type9,fileID,fileID)
+	title_from_root = obj.GetName()
+	title_save_file = title_from_root.split("file_histos_hist_")[1]
+	
+	type9 = (title_from_root,title_save_file,"xais","y axis",0,0,0,0,0,0)
+	plotdistributer(plots_dir,type9,fileID,title_save_file)
 	#if "Ultra_Phi" in title:
 	#	if obj.GetEntries()>10 and obj.GetMaximum()>10:
 	#	 histTitle = title
