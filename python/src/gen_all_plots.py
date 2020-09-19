@@ -14,7 +14,7 @@ LogOn = int(sys.argv[3])
 
 
 root_tree = ROOT.TFile(rootfilename)
-fileID = ((rootfilename.split("/"))[-1]).split(".")[0]
+root_fileID = ((rootfilename.split("/"))[-1]).split(".")[0] #e.g. this is something like "output_file_histos23-33"
 
 """
 for key in root_tree.GetListOfKeys():
@@ -27,41 +27,44 @@ for key in root_tree.GetListOfKeys():
 """
 
 
-def plotdistributer(plots_dir,typeX,zz,zzz):
-	makeplot(plots_dir,typeX,"LogOff",zz,zzz)
-	if typeX[4]:
-		makeplot(plots_dir,typeX,"LogON",zz,zzz)
+def plotdistributer(plots_dir,plotting_info,root_fileID,pdf_filename):
+	makeplot(plots_dir,plotting_info,"LogOff",root_fileID,pdf_filename)
+	if plotting_info[4]:
+		makeplot(plots_dir,plotting_info,"LogON",root_fileID,pdf_filename)
 
-def makeplot(plots_dir,typeXX,logtitle,zz,zzz):
-	#print(type(typeXX))
-	hist_title = typeXX[0]
+
+
+def makeplot(plots_dir,plotting_info,logtitle,root_fileID,pdf_filename):
+	ROOT.gErrorIgnoreLevel = ROOT.kWarning
+	#print(type(plotting_info))
+	hist_title = plotting_info[0]
 	h1 = root_tree.Get(hist_title)
 	c1 = ROOT.TCanvas('c1','c1',120,100)
-	if typeXX[6] > 0:
-		h1.GetXaxis().SetRange(typeXX[5],typeXX[6])
+	if plotting_info[6] > 0:
+		h1.GetXaxis().SetRange(plotting_info[5],plotting_info[6])
 	h1.Draw("colz")
-	if typeXX[7] > 0:
-		h1.SetAxisRange(0,typeXX[7],"Y")
-	if typeXX[8] > 0:
-		h2 = rootfilename.Get(typeXX[9])
+	if plotting_info[7] > 0:
+		h1.SetAxisRange(0,plotting_info[7],"Y")
+	if plotting_info[8] > 0:
+		h2 = rootfilename.Get(plotting_info[9])
 		h2.SetLineColorAlpha(2,1)
 		h2.Draw("SAME")
 		h2.SetAxisRange(0,110000,"Y")
 		logtitle += "_Double"
 
 	#gStyle.SetOptStat(0)
-	h1.SetTitle(typeXX[1])
-	h1.SetXTitle(typeXX[2])
-	h1.SetYTitle(typeXX[3])
+	h1.SetTitle(plotting_info[1])
+	h1.SetXTitle(plotting_info[2])
+	h1.SetYTitle(plotting_info[3])
 	#h1.SetLineWidth(5) #use this to make line width thicker
 
 	if logtitle == "LogON":
 		c1.SetLogz()
 	#c1.Draw()
-	c1.Print(".{}/{}_{}.pdf".format(plots_dir,zzz,typeXX[1]))
+	c1.Print(".{}/{}.pdf".format(plots_dir,pdf_filename))
 
 
-plots_dir = "/../plots/{}/original_python_pdfs".format(fileID)
+plots_dir = "/../plots/{}/original_python_pdfs".format(root_fileID)
 plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
 
 
@@ -76,12 +79,6 @@ subprocess.call(['mkdir','-p',plots_folder])
 print(plots_folder+" is now present")
 
 
-"""
-title1 = "output_file_histos_hist_xB_excuts"
-type9 = (title1,"This is the title","xais","y axis",0,0,0,0,0,0)
-plotdistributer(plots_dir,type9,fileID,fileID)
-
-"""
 
 """
 Make a dictionary mappping hist titles to axis titles, other properities
@@ -94,10 +91,12 @@ Add date to filename!
 for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
 	title_from_root = obj.GetName()
-	title_save_file = title_from_root.split("file_histos_hist_")[1]
+	title_save_file = title_from_root.split("file_histos_hist_")[1] #e.g. this is something like phi_proton_excuts_FD
 	
-	type9 = (title_from_root,title_save_file,"xais","y axis",0,0,0,0,0,0)
-	plotdistributer(plots_dir,type9,fileID,title_save_file)
+	plot_info = (title_from_root,title_save_file,"xais","y axis",0,0,0,0,0,0)
+	plotdistributer(plots_dir,plot_info,root_fileID,title_save_file)
+
+
 	#if "Ultra_Phi" in title:
 	#	if obj.GetEntries()>10 and obj.GetMaximum()>10:
 	#	 histTitle = title
