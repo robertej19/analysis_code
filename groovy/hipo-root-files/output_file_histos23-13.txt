@@ -1,0 +1,11 @@
+Run information for output_file_histos23-13.hipo 
+Script began at 09/18/2020-23:10:02 and finished at 09/18/2020-23:13:08
+total runtime: 3.11 minutes -Processing rate: 1376.48 kHz 
+Final global number of DVPP events found: 5265 out of a total of 4275789 - 0.1 %
+Total Integrated Luminosity from the runs processed is 6.043028556576179E38 UNITS??? 
+Used 1 cores to try to process 5 files, processing a total of 5 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo 

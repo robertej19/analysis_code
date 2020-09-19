@@ -22,8 +22,10 @@ for kk in ff.GetListOfKeys():
 
 #h1 = ff.Get("5039_Hist_deltaB_psec1_layer1")#.ProjectionY("cutg",0,40,"[cutg]")
 
-type1 = "output_file_histos_Hist_xB_Q2"
-type2 = "5039_Hist_deltaB_psec1_layer1"
+
+type1 = "output_file_histos_hist_theta_proton_electron_no_cuts"
+type2 = "output_file_histos_hist_xB_nocuts"
+#type2 = "5039_Hist_deltaB_psec1_layer1"
 type3 = "5039_Hist_beta_p2sec1_layer1"
 type4 = "5039_Hist_beta_p_ctof"
 
@@ -41,9 +43,10 @@ elif typeX==4:
 else:
   print("type not found, ISSUE!!!!")
 
+print(type)
 h1 = ff.Get(type)
 
 c1 = ROOT.TCanvas('c1','c1',100,100)
 c1.SetLogz()
-h1.Draw()#"colz")
-c1.Print("plots/full_{}_{}.pdf".format(zz,type))
+h1.Draw("colz")
+c1.Print("../plots/full_{}_{}.pdf".format(zz,type))

@@ -109,6 +109,8 @@ def hist_theta_proton_electron_FD_exclu_cuts = new H2F("hist_theta_proton_electr
 //Angle distribution: phi
 def hist_phi_proton_nocuts = new H1F("hist_phi_proton_nocuts","Phi Distribution",380,-10,370)
 def hist_phi_proton_nocuts_FD = new H1F("hist_phi_proton_nocuts_FD","Phi Distribution",380,-10,370)
+def hist_phi_proton_nocuts_CD = new H1F("hist_phi_proton_nocuts_CD","Phi Distribution",380,-10,370)
+def hist_phi_proton_excuts_CD = new H1F("hist_phi_proton_excuts_CD","Phi Distribution",380,-10,370)
 def hist_phi_proton_excuts = new H1F("hist_phi_proton_excuts","Phi Distribution",380,-10,370)
 def hist_phi_proton_excuts_FD = new H1F("hist_phi_proton_excuts_FD","Phi Distribution",380,-10,370)
 
@@ -116,7 +118,7 @@ def hist_phi_proton_excuts_FD = new H1F("hist_phi_proton_excuts_FD","Phi Distrib
 
 //More advanced kinematic quantities
 def hist_xB_nocuts = new H1F("hist_xB_nocuts","Bjorken x Distribution, No Cuts",1000,0,1.5)
-def hist_xB_excuts = new H1F("hist_xB_excuts","Bjorken x Distribution, Excl. Cuts",1000,0,1.5)
+def hist_xB_excuts = new H1F("hist_xB_excuts","Bjorken x Distribution, Excl. Cuts",100,0,1.5)
 def hist_xB_Q2 = new H2F("hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 def hist_lept_had_angle = new H1F("hist_lept_had_angle" , "Angle Between Lepton and Hadron Planes",90,0,360)
 
@@ -127,7 +129,7 @@ def hist_W_excuts = new H1F("hist_W_excuts","W Distribution, Excl. Cuts",1000,0,
 def hist_helicity = new H1F("hist_helicity","Helicity",7,-2,2)
 
 //Still more quantitites
-def hist_t = new H1F("hist_T","Momentum transfer to Nucleon (t)",1000,-2,8)
+def hist_t = new H1F("hist_t","Momentum transfer to Nucleon (t)",1000,-2,8)
 def hist_t_recon = new H1F("hist_t_recon","Reconstructed Momentum transfer to Nucleon (t)",1000,-2,8)
 
 
@@ -141,7 +143,8 @@ def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_no
 						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
 						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
 						hist_t, hist_t_recon,
-						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD]
+						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
+						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
 
 
 //********************* Display pre reunning statistics **************** //
@@ -254,8 +257,7 @@ println("Processed a total of $NumFilesProcessed files")
 println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed")
 println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS???")
 
-//********* Save data in hipo file *****************
-
+//********* Save data in hipo and text files *****************
 
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
@@ -263,4 +265,22 @@ out.cd('/'+OutFileName)
 histogram_array.each { i ->
 	out.addDataSet(i)
 }
-out.writeFile("${OutFileName}${ScriptEndTime.format('HH:mm')}.hipo")
+out.writeFile("../hipo-root-files/${OutFileName}${ScriptEndTime.format('HH-mm')}.hipo")
+
+File file = new File("../hipo-root-files/${OutFileName}${ScriptEndTime.format('HH-mm')}.txt")
+file.append("Run information for ${OutFileName}${ScriptEndTime.format('HH-mm')}.hipo \n")
+file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n")
+if(ScriptRunTime > 1){
+	file.append("total runtime: ${ScriptRunTime.round(2)} minutes - ")
+}
+else{
+	file.append("total runtime: ${(ScriptRunTime*60).round(2)} seconds - ")
+}
+file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n")
+file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} %\n")
+file.append("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS??? \n")
+file.append("Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
+for (filename in FilesToProcess){
+	file.append("${filename} \n")
+}
+

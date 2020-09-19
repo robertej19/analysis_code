@@ -1,0 +1,25 @@
+Run information for output_file_histos23-06.hipo 
+Script began at 09/18/2020-23:06:14 and finished at 09/18/2020-23:06:16
+total runtime: 1.79 seconds 
+Run information for output_file_histos23-06.hipo 
+Script began at 09/18/2020-23:06:32 and finished at 09/18/2020-23:06:34
+total runtime: 1.84 seconds 
+Processing rate: 163220.89 kHzFinal global number of DVPP events found: 10 out of a total of 5000 - 0.00 %
+Total Integrated Luminosity from the runs processed is 1.5278757241522403E36 UNITS??? 
+Used 1 cores to try to process 5 files, processing a total of 5 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo 
+Run information for output_file_histos23-06.hipo 
+Script began at 09/18/2020-23:06:48 and finished at 09/18/2020-23:06:53
+total runtime: 4.47 seconds 
+Processing rate: 671.44 kHzFinal global number of DVPP events found: 84 out of a total of 50000 - 0.00 %
+Total Integrated Luminosity from the runs processed is 9.11000403414357E36 UNITS??? 
+Used 1 cores to try to process 5 files, processing a total of 5 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo 

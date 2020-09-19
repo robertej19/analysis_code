@@ -120,6 +120,9 @@ class EventProcessor {
 		def hist_phi_proton_excuts = histo_array_in[26]
 		def hist_phi_proton_excuts_FD = histo_array_in[27]
 
+		def hist_phi_proton_nocuts_CD = histo_array_in[28]
+		def hist_phi_proton_excuts_CD = histo_array_in[29]
+
 
 
 		//Define standard variables
@@ -233,6 +236,7 @@ class EventProcessor {
 				}
 				if (proton_location == 'CD'){
 					hist_theta_proton_CD_no_cuts.fill(particleProton_theta)
+					hist_phi_proton_nocuts_CD.fill(particleProtonPhi)
 				}
 
 
@@ -307,6 +311,7 @@ class EventProcessor {
 					}
 					if (proton_location == 'CD'){
 						hist_theta_proton_CD_exclu_cuts.fill(particleProton_theta)
+						hist_phi_proton_excuts_CD.fill(particleProtonPhi)
 					}
 					
 					hist_phi_proton_excuts.fill(particleProtonPhi)
@@ -336,7 +341,8 @@ class EventProcessor {
 						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
 						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
 						hist_t, hist_t_recon,
-						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD]
+						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
+						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
 
 		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
 	}
