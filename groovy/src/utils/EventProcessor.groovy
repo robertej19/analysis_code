@@ -80,7 +80,46 @@ class EventProcessor {
 
 		
 		//Unfold histograms
-		def hxB = histo_array_in[0]
+		
+		//Number of particles
+		def hist_num_protons = histo_array_in[0]
+		def hist_num_photons_cut = histo_array_in[1]
+		def hist_num_photons_nocut = histo_array_in[2]
+
+		//Angle Distributions
+		def hist_theta_electron_no_cuts = histo_array_in[3]
+		def hist_theta_proton_no_cuts = histo_array_in[4]
+		def hist_theta_proton_CD_no_cuts = histo_array_in[5]
+		def hist_theta_proton_FD_no_cuts = histo_array_in[6]
+		def hist_theta_proton_FD_exclu_cuts = histo_array_in[7]
+		def hist_theta_proton_CD_exclu_cuts = histo_array_in[8]
+		def hist_theta_proton_electron_no_cuts = histo_array_in[9]
+		def hist_theta_proton_electron_FD_no_cuts = histo_array_in[10]
+		def hist_theta_proton_electron_exclu_cuts = histo_array_in[11]
+		def hist_theta_proton_electron_FD_exclu_cuts = histo_array_in[12]
+
+		//Advanced Kinematic Quantities
+		def hist_xB_nocuts = histo_array_in[13]
+		def hist_xB_excuts = histo_array_in[14]
+		def hist_xB_Q2 = histo_array_in[15]
+		def hist_lept_had_angle = histo_array_in[16]
+
+		def hist_Q2_nocuts = histo_array_in[17]
+		def hist_Q2_excuts = histo_array_in[18]
+		def hist_W_nocuts = histo_array_in[19]
+		def hist_W_excuts = histo_array_in[20]
+		def hist_helicity = histo_array_in[21]
+
+		// More hists
+		def hist_t = histo_array_in[22]
+		def hist_t_recon = histo_array_in[23]
+
+
+		def hist_phi_proton_nocuts = histo_array_in[24]
+		def hist_phi_proton_nocuts_FD = histo_array_in[25]
+		def hist_phi_proton_excuts = histo_array_in[26]
+		def hist_phi_proton_excuts_FD = histo_array_in[27]
+
 
 
 		//Define standard variables
@@ -94,7 +133,7 @@ class EventProcessor {
 
 		// Leave event if not all banks are present
 		if(!(banknames.every{event.hasBank(it)})) {
-			println("Not all bank events found, returning")
+			//println("Not all bank events found, returning")
 			return [fcupBeamChargeMax, dvpp_event, histo_array_in]
 		}
 		
@@ -107,6 +146,7 @@ class EventProcessor {
 		if(fcupBeamCharge > fcupBeamChargeMax){ fcupBeamChargeMax = fcupBeamCharge	} //Replace fcupBeamcharge with the largest value
 
 		def ihel = bankEvent.getByte('helicity',0) //Helicity of ... something
+		hist_helicity.fill(ihel)
 
 
 		//For each event, index where pid is 11 (electron) and 2212 (proton) and put into array, 
@@ -114,9 +154,21 @@ class EventProcessor {
 		def electrons_in_event = ParticleGetter.getParticle(bankParticle,"electron")
 		def protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
 
+		hist_num_protons.fill(protons_in_event.size())
+
+		if (electrons_in_event.size() > 1){
+			println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX not 1 electron in event: ")
+			println(electrons_in_event)
+		}
+
 
 		//Get a list of "good" photons in the event
 		def good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
+		def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
+		hist_num_photons_cut.fill(good_photons_in_event.size())
+
+		hist_num_photons_nocut.fill(bad_photons_in_event.size())
+
 		//Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
 		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
 
@@ -136,6 +188,7 @@ class EventProcessor {
 				def particleProton_theta = Math.toDegrees(particleProton.theta())
 				if(particleProton_theta<0) particleProton_theta+=360 //Make angles be non-negative
 
+
 				def wvec = beam+target-particleElectron
 				def qvec = beam-particleElectron
 				def particleX = beam+target-particleElectron-particleProton
@@ -145,25 +198,45 @@ class EventProcessor {
 				//printerUtil.printer("particleX mass squared is:${particleX.mass2()}",0)
 				def xBjorken = -qvec.mass2()/(2*particleProton.vect().dot(qvec.vect()))
 				//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
-				hxB.fill(xBjorken)
+	
+				def particleProtonPhi = Math.toDegrees(particleProton.phi())
+				if(particleProtonPhi<0) particleProtonPhi+=360
 
-
-				/////////////// NO IDEA WHAT THIS IS DOING BELOW
-				def pdet = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' 
-				///////// FIGURE THIS OUT ABOVE
-
-				def particleProtonfi = Math.toDegrees(particleProton.phi())
-				if(particleProtonfi<0) particleProtonfi+=360
+				
 
 				def esec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexElectron}?.with{bankScintillator.getByte('sector',it)}
 				def psec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexProton}?.with{bankScintillator.getByte('sector',it)}
 				if(psec==0) {
-					psec = Math.floor(particleProtonfi/60).toInteger() +2
+					psec = Math.floor(particleProtonPhi/60).toInteger() +2
 					if(psec==7) psec=1
 				}
 
 				def bool_ep0_event = particleX.mass2()<1 && wvec.mass()>2
 
+				def proton_location = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' //This returns FD if proton in FD, CD if CD
+
+
+				hist_xB_nocuts.fill(xBjorken)
+				hist_Q2_nocuts.fill(-qvec.mass2())
+				hist_W_nocuts.fill(wvec.mass())
+				hist_theta_electron_no_cuts.fill(particleElectron_theta)
+				hist_theta_proton_no_cuts.fill(particleProton_theta)
+				hist_theta_proton_electron_no_cuts.fill(particleProton_theta,particleElectron_theta)
+				hist_phi_proton_nocuts.fill(particleProtonPhi)
+
+
+				if (proton_location == 'FD'){
+					hist_theta_proton_FD_no_cuts.fill(particleProton_theta)
+					hist_phi_proton_nocuts_FD.fill(particleProtonPhi)
+					hist_theta_proton_electron_FD_no_cuts.fill(particleProton_theta,particleElectron_theta)
+
+				}
+				if (proton_location == 'CD'){
+					hist_theta_proton_CD_no_cuts.fill(particleProton_theta)
+				}
+
+
+		
 
 				// index of pions is a set of pairs of photon indicies, it is a full permutation over all possible pairwise combinations (possible pions)
 				// looping over each pair to find the "best" pion
@@ -189,9 +262,9 @@ class EventProcessor {
 					def thetaXPi = particleX.vect().theta(particleGammaGammaPair.vect())
 					def dpt0 = diff_between_X_and_GG.px().abs()<0.3 && diff_between_X_and_GG.py().abs()<0.3
 					def dmisse0 = diff_between_X_and_GG.e()<1
-					def tt0 = -(particleProton-target).mass2()
+					def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t
 					def particleProtoncalc = beam+target-particleElectron-particleGammaGammaPair
-					def tt1 = -(particleProtoncalc-target).mass2()
+					def t_momentum_recon = -(particleProtoncalc-target).mass2() //This is the kinematic variable t, calculated differently
 
 
 					def vLept = beam.vect().cross(particleElectron.vect())
@@ -216,19 +289,55 @@ class EventProcessor {
 					//printer("Associated title is $title",2)
 
 					//println(t_bins)
-					def tRound = (Math.round(tt0*10)/10)
+					def tRound = (Math.round(t_momentum*10)/10)
 
 					if(!(bool_ep0_event)) { continue }
 
 					if(!(ispi0 && bool_ep0_event && dmisse0 && dpt0 && thetaXPi<2)) { continue}
+
+					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
+
+					//fill histograms
 					
+					hist_theta_proton_electron_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
+					if (proton_location == 'FD'){
+						hist_theta_proton_FD_exclu_cuts.fill(particleProton_theta)
+						hist_phi_proton_excuts_FD.fill(particleProtonPhi)
+						hist_theta_proton_electron_FD_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
+					}
+					if (proton_location == 'CD'){
+						hist_theta_proton_CD_exclu_cuts.fill(particleProton_theta)
+					}
+					
+					hist_phi_proton_excuts.fill(particleProtonPhi)
+					hist_xB_excuts.fill(xBjorken)
+					hist_Q2_excuts.fill(-qvec.mass2())
+					hist_W_excuts.fill(wvec.mass())
+					hist_xB_Q2.fill(xBjorken,-qvec.mass2())
+					hist_lept_had_angle.fill(LeptHadAngle)
+					hist_t.fill(t_momentum)
+					hist_t_recon.fill(t_momentum_recon)
+
+
+					
+					
+
 					dvpp_event = 1
 				}
 			}
 		}
 
 		//Set up and return arguements
-		def histo_arr_out = [hxB,]
+		def histo_arr_out = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
+						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
+						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
+						hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
+						hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
+						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
+						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
+						hist_t, hist_t_recon,
+						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD]
+
 		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
 	}
 

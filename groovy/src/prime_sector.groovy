@@ -310,16 +310,11 @@ def screen_updater(FileStartTime,CurrentCounter,CountRate,NumTotalCounts){
 	}
 }
 
-def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
-def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
-def Hist_Ultra_Phi 	= [:].withDefault{new H1F("Hist_Ultra_Phi${it}", "Phi in in q2 xb t bins of ${it}",20,0,360)}
-def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
-def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
-def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
-def hW = new H1F("Hist_W","W Distribution",1000,0,12)
-def hxB = new H1F("Hist_xB","Bjorken x Distribution",1000,0,1.5)
-def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",2000,0,5)
-def htmomrecon = new H1F("Hist_t_mom_recon","Recon'd Momentum transfer to Nucleon (t)",4000,-20,20)
+
+/// ****************** START *******************
+
+//DONE
+
 def heleTheta = new H1F("Hist_heleTheta","Electron Theta Distribution",2500,0,50)
 def hproTheta = new H1F("Hist_hproTheta","Proton Theta Distribution",2500,0,150)
 def hproThetaFD = new H1F("Hist_hproThetaFD","Proton Theta Distribution in FD",1500,0,150)
@@ -328,8 +323,33 @@ def hproThetaFDaftercuts = new H1F("Hist_hproThetaFDaftercuts","Proton Theta Dis
 def hproThetaCDaftercuts = new H1F("Hist_hproThetaCDaftercuts","Proton Theta Distribution in CD After Excl. Cuts",1500,0,150)
 def heleproTheta = new H2F("Hist_heleproTheta","Proton Angle vs. Electron Angle (Theta)",800,0,150,800,0,55)
 def heleproThetaDVPP = new H2F("Hist_heleproThetaDVMP","Proton Angle vs. Electron Angle (Theta) for DVPP Candidates",400,0,150,400,0,55)
+
 def H_xB_Q2 = new H2F("Hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 def hLeptHadAngle = new H1F("Hist_LeptHadAngle" , "Angle Between Lepton and Hadron Planes",90,0,360)
+def hq2 = new H1F("Hist_q2","Q^2 Distribution",1000,0,12)
+def hW = new H1F("Hist_W","W Distribution",1000,0,12)
+def hhel = new H1F("Hist_ihel","helicity",7,-2,2)
+def hphi = new H1F("Hist_phi","Phi Distribution",2500,-10,370)
+def htmom = new H1F("Hist_t_mom","Momentum transfer to Nucleon (t)",2000,0,5)
+def htmomrecon = new H1F("Hist_t_mom_recon","Recon'd Momentum transfer to Nucleon (t)",4000,-20,20)
+
+
+
+//DOING:
+
+
+//NOT DONE
+
+def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
+def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
+def Hist_Ultra_Phi 	= [:].withDefault{new H1F("Hist_Ultra_Phi${it}", "Phi in in q2 xb t bins of ${it}",20,0,360)}
+
+
+
+/// ****************** END *******************
+
+
+
 
 if (args.size()<3) {
 	printer("You need to include the number of events and files you want to process in the start command!",1)
