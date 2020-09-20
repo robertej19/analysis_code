@@ -1,12 +1,19 @@
 #!/usr/bin/python
 
 import sys
+sys.argv.append('-b') #This is for root batch mode, so that no canvas windows open up
 import subprocess
 import os
 import ROOT
 from ROOT import gStyle
 from ROOT import gROOT
 from ROOT import TStyle
+import json
+
+with open('../../histogram_dict.json') as f:
+  data = json.load(f)
+
+
 
 rootfilename = sys.argv[1]
 typeZZZ = int(sys.argv[2])
@@ -27,45 +34,54 @@ for key in root_tree.GetListOfKeys():
 """
 
 
-def plotdistributer(plots_dir,plotting_info,root_fileID,pdf_filename):
-	makeplot(plots_dir,plotting_info,"LogOff",root_fileID,pdf_filename)
-	if plotting_info[4]:
-		makeplot(plots_dir,plotting_info,"LogON",root_fileID,pdf_filename)
 
+def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_min, x_bin_max,
+				x_axis_title, y_axis_title, y_scale_max,double_plots, second_histo_root_ID, log_scale):
 
+	ROOT.gErrorIgnoreLevel = ROOT.kWarning #This quiets root file save messages
 
-def makeplot(plots_dir,plotting_info,logtitle,root_fileID,pdf_filename):
-	ROOT.gErrorIgnoreLevel = ROOT.kWarning
-	#print(type(plotting_info))
-	hist_title = plotting_info[0]
-	h1 = root_tree.Get(hist_title)
+	h1 = root_tree.Get(hist_root_ID)
+	print("name is {}".format(h1.GetName()))
 	c1 = ROOT.TCanvas('c1','c1',120,100)
-	if plotting_info[6] > 0:
-		h1.GetXaxis().SetRange(plotting_info[5],plotting_info[6])
+
+	#need to get this fixed, currently only works with int arguements
+	#if x_bin_max > 0:
+	#	h1.GetXaxis().SetRange(x_bin_min,x_bin_max)
 	h1.Draw("colz")
-	if plotting_info[7] > 0:
-		h1.SetAxisRange(0,plotting_info[7],"Y")
-	if plotting_info[8] > 0:
-		h2 = rootfilename.Get(plotting_info[9])
+	if y_scale_max > 0:
+		h1.SetAxisRange(0,y_scale_max,"Y")
+	if double_plots == "yes":
+		print("accessing title {}".format("output_file_histos_"+second_histo_root_ID))
+		
+		h2 = root_tree.Get("{}".format("output_file_histos_"+second_histo_root_ID))
+		print(h2.GetName())
 		h2.SetLineColorAlpha(2,1)
 		h2.Draw("SAME")
-		h2.SetAxisRange(0,110000,"Y")
-		logtitle += "_Double"
+		#h2.SetAxisRange(0,110000,"Y")
+		display_title += " Overlay"
 
-	#gStyle.SetOptStat(0)
-	h1.SetTitle(plotting_info[1])
-	h1.SetXTitle(plotting_info[2])
-	h1.SetYTitle(plotting_info[3])
-	#h1.SetLineWidth(5) #use this to make line width thicker
+	gStyle.SetOptStat(0)
+	h1.SetTitle(display_title)
+	h1.SetXTitle(x_axis_title)
+	h1.SetYTitle(y_axis_title)
+	h1.SetLineWidth(3) #use this to make line width thicker
 
-	if logtitle == "LogON":
+	if log_scale == "yes":
 		c1.SetLogz()
 	#c1.Draw()
-	c1.Print(".{}/{}.pdf".format(plots_dir,pdf_filename))
+	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
 
 
 plots_dir = "/../plots/{}/original_python_pdfs".format(root_fileID)
 plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
+
+
+
+
+"""
+Make a dictionary mappping hist titles to axis titles, other properities
+Add date to filename!
+"""
 
 
 
@@ -80,54 +96,49 @@ print(plots_folder+" is now present")
 
 
 
-"""
-Make a dictionary mappping hist titles to axis titles, other properities
-Add date to filename!
-"""
+
+
 
 
 
 
 for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
-	title_from_root = obj.GetName()
-	title_save_file = title_from_root.split("file_histos_hist_")[1] #e.g. this is something like phi_proton_excuts_FD
-	
-	plot_info = (title_from_root,title_save_file,"xais","y axis",0,0,0,0,0,0)
-	plotdistributer(plots_dir,plot_info,root_fileID,title_save_file)
+	hist_root_ID = obj.GetName() #e.g. this is something like output_file_histos_hist_phi_proton_excuts_FD
+	print(hist_root_ID)
+	hist_name = hist_root_ID.split("file_histos_")[1] #e.g. this is something like hist_phi_proton_excuts_FD
+	if hist_name in data:
+		#for key in data[hist_name][0]:
+		#	print("hist property {} has value {}".format(key,data[hist_name][0][key]))
+
+		display_title = data[hist_name][0]["display_title"]
+		num_bins_x      = data[hist_name][0]["num_bins_x"]
+		x_bin_min 	  = data[hist_name][0]["x_bin_min"]
+		x_bin_max     = data[hist_name][0]["x_bin_max"]
+		x_axis_title        = data[hist_name][0]["x_axis"]
+		y_axis_title        = data[hist_name][0]["y_axis"]
+		y_scale_max   = data[hist_name][0]["y_scale_max"]
+		double_plots   = data[hist_name][0]["double_plots"]
+		second_histo_root_title = data[hist_name][0]["second_histo_root_title"]
+		log_scale   = data[hist_name][0]["log_scale"]
 
 
-	#if "Ultra_Phi" in title:
-	#	if obj.GetEntries()>10 and obj.GetMaximum()>10:
-	#	 histTitle = title
-	#type9 = (title,title,"Phi","Counts",0,0,0,0,0,0)
-	
-	
-	#plotdistributer(type9,zz,zzz)
+		makeplot(plots_dir,hist_root_ID,hist_name,
+					display_title, num_bins_x, x_bin_min, x_bin_max,
+					x_axis_title, y_axis_title, y_scale_max,
+					double_plots, second_histo_root_title, log_scale)
+
+		if log_scale == "yes":
+			makeplot(plots_dir,hist_root_ID,hist_name,
+				display_title, num_bins_x, x_bin_min, x_bin_max,
+				x_axis_title, y_axis_title, y_scale_max,
+				double_plots, second_histo_root_title, log_scale)
+
+	else:
+		print("File {} not found in json formatting, skipping".format(hist_name))
 
 
-
-"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOrootfilename,xmin,xmax,ymax,1 = enable double plots,second histo name"""
-type1 = ("output_file_histos_Hist_heleproTheta",
-"Proton vs. Electron Theta Angle","Proton Angle","Electron Angle",
-1,0,0,0,0,0)
-type2 = ("output_file_histos_Hist_heleproThetaDVMP",
-"Proton vs. Electron Theta Angle, DVPP Candidates","Proton Angle","Electron Angle",
-1,0,0,0,0,0)
-type3 = ("output_file_histos_Hist_heleTheta",
-"Electron Angle (Theta), with Proton Coincidence","Electron Angle","Counts",
-0,0,0,0,0,0)
-type4 = ("output_file_histos_Hist_hproTheta","Proton Angle (Theta)","Proton Angle","Counts",
-0,0,0,110000,0,0)
-type5 = ("output_file_histos_Hist_LeptHadAngle",
-"Angle Between Lepton and Hadron Planes","Angle","Counts",
-0,0,90,0,0,0)
-type6 = ("output_file_histos_Hist_hproThetaCD",
-"Proton Angle (Theta) in CD (Status > 4000)","Angle","Counts",
-0,0,0,300,0,0)
-type7 = ("output_file_histos_Hist_hproThetaFD",
-"Proton Angle (Theta) in FD (2000 < Status < 4000)","Angle","Counts",
-0,0,0,300,0,0)
+"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOff,xmin,xmax,ymax,1 = enable double plots,second histo name"""
 
 
 Dtype8 = ("output_file_histos_Hist_hproThetaFD",
@@ -139,13 +150,15 @@ Dtype9 = ("output_file_histos_Hist_hproThetaFDaftercuts",
 0,0,0,300,1,"output_file_histos_Hist_hproThetaCDaftercuts")
 
 
-# #plots = [type1,type9]
-# #plots = [type1,type2,type3,type4,type5,type6,type7,Dtype8]
-# plots = [type6,type7,Dtype8,Dtype9]
+"""
+	#if "Ultra_Phi" in title:
+	#	if obj.GetEntries()>10 and obj.GetMaximum()>10:
+	#	 histTitle = title
+	#type9 = (title,title,"Phi","Counts",0,0,0,0,0,0)
+	
+	#plotdistributer(type9,zz,zzz)
+"""
 
-
-# os.mkdir("plots/"+zzz)
-# os.mkdir("plots/"+zzz+"/original_python_pdfs")
 
 # #Full xb range:
 # #xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
@@ -156,7 +169,6 @@ Dtype9 = ("output_file_histos_Hist_hproThetaFDaftercuts",
 # xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
 # q2Range = ["1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
 # tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
-
 
 
 # """
