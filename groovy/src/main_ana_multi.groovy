@@ -101,7 +101,6 @@ for (hist in data){
     def hist_params = (hist.getValue()[0])
 
     def root_title= hist_params.get("root_title")
-	print(root_title+",")
     def display_title = hist_params.get("display_title")
     def num_bins_x = hist_params.get("num_bins_x")
     def x_bin_min = hist_params.get("x_bin_min")
@@ -111,7 +110,7 @@ for (hist in data){
     def z_bin_max = hist_params.get("z_bin_max")
 
 
-
+	//Split over 2D histogram or not
     if (num_bins_z > 0){
         def x2 = new H2F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
 		histogram_array.add(x2)
@@ -124,105 +123,7 @@ for (hist in data){
 	
     
 }
-println(histogram_array.size())
 
-/*
-def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
-						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
-						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
-						hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
-						hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
-						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
-						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
-						hist_t, hist_t_recon,
-						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
-						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
-
-*/
-
-/*
-//Number of particles per event
-def hist_num_protons =  new H1F("hist_num_protons","Number of Protons per event",10,0,9)
-def hist_num_photons_cut =  new H1F("hist_num_photons_cut","Number of Photons per event, 400 MeV cut",20,0,19)
-def hist_num_photons_nocut =  new H1F("hist_num_photons_nocut","Number of Photons per event, no energy cut",20,0,19)
-
-
-//Angle distribution: theta
-def hist_theta_electron_no_cuts = new H1F("hist_theta_electron_no_cuts","Electron Theta Distribution",1500,0,50)
-
-
-def hist_theta_proton_no_cuts = new H1F("hist_theta_proton_no_cuts","Proton Theta Distribution",1500,0,150)
-
-
-
-
-def hist_theta_proton_FD_no_cuts = new H1F("hist_theta_proton_FD_no_cuts","Proton Theta Distribution in FD",1500,0,150)
-
-
-
-def hist_theta_proton_CD_no_cuts = new H1F("hist_theta_proton_CD_no_cuts","Proton Theta Distribution in CD",1500,0,150)
-def hist_theta_proton_FD_exclu_cuts = new H1F("hist_theta_proton_FD_exclu_cuts","Proton Theta Distribution in FD After Excl. Cuts",1500,0,150)
-def hist_theta_proton_CD_exclu_cuts  = new H1F("hist_theta_proton_CD_exclu_cuts","Proton Theta Distribution in CD After Excl. Cuts",1500,0,150)
-
-
-def hist_theta_proton_electron_no_cuts = new H2F("hist_theta_proton_electron_no_cuts","Proton vs. Electron Angles (Theta), No Cuts",800,0,150,800,0,55)
-def hist_theta_proton_electron_FD_no_cuts = new H2F("hist_theta_proton_electron_FD_no_cuts","Proton vs. Electron Angles (Theta), FD, No Cuts",800,0,150,800,0,55)
-def hist_theta_proton_electron_exclu_cuts = new H2F("hist_theta_proton_electron_exclu_cuts","Proton Angle vs. Electron Angle (Theta), Excl. Cuts",400,0,150,400,0,55)
-def hist_theta_proton_electron_FD_exclu_cuts = new H2F("hist_theta_proton_electron_FD_exclu_cuts","Proton Angle vs. Electron Angle (Theta), FD, Excl. Cuts",400,0,150,400,0,55)
-
-
-
-
-
-//Angle distribution: phi
-def hist_phi_proton_nocuts = new H1F("hist_phi_proton_nocuts","Phi Distribution",380,-10,370)
-def hist_phi_proton_nocuts_FD = new H1F("hist_phi_proton_nocuts_FD","Phi Distribution",380,-10,370)
-def hist_phi_proton_nocuts_CD = new H1F("hist_phi_proton_nocuts_CD","Phi Distribution",380,-10,370)
-def hist_phi_proton_excuts_CD = new H1F("hist_phi_proton_excuts_CD","Phi Distribution",380,-10,370)
-def hist_phi_proton_excuts = new H1F("hist_phi_proton_excuts","Phi Distribution",380,-10,370)
-def hist_phi_proton_excuts_FD = new H1F("hist_phi_proton_excuts_FD","Phi Distribution",380,-10,370)
-
-
-
-
-//More advanced kinematic quantities
-def hist_xB_nocuts = new H1F("hist_xB_nocuts","Bjorken x Distribution, No Cuts",1000,0,1.5)
-def hist_xB_excuts = new H1F("hist_xB_excuts","Bjorken x Distribution, Excl. Cuts",100,0,1.5)
-def hist_xB_Q2 = new H2F("hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
-def hist_lept_had_angle = new H1F("hist_lept_had_angle" , "Angle Between Lepton and Hadron Planes",90,0,360)
-
-
-
-
-
-
-
-def hist_Q2_nocuts = new H1F("hist_Q2_nocuts","Q^2 Distribution, no cuts",1000,0,12)
-def hist_Q2_excuts = new H1F("hist_Q2_excuts","Q^2 Distribution, Excl. Cuts",1000,0,12)
-def hist_W_nocuts = new H1F("hist_W_nocuts","W Distribution, no cuts",1000,0,12)
-def hist_W_excuts = new H1F("hist_W_excuts","W Distribution, Excl. Cuts",1000,0,12)
-def hist_helicity = new H1F("hist_helicity","Helicity",7,-2,2)
-
-//Still more quantitites
-def hist_t = new H1F("hist_t","Momentum transfer to Nucleon (t)",1000,-2,8)
-def hist_t_recon = new H1F("hist_t_recon","Reconstructed Momentum transfer to Nucleon (t)",1000,-2,8)
-
-
-
-
-
-
-def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
-						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
-						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
-						hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
-						hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
-						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
-						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
-						hist_t, hist_t_recon,
-						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
-						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
-*/
 
 //********************* Display pre reunning statistics **************** //
 printerUtil.printer("\n \nThe following files will be processed: ",1)

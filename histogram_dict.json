@@ -125,9 +125,6 @@
 
 
 
-
-
-
     "hist_theta_proton_FD_exclu_cuts": [{
         "root_title": "hist_theta_proton_FD_exclu_cuts",
         "display_title": "Proton Theta Distribution in FD After Excl. Cuts",
@@ -171,11 +168,6 @@
 
 
 
-
-
-
-
-
     "hist_theta_proton_electron_no_cuts": [{
         "root_title": "hist_theta_proton_electron_no_cuts",
         "display_title": "Proton vs. Electron Angles (Theta), No Cuts",
@@ -188,7 +180,7 @@
 		"y_scale_max": 0,
 		"double_plots": "0",
 		"second_histo_root_title": "0",
-		"log_scale": "no",
+		"log_scale": "yes",
         "x_axis": "Number of Photons in Event",
         "y_axis": "Number of Events"
     }],
@@ -404,9 +396,9 @@
     }],
 
 
-    "hist_xB_Q2": [{
-        "root_title": "hist_xB_Q2",
-        "display_title": "Bjorken X vs. Q^2",
+    "hist_xB_Q2_excuts": [{
+        "root_title": "hist_xB_Q2_excuts",
+        "display_title": "Bjorken X vs. Q^2, Excl. Cuts",
         "num_bins_x": 100,
         "x_bin_min": 0,
         "x_bin_max": 1.2,
@@ -559,6 +551,232 @@
 		"log_scale": "no",
         "x_axis": "Number of Photons in Event",
         "y_axis": "Number of Events"
+    }],
+
+
+    "hist_theta_phi_proton_nocuts": [{
+        "root_title": "hist_theta_phi_proton_nocuts",
+        "display_title": "Theta vs. Phi Angles for Proton, No Cuts",
+        "num_bins_x": 1440,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":100,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+
+    "hist_xB_Q2_FD_excuts": [{
+        "root_title": "hist_xB_Q2_FD_excuts",
+        "display_title": "Bjorken X vs. Q^2, FD, Excl. Cuts",
+        "num_bins_x": 100,
+        "x_bin_min": 0,
+        "x_bin_max": 1.2,
+        "num_bins_z":100,
+        "z_bin_min":0,
+        "z_bin_max":12,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Number of Photons in Event",
+        "y_axis": "Number of Events"
+    }],
+    
+    "hist_xB_Q2_CD_excuts": [{
+        "root_title": "hist_xB_Q2_CD_excuts",
+        "display_title": "Bjorken X vs. Q^2, CD, Excl. Cuts",
+        "num_bins_x": 100,
+        "x_bin_min": 0,
+        "x_bin_max": 1.2,
+        "num_bins_z":100,
+        "z_bin_min":0,
+        "z_bin_max":12,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Number of Photons in Event",
+        "y_axis": "Number of Events"
+    }], 
+
+
+    "hist_theta_phi_proton_nocuts_FD": [{
+        "root_title": "hist_theta_phi_proton_nocuts_FD",
+        "display_title": "Theta vs. Phi Angles for Proton, No Cuts, FD",
+        "num_bins_x": 1440,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":100,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+
+    "hist_theta_phi_proton_nocuts_CD": [{
+        "root_title": "hist_theta_phi_proton_nocuts_CD",
+        "display_title": "Theta vs. Phi Angles for Proton, No Cuts, CD",
+        "num_bins_x": 1440,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":100,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_theta_phi_proton_excuts": [{
+        "root_title": "hist_theta_phi_proton_excuts",
+        "display_title": "Theta vs. Phi Angles for Proton, Excl. Cuts",
+        "num_bins_x": 566,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":250,
+        "z_bin_min":0,
+        "z_bin_max":100,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_pion_mass_nocuts": [{
+        "root_title": "hist_pion_mass_nocuts",
+        "display_title": "Pion Mass (Gamma-Gamma Mass), No Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 1000,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_pion_mass_excuts": [{
+        "root_title": "hist_pion_mass_excuts",
+        "display_title": "Pion Mass (Gamma-Gamma Mass), Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 1000,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_thetaxpi_nocuts": [{
+        "root_title": "hist_thetaxpi_nocuts",
+        "display_title": "Angle Between X and Pion Candidates, Before Cuts",
+        "num_bins_x": 600,
+        "x_bin_min": -1,
+        "x_bin_max": 29,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Angle Between (e' - p') and Pion Candidate",
+        "y_axis": "Counts"
+    }],
+
+    "hist_thetaxpi_excuts": [{
+        "root_title": "hist_thetaxpi_excuts",
+        "display_title": "Angle Between X and Pion Candidates, Exclu. Cuts",
+        "num_bins_x": 600,
+        "x_bin_min": -1,
+        "x_bin_max": 29,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Angle Between (e' - p') and Pion Candidate",
+        "y_axis": "Counts"
+    }],
+
+
+    "hist_dmisse": [{
+        "root_title": "hist_dmisse",
+        "display_title": "Missing Energy, I think",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_dpt0_nocuts": [{
+        "root_title": "hist_dpt0_nocuts",
+        "display_title": "Missing Momentum Before Cuts",
+        "num_bins_x": 500,
+        "x_bin_min": 0,
+        "x_bin_max": 500,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":500,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "px momentum difference",
+        "y_axis": "py momentum difference"
+    }],
+
+    "hist_dpt0_excuts": [{
+        "root_title": "hist_dpt0_excuts",
+        "display_title": "Missing Momentum, Excl Cuts",
+        "num_bins_x": 500,
+        "x_bin_min": 0,
+        "x_bin_max": 500,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":500,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "px momentum difference",
+        "y_axis": "py momentum difference"
     }]
 
 }

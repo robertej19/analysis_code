@@ -16,9 +16,6 @@ with open('../../histogram_dict.json') as f:
 
 
 rootfilename = sys.argv[1]
-typeZZZ = int(sys.argv[2])
-LogOn = int(sys.argv[3])
-
 
 root_tree = ROOT.TFile(rootfilename)
 root_fileID = ((rootfilename.split("/"))[-1]).split(".")[0] #e.g. this is something like "output_file_histos23-33"
@@ -41,7 +38,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	ROOT.gErrorIgnoreLevel = ROOT.kWarning #This quiets root file save messages
 
 	h1 = root_tree.Get(hist_root_ID)
-	print("name is {}".format(h1.GetName()))
+	print("Saving Histogram {}".format(h1.GetName()))
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	#need to get this fixed, currently only works with int arguements
@@ -50,6 +47,16 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	h1.Draw("colz")
 	if y_scale_max > 0:
 		h1.SetAxisRange(0,y_scale_max,"Y")
+
+	gStyle.SetOptStat(0)
+	h1.SetTitle(display_title)
+	h1.SetXTitle(x_axis_title)
+	h1.SetYTitle(y_axis_title)
+	h1.SetLineWidth(3) #use this to make line width thicker
+
+	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
+
+
 	if double_plots == "yes":
 		print("accessing title {}".format("output_file_histos_"+second_histo_root_ID))
 		
@@ -60,16 +67,18 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 		#h2.SetAxisRange(0,110000,"Y")
 		display_title += " + Overlay"
 
-	gStyle.SetOptStat(0)
-	h1.SetTitle(display_title)
-	h1.SetXTitle(x_axis_title)
-	h1.SetYTitle(y_axis_title)
-	h1.SetLineWidth(3) #use this to make line width thicker
+		gStyle.SetOptStat(0)
+		h1.SetTitle(display_title)
+		h1.SetXTitle(x_axis_title)
+		h1.SetYTitle(y_axis_title)
+		h1.SetLineWidth(3) #use this to make line width thicker
+
+		c1.Print(".{}/{}.pdf".format(plots_dir,hist_name+"_Double"))
+
 
 	if log_scale == "yes":
 		c1.SetLogz()
-	#c1.Draw()
-	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
+		c1.Print(".{}/{}.pdf".format(plots_dir,hist_name+"_logON"))
 
 
 plots_dir = "/../plots/{}/original_python_pdfs".format(root_fileID)
@@ -105,7 +114,6 @@ print(plots_folder+" is now present")
 for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
 	hist_root_ID = obj.GetName() #e.g. this is something like output_file_histos_hist_phi_proton_excuts_FD
-	print(hist_root_ID)
 	hist_name = hist_root_ID.split("file_histos_")[1] #e.g. this is something like hist_phi_proton_excuts_FD
 	if hist_name in data:
 		#for key in data[hist_name][0]:
@@ -127,12 +135,6 @@ for key in root_tree.GetListOfKeys():
 					display_title, num_bins_x, x_bin_min, x_bin_max,
 					x_axis_title, y_axis_title, y_scale_max,
 					double_plots, second_histo_root_title, log_scale)
-
-		if log_scale == "yes":
-			makeplot(plots_dir,hist_root_ID,hist_name,
-				display_title, num_bins_x, x_bin_min, x_bin_max,
-				x_axis_title, y_axis_title, y_scale_max,
-				double_plots, second_histo_root_title, log_scale)
 
 	else:
 		print("File {} not found in json formatting, skipping".format(hist_name))
