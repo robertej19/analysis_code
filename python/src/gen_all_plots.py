@@ -58,7 +58,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 		h2.SetLineColorAlpha(2,1)
 		h2.Draw("SAME")
 		#h2.SetAxisRange(0,110000,"Y")
-		display_title += " Overlay"
+		display_title += " + Overlay"
 
 	gStyle.SetOptStat(0)
 	h1.SetTitle(display_title)

@@ -95,16 +95,29 @@ def hist_num_photons_nocut =  new H1F("hist_num_photons_nocut","Number of Photon
 //Angle distribution: theta
 def hist_theta_electron_no_cuts = new H1F("hist_theta_electron_no_cuts","Electron Theta Distribution",1500,0,50)
 
+
 def hist_theta_proton_no_cuts = new H1F("hist_theta_proton_no_cuts","Proton Theta Distribution",1500,0,150)
+
+
+
+
 def hist_theta_proton_FD_no_cuts = new H1F("hist_theta_proton_FD_no_cuts","Proton Theta Distribution in FD",1500,0,150)
+
+
+
 def hist_theta_proton_CD_no_cuts = new H1F("hist_theta_proton_CD_no_cuts","Proton Theta Distribution in CD",1500,0,150)
 def hist_theta_proton_FD_exclu_cuts = new H1F("hist_theta_proton_FD_exclu_cuts","Proton Theta Distribution in FD After Excl. Cuts",1500,0,150)
 def hist_theta_proton_CD_exclu_cuts  = new H1F("hist_theta_proton_CD_exclu_cuts","Proton Theta Distribution in CD After Excl. Cuts",1500,0,150)
+
 
 def hist_theta_proton_electron_no_cuts = new H2F("hist_theta_proton_electron_no_cuts","Proton vs. Electron Angles (Theta), No Cuts",800,0,150,800,0,55)
 def hist_theta_proton_electron_FD_no_cuts = new H2F("hist_theta_proton_electron_FD_no_cuts","Proton vs. Electron Angles (Theta), FD, No Cuts",800,0,150,800,0,55)
 def hist_theta_proton_electron_exclu_cuts = new H2F("hist_theta_proton_electron_exclu_cuts","Proton Angle vs. Electron Angle (Theta), Excl. Cuts",400,0,150,400,0,55)
 def hist_theta_proton_electron_FD_exclu_cuts = new H2F("hist_theta_proton_electron_FD_exclu_cuts","Proton Angle vs. Electron Angle (Theta), FD, Excl. Cuts",400,0,150,400,0,55)
+
+
+
+
 
 //Angle distribution: phi
 def hist_phi_proton_nocuts = new H1F("hist_phi_proton_nocuts","Phi Distribution",380,-10,370)
@@ -116,11 +129,18 @@ def hist_phi_proton_excuts_FD = new H1F("hist_phi_proton_excuts_FD","Phi Distrib
 
 
 
+
 //More advanced kinematic quantities
 def hist_xB_nocuts = new H1F("hist_xB_nocuts","Bjorken x Distribution, No Cuts",1000,0,1.5)
 def hist_xB_excuts = new H1F("hist_xB_excuts","Bjorken x Distribution, Excl. Cuts",100,0,1.5)
 def hist_xB_Q2 = new H2F("hist_xB_Q2" , "Bjorken X vs. Q^2",300,0,1.5,300,0,12)
 def hist_lept_had_angle = new H1F("hist_lept_had_angle" , "Angle Between Lepton and Hadron Planes",90,0,360)
+
+
+
+
+
+
 
 def hist_Q2_nocuts = new H1F("hist_Q2_nocuts","Q^2 Distribution, no cuts",1000,0,12)
 def hist_Q2_excuts = new H1F("hist_Q2_excuts","Q^2 Distribution, Excl. Cuts",1000,0,12)
@@ -131,6 +151,9 @@ def hist_helicity = new H1F("hist_helicity","Helicity",7,-2,2)
 //Still more quantitites
 def hist_t = new H1F("hist_t","Momentum transfer to Nucleon (t)",1000,-2,8)
 def hist_t_recon = new H1F("hist_t_recon","Reconstructed Momentum transfer to Nucleon (t)",1000,-2,8)
+
+
+
 
 
 
@@ -259,16 +282,18 @@ println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal
 
 //********* Save data in hipo and text files *****************
 
+def outputfilename = "${OutFileName}-${ScriptEndTime.format('YYYYMMdd-HH-mm')}"
+
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
 histogram_array.each { i ->
 	out.addDataSet(i)
 }
-out.writeFile("../hipo-root-files/${OutFileName}${ScriptEndTime.format('HH-mm')}.hipo")
+out.writeFile("../hipo-root-files/${outputfilename}.hipo")
 
-File file = new File("../hipo-root-files/${OutFileName}${ScriptEndTime.format('HH-mm')}.txt")
-file.append("Run information for ${OutFileName}${ScriptEndTime.format('HH-mm')}.hipo \n")
+File file = new File("../hipo-root-files/${outputfilename}.txt")
+file.append("Run information for ${outputfilename}.hipo \n")
 file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n")
 if(ScriptRunTime > 1){
 	file.append("total runtime: ${ScriptRunTime.round(2)} minutes - ")
