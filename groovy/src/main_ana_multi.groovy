@@ -86,6 +86,61 @@ def GlobalFileSizeProcessed = 0
 
 //********************* Define Histograms **************** //
 
+import groovy.json.JsonSlurper
+
+
+filename = "../../histogram_dict.json"
+ 
+def jsonSlurper = new JsonSlurper()
+def data = jsonSlurper.parse(new File(filename))
+ 
+def histogram_array = []
+
+for (hist in data){
+    
+    def hist_params = (hist.getValue()[0])
+
+    def root_title= hist_params.get("root_title")
+	print(root_title+",")
+    def display_title = hist_params.get("display_title")
+    def num_bins_x = hist_params.get("num_bins_x")
+    def x_bin_min = hist_params.get("x_bin_min")
+    def x_bin_max = hist_params.get("x_bin_max")
+    def num_bins_z = hist_params.get("num_bins_z")
+    def z_bin_min = hist_params.get("z_bin_min")
+    def z_bin_max = hist_params.get("z_bin_max")
+
+
+
+    if (num_bins_z > 0){
+        def x2 = new H2F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+		histogram_array.add(x2)
+    }
+    else {
+        def x1 = new H1F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max)
+		histogram_array.add(x1)
+    }
+
+	
+    
+}
+println(histogram_array.size())
+
+/*
+def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
+						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
+						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
+						hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
+						hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
+						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
+						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
+						hist_t, hist_t_recon,
+						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
+						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
+
+*/
+
+/*
 //Number of particles per event
 def hist_num_protons =  new H1F("hist_num_protons","Number of Protons per event",10,0,9)
 def hist_num_photons_cut =  new H1F("hist_num_photons_cut","Number of Photons per event, 400 MeV cut",20,0,19)
@@ -157,7 +212,6 @@ def hist_t_recon = new H1F("hist_t_recon","Reconstructed Momentum transfer to Nu
 
 
 
-
 def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
 						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
 						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
@@ -168,7 +222,7 @@ def histogram_array = [hist_num_protons,hist_num_photons_cut,hist_num_photons_no
 						hist_t, hist_t_recon,
 						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
 						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
-
+*/
 
 //********************* Display pre reunning statistics **************** //
 printerUtil.printer("\n \nThe following files will be processed: ",1)

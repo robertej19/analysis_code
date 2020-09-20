@@ -89,39 +89,56 @@ class EventProcessor {
 		//Angle Distributions
 		def hist_theta_electron_no_cuts = histo_array_in[3]
 		def hist_theta_proton_no_cuts = histo_array_in[4]
-		def hist_theta_proton_CD_no_cuts = histo_array_in[5]
-		def hist_theta_proton_FD_no_cuts = histo_array_in[6]
+		def hist_theta_proton_CD_no_cuts = histo_array_in[6]
+
+		def hist_theta_proton_FD_no_cuts = histo_array_in[5]
+
 		def hist_theta_proton_FD_exclu_cuts = histo_array_in[7]
 		def hist_theta_proton_CD_exclu_cuts = histo_array_in[8]
+
+
+
 		def hist_theta_proton_electron_no_cuts = histo_array_in[9]
 		def hist_theta_proton_electron_FD_no_cuts = histo_array_in[10]
 		def hist_theta_proton_electron_exclu_cuts = histo_array_in[11]
 		def hist_theta_proton_electron_FD_exclu_cuts = histo_array_in[12]
 
-		//Advanced Kinematic Quantities
-		def hist_xB_nocuts = histo_array_in[13]
-		def hist_xB_excuts = histo_array_in[14]
-		def hist_xB_Q2 = histo_array_in[15]
-		def hist_lept_had_angle = histo_array_in[16]
 
-		def hist_Q2_nocuts = histo_array_in[17]
-		def hist_Q2_excuts = histo_array_in[18]
-		def hist_W_nocuts = histo_array_in[19]
-		def hist_W_excuts = histo_array_in[20]
-		def hist_helicity = histo_array_in[21]
+		def hist_phi_proton_nocuts = histo_array_in[13]
+		def hist_phi_proton_nocuts_FD = histo_array_in[14]
+		def hist_phi_proton_nocuts_CD = histo_array_in[15]
+
+		def hist_phi_proton_excuts = histo_array_in[16]
+		def hist_phi_proton_excuts_FD = histo_array_in[17]
+		def hist_phi_proton_excuts_CD = histo_array_in[18]
+
+
+		//Advanced Kinematic Quantities
+		def hist_xB_nocuts = histo_array_in[19]
+		def hist_xB_excuts = histo_array_in[20]
+
+
+		def hist_xB_Q2 = histo_array_in[21]
+		def hist_lept_had_angle = histo_array_in[22]
+
+
+		def hist_Q2_nocuts = histo_array_in[23]
+		def hist_Q2_excuts = histo_array_in[24]
+		def hist_W_nocuts = histo_array_in[25]
+		def hist_W_excuts = histo_array_in[26]
+
+		def hist_t = histo_array_in[27]
+		def hist_t_recon = histo_array_in[28]
+
+		def hist_helicity = histo_array_in[29]
 
 		// More hists
-		def hist_t = histo_array_in[22]
-		def hist_t_recon = histo_array_in[23]
 
 
-		def hist_phi_proton_nocuts = histo_array_in[24]
-		def hist_phi_proton_nocuts_FD = histo_array_in[25]
-		def hist_phi_proton_excuts = histo_array_in[26]
-		def hist_phi_proton_excuts_FD = histo_array_in[27]
 
-		def hist_phi_proton_nocuts_CD = histo_array_in[28]
-		def hist_phi_proton_excuts_CD = histo_array_in[29]
+
+
+
 
 
 
@@ -333,16 +350,15 @@ class EventProcessor {
 		}
 
 		//Set up and return arguements
-		def histo_arr_out = [hist_num_protons,hist_num_photons_cut,hist_num_photons_nocut,
-						hist_theta_electron_no_cuts, hist_theta_proton_no_cuts, hist_theta_proton_CD_no_cuts, hist_theta_proton_FD_no_cuts,
-						hist_theta_proton_FD_exclu_cuts, hist_theta_proton_CD_exclu_cuts,
-						hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
-						hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
-						hist_xB_nocuts, hist_xB_excuts, hist_xB_Q2, hist_lept_had_angle,
-						hist_Q2_nocuts, hist_Q2_excuts, hist_W_nocuts, hist_W_excuts, hist_helicity,
-						hist_t, hist_t_recon,
-						hist_phi_proton_nocuts, hist_phi_proton_nocuts_FD, hist_phi_proton_excuts, hist_phi_proton_excuts_FD,
-						hist_phi_proton_nocuts_CD, hist_phi_proton_excuts_CD]
+		def histo_arr_out = [hist_num_protons, hist_num_photons_nocut,hist_num_photons_cut,
+					hist_theta_electron_no_cuts,hist_theta_proton_no_cuts,hist_theta_proton_FD_no_cuts,
+					hist_theta_proton_CD_no_cuts,hist_theta_proton_FD_exclu_cuts,hist_theta_proton_CD_exclu_cuts,
+					hist_theta_proton_electron_no_cuts,hist_theta_proton_electron_FD_no_cuts,
+					hist_theta_proton_electron_exclu_cuts,hist_theta_proton_electron_FD_exclu_cuts,
+					hist_phi_proton_nocuts,hist_phi_proton_nocuts_FD,hist_phi_proton_nocuts_CD,hist_phi_proton_excuts,
+					hist_phi_proton_excuts_FD,hist_phi_proton_excuts_CD,hist_xB_nocuts,hist_xB_excuts,
+					hist_xB_Q2,hist_lept_had_angle,hist_Q2_nocuts,hist_Q2_excuts,hist_W_nocuts,hist_W_excuts,
+					hist_t,hist_t_recon,hist_helicity]
 
 		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
 	}

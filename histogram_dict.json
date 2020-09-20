@@ -71,8 +71,8 @@
     }],
     
     "hist_theta_proton_no_cuts": [{
-        "root_title": "Proton Theta Distribution",
-        "display_title": "Number of Photons Per Event",
+        "root_title": "hist_theta_proton_no_cuts",
+        "display_title": "Proton Theta Distribution",
         "num_bins_x": 1500,
         "x_bin_min": 0,
         "x_bin_max": 150,
@@ -231,7 +231,7 @@
     
 
     "hist_theta_proton_electron_FD_exclu_cuts": [{
-        "root_title": "hist_theta_proton_electron_no_cuts",
+        "root_title": "hist_theta_proton_electron_FD_exclu_cuts",
         "display_title": "Proton vs. Electron Angles (Theta), FD, Excl. Cuts",
         "num_bins_x": 100,
         "x_bin_min": 0,
