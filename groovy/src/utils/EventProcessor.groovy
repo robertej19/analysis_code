@@ -152,6 +152,7 @@ class EventProcessor {
 		def hist_dpt0_nocuts = histo_array_in[41]
 		def hist_dpt0_excuts = histo_array_in[42]
 
+		def hist_dmisse0_excuts	= histo_array_in[43]
 
 
 
@@ -411,6 +412,7 @@ class EventProcessor {
 					hist_lept_had_angle.fill(LeptHadAngle)
 					hist_t.fill(t_momentum)
 					hist_t_recon.fill(t_momentum_recon)
+					hist_dmisse0_excuts.fill(dmisse0)
 
 
 					
@@ -435,7 +437,8 @@ class EventProcessor {
 					hist_theta_phi_proton_nocuts_FD, hist_theta_phi_proton_nocuts_CD, hist_theta_phi_proton_excuts,
 					hist_pion_mass_nocuts,hist_pion_mass_excuts,
 					hist_thetaxpi_nocuts, hist_thetaxpi_excuts,hist_dmisse0,
-					hist_dpt0_nocuts,hist_dpt0_excuts]
+					hist_dpt0_nocuts,hist_dpt0_excuts,
+					hist_dmisse0_excuts]
 
 		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
 	}

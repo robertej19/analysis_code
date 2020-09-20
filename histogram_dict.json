@@ -777,6 +777,23 @@
 		"log_scale": "no",
         "x_axis": "px momentum difference",
         "y_axis": "py momentum difference"
+    }],
+
+    "hist_dmisse_excuts": [{
+        "root_title": "hist_dmisse_excuts",
+        "display_title": "Missing Energy in GeV, Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
     }]
 
 }
