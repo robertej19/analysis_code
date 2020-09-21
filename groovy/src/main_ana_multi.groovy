@@ -83,6 +83,9 @@ def NumGlobalDVPPEvents = 0
 def NumFilesProcessed = 0
 def GlobalFileSizeToProcess = 0
 def GlobalFileSizeProcessed = 0
+def NumGlobalCDEvents = 0
+def NumGlobalFDEvents = 0
+
 
 //********************* Define Histograms **************** //
 
@@ -161,6 +164,8 @@ GParsPool.withPool NumCores, {
 		evcount.set(0)
 		def Float FCupCharge = 0 //For counting charge on faraday cup
 		def NumLocalDVPPEvents = 0
+		def NumLocalFDEvents = 0
+		def NumLocalCDEvents = 0
 		def FileStartTime = new Date()
 		println("\n \n \n \n Processing file $fname_short - ${(NumEventsToProcess/Mil).round(3)} M events events at ${FileStartTime.format('HH:mm:ss')}")
 
@@ -175,7 +180,9 @@ GParsPool.withPool NumCores, {
 			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
-			histogram_array = funreturns[2]
+			NumLocalFDEvents += funreturns[2]
+			NumLocalCDEvents += funreturns[3]
+			histogram_array = funreturns[4]
 		}
 
 		reader.close()
@@ -207,10 +214,13 @@ GParsPool.withPool NumCores, {
 
 		// ******* Compile and print Physics statistics ****** //
 
+		NumGlobalCDEvents += NumLocalCDEvents
+		NumGlobalFDEvents += NumLocalFDEvents
 		NumGlobalDVPPEvents += NumLocalDVPPEvents
 		GlobalLumiTotal += lumicalc.CalcLumi(FCupCharge)
 
 		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
+		println("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents")
 		println("Charge on FCup from this run: $FCupCharge in nanoColoumbs")
 		println("Total Integrated Luminosity so far is $GlobalLumiTotal-- UNITS???")
 
@@ -258,6 +268,7 @@ else{
 }
 file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n")
 file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} %\n")
+file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${NumGlobalFDEvents/NumGlobalCDEvents*100} %")
 file.append("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS??? \n")
 file.append("Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
 for (filename in FilesToProcess){

@@ -794,6 +794,40 @@
 		"log_scale": "no",
         "x_axis": "Mass of Pion Candidates (MeV)",
         "y_axis": "Counts"
+    }],
+
+    "hist_lept_had_angle_FD": [{
+        "root_title": "hist_lept_had_angle_FD",
+        "display_title": "Angle Between Lepton and Hadron Planes, FD",
+        "num_bins_x": 90,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Angle Between Lepton and Hadron Planes",
+        "y_axis": "Counts"
+    }],
+
+    "hist_lept_had_angle_CD": [{
+        "root_title": "hist_lept_had_angle_CD",
+        "display_title": "Angle Between Lepton and Hadron Planes, CD",
+        "num_bins_x": 90,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Angle Between Lepton and Hadron Planes",
+        "y_axis": "Counts"
     }]
 
 }

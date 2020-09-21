@@ -154,6 +154,11 @@ class EventProcessor {
 
 		def hist_dmisse0_excuts	= histo_array_in[43]
 
+		def hist_lept_had_angle_FD = histo_array_in[44]
+
+		def hist_lept_had_angle_CD = histo_array_in[45]
+
+
 
 
 		// More hists
@@ -168,6 +173,10 @@ class EventProcessor {
 
 		//Define standard variables
 		def dvpp_event = 0
+		def fd_event = 0 
+		def cd_event = 0
+
+
 		def xb_bins = 10
 		def beam = LorentzVector.withPID(11,0,0,10.6)
 		def target = LorentzVector.withPID(2212,0,0,0)
@@ -178,7 +187,7 @@ class EventProcessor {
 		// Leave event if not all banks are present
 		if(!(banknames.every{event.hasBank(it)})) {
 			//println("Not all bank events found, returning")
-			return [fcupBeamChargeMax, dvpp_event, histo_array_in]
+			return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, histo_array_in]
 		}
 		
 		
@@ -392,12 +401,16 @@ class EventProcessor {
 						hist_phi_proton_excuts_FD.fill(particleProtonPhi)
 						hist_theta_proton_electron_FD_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
 						hist_xB_Q2_FD_excuts.fill(xBjorken,-qvec.mass2())
+						hist_lept_had_angle_FD.fill(LeptHadAngle)
+						fd_event = 1
+
 					}
 					if (proton_location == 'CD'){
 						hist_theta_proton_CD_exclu_cuts.fill(particleProton_theta)
 						hist_phi_proton_excuts_CD.fill(particleProtonPhi)
 						hist_xB_Q2_CD_excuts.fill(xBjorken,-qvec.mass2())
-
+						hist_lept_had_angle_CD.fill(LeptHadAngle)
+						cd_event = 1
 					}
 					
 					hist_dpt0_excuts.fill(diff_between_X_and_GG.px().abs()*1000,diff_between_X_and_GG.py().abs()*1000)
@@ -415,13 +428,11 @@ class EventProcessor {
 					hist_dmisse0_excuts.fill(dmisse0)
 
 
-					
-					
-
 					dvpp_event = 1
 				}
 			}
 		}
+
 
 		//Set up and return arguements
 		def histo_arr_out = [hist_num_protons, hist_num_photons_nocut,hist_num_photons_cut,
@@ -438,9 +449,10 @@ class EventProcessor {
 					hist_pion_mass_nocuts,hist_pion_mass_excuts,
 					hist_thetaxpi_nocuts, hist_thetaxpi_excuts,hist_dmisse0,
 					hist_dpt0_nocuts,hist_dpt0_excuts,
-					hist_dmisse0_excuts]
+					hist_dmisse0_excuts,
+					hist_lept_had_angle_FD, hist_lept_had_angle_CD]
 
-		return [fcupBeamChargeMax, dvpp_event, histo_arr_out]
+		return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, histo_arr_out]
 	}
 
 }
