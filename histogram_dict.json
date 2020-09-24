@@ -730,7 +730,7 @@
 
     "hist_dmisse": [{
         "root_title": "hist_dmisse",
-        "display_title": "Missing Energy, no Cuts",
+        "display_title": "Difference in Missing Energy and Pion Energy, no Cuts",
         "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 10,
@@ -781,7 +781,7 @@
 
     "hist_dmisse_excuts": [{
         "root_title": "hist_dmisse_excuts",
-        "display_title": "Missing Energy in GeV, Excl. Cuts",
+        "display_title": "Difference in Missing Energy and Pion Energy in GeV, Excl. Cuts",
         "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 10,
@@ -828,6 +828,125 @@
 		"log_scale": "no",
         "x_axis": "Angle Between Lepton and Hadron Planes",
         "y_axis": "Counts"
-    }]
+    }],
 
+    "hist_miss_e_mass_nocuts": [{
+        "root_title": "hist_miss_e_mass_nocuts",
+        "display_title": "Missing Energy vs Missing Mass, no Cuts",
+        "num_bins_x": 500,
+        "x_bin_min": 0,
+        "x_bin_max": 5,
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":10,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "yes",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_miss_e_mass_excuts": [{
+        "root_title": "hist_miss_e_mass_excuts",
+        "display_title": "Missing Energy vs. Missing Mass, Ex. Cuts",
+        "num_bins_x": 300,
+        "x_bin_min": 0,
+        "x_bin_max": 5,
+        "num_bins_z":300,
+        "z_bin_min":0,
+        "z_bin_max":10,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_missing_e_nocuts": [{
+        "root_title": "hist_missing_e_nocuts",
+        "display_title": "Missing Energy, no Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_missing_e_excuts": [{
+        "root_title": "hist_missing_e_excuts",
+        "display_title": "Missing Energy, Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_pion_e_excuts": [{
+        "root_title": "hist_pion_e_excuts",
+        "display_title": "Pion Energy, Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+    "hist_x_mass_nocuts": [{
+        "root_title": "hist_x_mass_nocuts",
+        "display_title": "X mass, Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 5,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }],
+
+
+    "hist_x_mass_excuts": [{
+        "root_title": "hist_x_mass_excuts",
+        "display_title": "X mass, Excl. Cuts",
+        "num_bins_x": 1000,
+        "x_bin_min": 0,
+        "x_bin_max": 5,
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+		"y_scale_max": 0,
+		"double_plots": "0",
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Mass of Pion Candidates (MeV)",
+        "y_axis": "Counts"
+    }]
 }

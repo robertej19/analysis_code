@@ -1,0 +1,31 @@
+Run information for output_file_histos-20200924-15-29.hipo 
+Script began at 09/24/2020-15:26:49 and finished at 09/24/2020-15:29:16
+total runtime: 2.46 minutes - Processing rate: 42.50 kHz 
+Final global number of DVPP events found: 7477 out of a total of 6275789 - 0.12 %
+Global FD Events Found: 4120, compared to 3378 in the CD, a ratio of 121.9656601500 %Total Integrated Luminosity from the runs processed is 8.932990227522604E38 UNITS??? 
+
+ 
+
+****************** 
+ The following pion cuts were used: 
+
+ ****** DVEP CUTS: 
+ 
+Cut WMass has value 2 
+Cut Q2 has value 1 
+Cut ThetaDifference_X_Pi has value 2 
+Cut MomentumDifference_X_Pi has value 0.3 
+Cut MissingMassSquared has value 1 
+Cut MissingEnergy has value 1 
+
+ 
+ 
+ ***************** 
+ Used 7 cores to try to process 7 files, processing a total of 7 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005041.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005043.hipo 
