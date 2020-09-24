@@ -135,6 +135,8 @@ for (cut_type in cuts_json){
 	cuts_array.add(cut_type.getValue()[0])
 }
 
+print(cuts_array)
+
 
 //********************* Display pre reunning statistics **************** //
 printerUtil.printer("\n \nThe following files will be processed: ",1)
@@ -228,7 +230,7 @@ GParsPool.withPool NumCores, {
 		GlobalLumiTotal += lumicalc.CalcLumi(FCupCharge)
 
 		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
-		println("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents")
+		println("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents events in the CD")
 		println("Charge on FCup from this run: $FCupCharge in nanoColoumbs")
 		println("Total Integrated Luminosity so far is $GlobalLumiTotal-- UNITS???")
 

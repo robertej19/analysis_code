@@ -160,7 +160,15 @@ class EventProcessor {
 
 		def hist_lept_had_angle_CD = histo_array_in[45]
 
+		def hist_miss_e_mass_nocuts = histo_array_in[46]
+		def hist_miss_e_mass_excuts = histo_array_in[47]
 
+		def hist_missing_e_nocuts = histo_array_in[48]
+		def hist_missing_e_excuts = histo_array_in[49]
+		def hist_pion_e_excuts = histo_array_in[50]
+
+		def hist_x_mass_nocuts = histo_array_in[51]
+		def hist_x_mass_excuts = histo_array_in[52]
 
 
 		// More hists
@@ -357,6 +365,11 @@ class EventProcessor {
 					hist_thetaxpi_nocuts.fill(thetaXPi)
 					hist_dmisse0.fill(dmisse0)
 
+					hist_miss_e_mass_nocuts.fill(particleX.mass(),particleX.e())
+					hist_missing_e_nocuts.fill(particleX.e())
+					hist_x_mass_nocuts.fill(particleX.mass())
+
+
 					//*********************************************************************
 
 					//************ Define other kinematic quantities **********************
@@ -395,7 +408,7 @@ class EventProcessor {
 
 
 
-
+				
 					def dvep_array = [particleX, particleGammaGammaPair, wvec, qvec]
 					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array,cuts_array)
 
@@ -423,7 +436,12 @@ class EventProcessor {
 						hist_lept_had_angle_CD.fill(LeptHadAngle)
 						cd_event = 1
 					}
-					
+
+					hist_pion_e_excuts.fill(particleGammaGammaPair.e())
+					hist_missing_e_excuts.fill(particleX.e())
+					hist_x_mass_excuts.fill(particleX.mass())
+					hist_miss_e_mass_excuts.fill(particleX.mass(),particleX.e())
+
 					hist_dpt0_excuts.fill(diff_between_X_and_GG.px().abs()*1000,diff_between_X_and_GG.py().abs()*1000)
 					hist_thetaxpi_excuts.fill(thetaXPi)
 					hist_pion_mass_excuts.fill(particleGammaGammaPairmass*1000)
@@ -461,7 +479,11 @@ class EventProcessor {
 					hist_thetaxpi_nocuts, hist_thetaxpi_excuts,hist_dmisse0,
 					hist_dpt0_nocuts,hist_dpt0_excuts,
 					hist_dmisse0_excuts,
-					hist_lept_had_angle_FD, hist_lept_had_angle_CD]
+					hist_lept_had_angle_FD, hist_lept_had_angle_CD,
+					hist_miss_e_mass_nocuts, hist_miss_e_mass_excuts,
+					hist_missing_e_nocuts, hist_missing_e_excuts,
+					hist_pion_e_excuts,
+					hist_x_mass_nocuts, hist_x_mass_excuts]
 
 		return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, histo_arr_out]
 	}
