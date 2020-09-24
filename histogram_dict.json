@@ -409,8 +409,8 @@
 		"double_plots": "0",
 		"second_histo_root_title": "0",
 		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
+        "x_axis": "Bjorken X",
+        "y_axis": "Q^2 (GeV^2)"
     }],
 
     
@@ -585,8 +585,8 @@
 		"double_plots": "0",
 		"second_histo_root_title": "0",
 		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
+        "x_axis": "Bjorken X",
+        "y_axis": "Q^2 (GeV^2)"
     }],
     
     "hist_xB_Q2_CD_excuts": [{
@@ -602,8 +602,8 @@
 		"double_plots": "0",
 		"second_histo_root_title": "0",
 		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
+        "x_axis": "Bjorken X",
+        "y_axis": "Q^2 (GeV^2)"
     }], 
 
 
@@ -730,7 +730,7 @@
 
     "hist_dmisse": [{
         "root_title": "hist_dmisse",
-        "display_title": "Missing Energy, I think",
+        "display_title": "Missing Energy, no Cuts",
         "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 10,

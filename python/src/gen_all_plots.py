@@ -52,6 +52,8 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	h1.SetTitle(display_title)
 	h1.SetXTitle(x_axis_title)
 	h1.SetYTitle(y_axis_title)
+	#h1.GetXaxis.SetLabelSize(10)
+	gStyle.SetLabelSize(50)
 	h1.SetLineWidth(3) #use this to make line width thicker
 
 	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))

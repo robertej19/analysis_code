@@ -54,10 +54,12 @@ class PionCutter {
 		def pion_mass = pion.mass()
 		def pion_momentum = pion.p()
 
-		def pi_mass_low = cutParams[0]
-		def pi_mass_high = cutParams[1]
-		def pi_mom_min = cutParams[2]
-		def pi_BH_angle_min = cutParams[3]
+		def pi_mass_low = cutParams.get("pion_lower_mass")
+		def pi_mass_high = cutParams.get("pion_upper_mass")
+		def pi_mom_min = cutParams.get("pion_min_momentum")
+		def pi_BH_angle_min = cutParams.get("photon_BH_angle")
+		
+
 
 
 		def cut_mass = pion_mass > pi_mass_low && pion_mass < pi_mass_high

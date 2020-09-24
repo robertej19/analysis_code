@@ -43,7 +43,21 @@ class DVEPCutter {
 	//NEED Q2 GREATER THAN 1
 	static def cutDVEP(particleArray,allCutParams) {
 
-		
+
+		def cutParams = allCutParams[0] //This is the set of cut for DVEP events
+
+
+
+		def WMass_min = cutParams.get("WMass")
+		def Q2_min = cutParams.get("Q2")
+		def ThetaXPi_max = cutParams.get("ThetaDifference_X_Pi")
+		def MomDiff_max = cutParams.get("MomentumDifference_X_Pi")
+		def MissingMassSquared_max = cutParams.get("MissingMassSquared")
+		def MissingEnergy_max =  cutParams.get("MissingEnergy")
+
+
+
+
 		// Particle unpacking
 		def particleX = particleArray[0]
 		def pion = particleArray[1]
@@ -59,12 +73,13 @@ class DVEPCutter {
 
 
 		// Exclusive cuts:
-		def MissingMassSquared = particleX.mass2()< 1
-		def WMass = wvector.mass()>2
-		def QSquared = -qvector.mass2() > 1
-		def ThetaXPi = thetaXPi<2
-		def Dpt0 = diff_between_X_and_GG.px().abs()<0.3 && diff_between_X_and_GG.py().abs()<0.3
-		def Dmisse0 = dmisse0<1
+		
+		def WMass = wvector.mass() > WMass_min
+		def QSquared = -qvector.mass2() > Q2_min
+		def ThetaXPi = thetaXPi < ThetaXPi_max
+		def Dpt0 = diff_between_X_and_GG.px().abs() < MomDiff_max && diff_between_X_and_GG.py().abs() < MomDiff_max
+		def Dmisse0 = dmisse0 < MissingEnergy_max
+		def MissingMassSquared = particleX.mass2() < MissingMassSquared_max
 
 
 

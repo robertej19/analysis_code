@@ -128,41 +128,13 @@ for (hist in data){
 }
 
 
-filename2 = "../../cut_dict.json"
- 
-def data2 = jsonSlurper.parse(new File(filename2))
-
+json_cuts_file = "../../cut_dict.json"
+def cuts_json = jsonSlurper.parse(new File(json_cuts_file))
 def cuts_array = []
-
-for (cut_type in data2){
-    
-    def cut_params = (cut_type.getValue()[0])
-
-	if (cut_params.get("cut_class") == "DVEP"){
-		println("getting DVEP cuts")
-		def wmass = cut_params.get("WMass")
-		def q2 = cut_params.get("Q2")	
-		def ex_cuts = [wmass, q2]   
-		cuts_array.add(ex_cuts)
-
-	}
-	if (cut_params.get("cut_class") == "pions"){
-
-		println("getting pion cuts")
-
-		def pi_mass_low = cut_params.get("pion_lower_mass")
-		def pi_mass_high = cut_params.get("pion_upper_mass")
-		def pi_mom_min = cut_params.get("pion_min_momentum")
-		def pi_BH_angle_min = cut_params.get("photon_BH_angle")
-
-		def pion_cuts = [pi_mass_low, pi_mass_high, pi_mom_min, pi_BH_angle_min]
-		cuts_array.add(pion_cuts)
-	}
-	
+for (cut_type in cuts_json){
+	cuts_array.add(cut_type.getValue()[0])
 }
 
-//println("cuts array is")//
-//println(cuts_array)
 
 //********************* Display pre reunning statistics **************** //
 printerUtil.printer("\n \nThe following files will be processed: ",1)
@@ -265,10 +237,14 @@ GParsPool.withPool NumCores, {
 
 
 
+
 //********* Output final running statistics *****************
 
 def ScriptEndTime = new Date()
 def ScriptRunTime = (ScriptEndTime.getTime() - ScriptStartTime.getTime())/1000/60 //Time to process file in minutes
+def outputfilename = "${OutFileName}-${ScriptEndTime.format('YYYYMMdd-HH-mm')}"
+
+
 println("\n\n\n\nFinal Running Statistics:")
 print("Script began at ${ScriptStartTime.format('HH:mm:ss')} and finished at ${ScriptEndTime.format('HH:mm:ss')}, ")
 if(ScriptRunTime > 1){
@@ -280,10 +256,10 @@ else{
 println("Processed a total of $NumFilesProcessed files")
 println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed")
 println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS???")
+println("File saved at ../hipo-root-files/${outputfilename}. \n")
 
 //********* Save data in hipo and text files *****************
 
-def outputfilename = "${OutFileName}-${ScriptEndTime.format('YYYYMMdd-HH-mm')}"
 
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
@@ -303,26 +279,46 @@ else{
 	file.append("total runtime: ${(ScriptRunTime*60).round(2)} seconds - ")
 }
 file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n")
-file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} %\n")
-file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${NumGlobalFDEvents/NumGlobalCDEvents*100} %")
+if (NumGlobalDVPPEvents>0){
+	file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} %\n")
+}
+else{
+	file.append("No DVPP events found out of a total of $GlobalNumEventsProcessed \n ")
+}
+if (NumGlobalCDEvents >0){
+	file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${NumGlobalFDEvents/NumGlobalCDEvents*100} %")
+}
+else{
+	file.append("No DVEP events found in CD, all (if any) DVEP events are in FD \n")
+}	
 file.append("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS??? \n")
-file.append("The following pion cuts were used: \n")
-for (cut_type in data2){
-    
-    def cut_params = (cut_type.getValue()[0])
+file.append("\n \n\n****************** \n The following pion cuts were used: \n")
+
+for (cut_type in cuts_json){
+
+	def cut_params = (cut_type.getValue()[0])
 
 	if (cut_params.get("cut_class") == "DVEP"){
-		file.append("DVEP cuts: \n")
-		file.append("Wmass: "+cut_params.get("WMass")+"\n")
-		file.append("Q2: "+cut_params.get("Q2")+"\n")
+		file.append("\n ****** DVEP CUTS: \n \n")
+		for(key in cut_params.keySet()){
+			if (key != "cut_class"){
+				file.append("Cut $key has value ${cut_params.get(key)} \n")
+			}
+		}
 	}
 	if (cut_params.get("cut_class") == "pions"){
-		file.append("DVEP cuts: \n")
-		file.append("Wmass: "+cut_params.get("WMass"))
+		file.append("\n ****** PION CUTS: \n \n")
+		for(key in cut_params.keySet()){
+			if (key != "cut_class"){
+				file.append("Cut $key has value ${cut_params.get(key)} \n")
+			}
+		}
 	}
-	
+
+
 }
-file.append("Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
+
+file.append("\n \n \n ***************** \n Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
 for (filename in FilesToProcess){
 	file.append("${filename} \n")
 }
