@@ -42,12 +42,39 @@ class DVEPCutter {
 	//NEED Q2 GREATER THAN 1
 	static def cutDVEP(particleArray) {
 
+		
+		// Particle unpacking
+		def particleX = particleArray[0]
+		def pion = particleArray[1]
+		def wvector = particleArray[2]
+		def qvector = particleArray[3]
+
+
+	
+	
+		def thetaXPi = particleX.vect().theta(pion.vect())
+		def diff_between_X_and_GG = particleX - pion
+		def dmisse0 = (particleX - pion).e()
+
+
+		// Exclusive cuts:
+		def MissingMassSquared = particleX.mass2()< 1
+		def WMass = wvector.mass()>2
+		def QSquared = -qvector.mass2() > 1
+		def ThetaXPi = thetaXPi<2
+		def Dpt0 = diff_between_X_and_GG.px().abs()<0.3 && diff_between_X_and_GG.py().abs()<0.3
+		def Dmisse0 = dmisse0<1
+
+
+
+
+
+
 		def bool_is_DVEP = 0
-
-
-		if (all are true){
+		if (MissingMassSquared && WMass && QSquared && ThetaXPi && Dpt0 && Dmisse0){
 			bool_is_DVEP = 1
 		}
+
 
 
 		return bool_is_DVEP

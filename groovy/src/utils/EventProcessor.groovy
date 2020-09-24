@@ -42,6 +42,7 @@ import groovy.io.FileType
 import utils.subutils.ParticleGetter
 import utils.subutils.PermutationMaker
 import utils.subutils.PionCutter
+import utils.subutils.DVEPCutter
 
 
 		//println bankParticle.getInt('status')
@@ -393,19 +394,17 @@ class EventProcessor {
 					def tRound = (Math.round(t_momentum*10)/10)
 
 
-					def excut_WMass = wvec.mass()>2
-					def excut_Q2 = -qvec.mass2() > 1
-					def excut_MissingMassSquared = particleX.mass2()< 1
 
-					if(!(ispi0 && excut_MissingMassSquared && excut_WMass && excut_dmisse0 && excut_dpt0 && excut_thetaXPi)) { continue}
+
+					def dvep_array = [particleX, particleGammaGammaPair, wvec, qvec]
+					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array)
+
+
+					if(!(ispi0 && is_DVEP_event)) { continue}
 
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
 
 					//fill histograms
-
-					if (particleX.mass2()>1){
-						println(particleX.mass2())
-					}
 					
 					hist_theta_proton_electron_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
 					if (proton_location == 'FD'){
