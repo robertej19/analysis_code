@@ -41,6 +41,7 @@ import groovy.io.FileType
 //From Local
 import utils.subutils.ParticleGetter
 import utils.subutils.PermutationMaker
+import utils.subutils.PionCutter
 
 
 		//println bankParticle.getInt('status')
@@ -265,7 +266,6 @@ class EventProcessor {
 					if(psec==7) psec=1
 				}
 
-				def bool_ep0_event = particleX.mass2()<1 && wvec.mass()>2
 
 				def proton_location = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' //This returns FD if proton in FD, CD if CD
 
@@ -279,6 +279,17 @@ class EventProcessor {
 				hist_phi_proton_nocuts.fill(particleProtonPhi)
 
 				hist_theta_phi_proton_nocuts.fill(particleProtonPhi,particleProton_theta)
+
+
+/*
+
+	For hist in basic_kin_hists:
+		if FD:
+			hits[no_cut_ind][FD_ind].fill
+
+
+*/
+
 
 
 				if (proton_location == 'FD'){
@@ -316,9 +327,9 @@ class EventProcessor {
 
 					hist_pion_mass_nocuts.fill(particleGammaGammaPairmass*1000) //Report the mass in MeV
 
-					def ispi0 = particleGammaGammaPairmass<0.2 && particleGammaGammaPairmass>0.07 && particleGammaGammaPair.p()>1.5
 
-					
+					def pion_cuts = [particleGamma_1,particleGamma_2,particleElectron]
+					def ispi0 = PionCutter.cutPions(pion_cuts)
 
 					//************ Now we define DVEP exclusive cuts **********************
 		
@@ -338,12 +349,6 @@ class EventProcessor {
 					
 					def dmisse0 = diff_between_X_and_GG.e()
 					def excut_dmisse0 = dmisse0<1
-
-					
-
-					if(!(ispi0)) { continue	}
-					if(!(particleElectron.vect().theta(particleGamma_1.vect())>8 && particleElectron.vect().theta(particleGamma_2.vect())>8)) { continue }
-
 
 					
 					//Fill related histograms
@@ -387,13 +392,20 @@ class EventProcessor {
 					//println(t_bins)
 					def tRound = (Math.round(t_momentum*10)/10)
 
-					if(!(bool_ep0_event)) { continue }
 
-					if(!(ispi0 && bool_ep0_event && excut_dmisse0 && excut_dpt0 && excut_thetaXPi)) { continue}
+					def excut_WMass = wvec.mass()>2
+					def excut_Q2 = -qvec.mass2() > 1
+					def excut_MissingMassSquared = particleX.mass2()< 1
+
+					if(!(ispi0 && excut_MissingMassSquared && excut_WMass && excut_dmisse0 && excut_dpt0 && excut_thetaXPi)) { continue}
 
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
 
 					//fill histograms
+
+					if (particleX.mass2()>1){
+						println(particleX.mass2())
+					}
 					
 					hist_theta_proton_electron_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
 					if (proton_location == 'FD'){
