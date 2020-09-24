@@ -34,13 +34,14 @@ import org.jlab.io.base.DataEvent
 import org.jlab.io.hipo.HipoDataSource
 import org.jlab.io.hipo.HipoDataSync
 
+
 class DVEPCutter {
 
 	//def criteria_proton = bankParticle.getInt('pid',it)==2212
 
 
 	//NEED Q2 GREATER THAN 1
-	static def cutDVEP(particleArray) {
+	static def cutDVEP(particleArray,allCutParams) {
 
 		
 		// Particle unpacking

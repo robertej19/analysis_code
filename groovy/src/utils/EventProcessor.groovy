@@ -77,7 +77,7 @@ class EventProcessor {
 
 
 	//NEED Q2 GREATER THAN 1
-	def processEvent(j,event,histo_array_in,fcupBeamChargeMax) {
+	def processEvent(j,event,histo_array_in,fcupBeamChargeMax,cuts_array) {
 		//println("starting to process event")
 
 		
@@ -330,7 +330,7 @@ class EventProcessor {
 
 
 					def pion_cuts = [particleGamma_1,particleGamma_2,particleElectron]
-					def ispi0 = PionCutter.cutPions(pion_cuts)
+					def ispi0 = PionCutter.cutPions(pion_cuts,cuts_array)
 
 					//************ Now we define DVEP exclusive cuts **********************
 		
@@ -397,7 +397,7 @@ class EventProcessor {
 
 
 					def dvep_array = [particleX, particleGammaGammaPair, wvec, qvec]
-					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array)
+					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array,cuts_array)
 
 
 					if(!(ispi0 && is_DVEP_event)) { continue}

@@ -40,7 +40,9 @@ class PionCutter {
 
 
 	//NEED Q2 GREATER THAN 1
-	static def cutPions(particleArray) {
+	static def cutPions(particleArray,allCutParams) {
+
+		def cutParams = allCutParams[1] //This is the set of cut for pions
 
 		def photon1 = particleArray[0]
 		def photon2 = particleArray[1]
@@ -52,12 +54,17 @@ class PionCutter {
 		def pion_mass = pion.mass()
 		def pion_momentum = pion.p()
 
+		def pi_mass_low = cutParams[0]
+		def pi_mass_high = cutParams[1]
+		def pi_mom_min = cutParams[2]
+		def pi_BH_angle_min = cutParams[3]
 
-		def cut_mass = pion_mass > 0.07 && pion_mass < 0.2
-		def cut_momentum = pion_momentum > 1.5
 
-		def cut_BH1 = electron.vect().theta(photon1.vect())>18
-		def cut_BH2 = electron.vect().theta(photon2.vect())>18
+		def cut_mass = pion_mass > pi_mass_low && pion_mass < pi_mass_high
+		def cut_momentum = pion_momentum > pi_mom_min
+
+		def cut_BH1 = electron.vect().theta(photon1.vect()) > pi_BH_angle_min
+		def cut_BH2 = electron.vect().theta(photon2.vect()) > pi_BH_angle_min
 
 		
 		if (cut_mass && cut_momentum && cut_BH1 && cut_BH2){
