@@ -86,6 +86,7 @@ def GlobalFileSizeToProcess = 0
 def GlobalFileSizeProcessed = 0
 def NumGlobalCDEvents = 0
 def NumGlobalFDEvents = 0
+def t_bins = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
 
 
 //********************* Define Histograms **************** //
@@ -127,6 +128,13 @@ for (hist in data){
     
 }
 
+def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
+def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
+def Hist_Ultra_Phi 	= [:].withDefault{new H1F("Hist_Ultra_Phi${it}", "Phi in in q2 xb t bins of ${it}",20,0,360)}
+
+histogram_array.add(Hist_beta_p)
+histogram_array.add(Hist_beta_T)
+histogram_array.add(Hist_Ultra_Phi)
 
 json_cuts_file = "../../cut_dict.json"
 def cuts_json = jsonSlurper.parse(new File(json_cuts_file))
@@ -187,7 +195,7 @@ GParsPool.withPool NumCores, {
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			//println("event number: " + j)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,t_bins)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			NumLocalFDEvents += funreturns[2]
@@ -266,9 +274,39 @@ println("File saved at ../hipo-root-files/${outputfilename}. \n")
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
-histogram_array.each { i ->
+
+def histos_json_out = histogram_array.dropRight(3) //Drops the last 3 elements in the array
+histos_json_out.each { i ->
 	out.addDataSet(i)
 }
+
+def binned_histograms = histogram_array.takeRight(3) //Takes the last 3 elements
+def HistPB = binned_histograms[0]
+def HistPT = binned_histograms[1]
+def HistUPhi = binned_histograms[2]
+
+def xb_bins = 10
+for(int xBi=0;xBi<=12;xBi++){
+	for(int q2i=0;q2i<=16;q2i++){
+		def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
+		//printer("title is $title and q2i is $q2i with ${q2i/2}",2)
+		out.addDataSet(HistPB[title])
+		out.addDataSet(HistPT[title])
+	}
+}
+
+for(int xBi=0;xBi<=12;xBi++){
+	for(int q2i=0;q2i<=16;q2i++){
+		for(int xti=0;xti<t_bins.size()-1;xti++){
+			def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
+			def low = (t_bins[xti]).toFloat().round(3)
+			def high = (t_bins[xti+1]).toFloat().round(3)
+			def TitleUltra = title +" " + "$low < t <  $high"
+			out.addDataSet(Hist_Ultra_Phi[TitleUltra])
+		}
+	}
+}
+
 out.writeFile("../hipo-root-files/${outputfilename}.hipo")
 
 File file = new File("../hipo-root-files/${outputfilename}.txt")

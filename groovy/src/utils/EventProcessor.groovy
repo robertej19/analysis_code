@@ -77,7 +77,7 @@ class EventProcessor {
 
 
 	//NEED Q2 GREATER THAN 1
-	def processEvent(j,event,histo_array_in,fcupBeamChargeMax,cuts_array) {
+	def processEvent(j,event,histo_array_in,fcupBeamChargeMax,cuts_array,t_bins) {
 		//println("starting to process event")
 
 		
@@ -169,6 +169,10 @@ class EventProcessor {
 
 		def hist_x_mass_nocuts = histo_array_in[51]
 		def hist_x_mass_excuts = histo_array_in[52]
+
+		def Hist_beta_p = histo_array_in[53]
+		def Hist_beta_T = histo_array_in[54]
+		def Hist_Ultra_Phi = histo_array_in[55]
 
 
 		// More hists
@@ -268,15 +272,33 @@ class EventProcessor {
 
 				
 
+			//This is currently unused, I think for handling sectors
 				def esec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexElectron}?.with{bankScintillator.getByte('sector',it)}
 				def psec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexProton}?.with{bankScintillator.getByte('sector',it)}
 				if(psec==0) {
 					psec = Math.floor(particleProtonPhi/60).toInteger() +2
 					if(psec==7) psec=1
 				}
-
+			//Finishes comments
 
 				def proton_location = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' //This returns FD if proton in FD, CD if CD
+
+
+
+
+				def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t
+
+				
+				def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
+				def xBRound = Math.round(xb_bins*xBjorken+0.5)
+				def tRound = (Math.round(t_momentum*10)/10)
+				
+				def title_xb_q2 = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round+0.0}"
+				//printer("Associated title_xb_q2 is $title_xb_q2",2)
+				Hist_beta_p[title_xb_q2].fill(xBjorken,-qvec.mass2())
+				Hist_beta_T[title_xb_q2].fill(t_momentum)
+
+
 
 
 				hist_xB_nocuts.fill(xBjorken)
@@ -375,7 +397,6 @@ class EventProcessor {
 					//************ Define other kinematic quantities **********************
 					//*********************************************************************
 
-					def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t
 					def particleProtoncalc = beam+target-particleElectron-particleGammaGammaPair
 					def t_momentum_recon = -(particleProtoncalc-target).mass2() //This is the kinematic variable t, calculated differently
 
@@ -392,19 +413,8 @@ class EventProcessor {
 					}
 
 					
-					def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
-					def xBRound = Math.round(xb_bins*xBjorken+0.5)
-					//printerUtil.printer("Q2 is ${-qvec.mass2()} = $q2Round and xB is $xBjorken = $xBRound",0)
 
-					//if (q2Round < 0.4){
-						//print("Q2 is low at $q2round",2)
-					//}
 
-					def title = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round+0.0}"
-					//printer("Associated title is $title",2)
-
-					//println(t_bins)
-					def tRound = (Math.round(t_momentum*10)/10)
 
 
 
@@ -457,6 +467,25 @@ class EventProcessor {
 					hist_dmisse0_excuts.fill(dmisse0)
 
 
+
+					def TitleUltra = 0
+
+
+					for(int xti=0;xti<t_bins.size()-1;xti++){
+						if(t_bins[xti]<t_momentum && t_momentum<t_bins[xti+1]){
+							def low = (t_bins[xti]).toFloat().round(3)
+							def high = (t_bins[xti+1]).toFloat().round(3)
+							TitleUltra = title_xb_q2 +" " + "$low < t <  $high"
+							//println(TitleUltra)
+						}
+					}
+
+					println("LEPTHAD IS " + LeptHadAngle)
+
+
+					Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
+
+
 					dvpp_event = 1
 				}
 			}
@@ -483,7 +512,9 @@ class EventProcessor {
 					hist_miss_e_mass_nocuts, hist_miss_e_mass_excuts,
 					hist_missing_e_nocuts, hist_missing_e_excuts,
 					hist_pion_e_excuts,
-					hist_x_mass_nocuts, hist_x_mass_excuts]
+					hist_x_mass_nocuts, hist_x_mass_excuts,
+					Hist_beta_p, Hist_beta_T,
+					Hist_Ultra_Phi]
 
 		return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, histo_arr_out]
 	}
