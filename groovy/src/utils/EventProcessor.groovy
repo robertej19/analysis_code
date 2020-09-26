@@ -207,6 +207,7 @@ class EventProcessor {
 				def title_q2 = ""
 				def title_t = ""
 				def title_xbq2t = ""
+				def title_xbq2 = ""
 				
 				for(int xbi=0;xbi<binning_xb.size()-1;xbi++){
 					if(binning_xb[xbi]<xBjorken && xBjorken<binning_xb[xbi+1]){
@@ -233,7 +234,9 @@ class EventProcessor {
 				}
 
 				title_xbq2t += title_xB+title_q2+title_t
-			
+				title_xbq2 += title_xB+title_q2
+
+
 				//Fill nocut histgrams
 				for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 					//unpack
@@ -348,7 +351,7 @@ class EventProcessor {
 									"missingEnergy":particleX.e(),"missingMass":particleX.mass(),
 									"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
 									"missingEnergyDifference":dmisse0,
-									"angle_X_Pi":thetaXPi,"t_vector":t_momentum,"t_vector_recon":t_momentum_recon,
+									"angle_X_Pi":thetaXPi,"t_momentum":t_momentum,"t_vector_recon":t_momentum_recon,
 									"q_squared":-qvec.mass2(),"x_bjorken":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
 									]
 
@@ -377,6 +380,11 @@ class EventProcessor {
 									hist_mini_array[all_index][title_xbq2t].fill(fillvars)
 									if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2t].fill(fillvars)	} //Fill FD
 									if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2t].fill(fillvars)	} //Fill CD
+								}
+								if (hist_params.get("bins_t") == "no"){
+									hist_mini_array[all_index][title_xbq2].fill(fillvars)
+									if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2].fill(fillvars)	} //Fill FD
+									if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2].fill(fillvars)	} //Fill CD
 								}
 							}
 						}

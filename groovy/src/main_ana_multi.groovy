@@ -140,14 +140,22 @@ for (hist in data_histograms){
 
 	if (bins_xb == "yes"){
 		if (bins_q2 =="yes"){
-			if (bins_t =="yes"){
+			//if (bins_t =="yes"){
 				def x1_1 	= [:].withDefault{new H1F(root_title + "_cd_" + it,display_title + ", CD, " + it ,num_bins_x, x_bin_min, x_bin_max)}
 				def x1_2 	= [:].withDefault{new H1F(root_title + "_fd_" + it,display_title + ", FD, " + it,num_bins_x, x_bin_min, x_bin_max)}
 				def x1_3 	= [:].withDefault{new H1F(root_title + "_all_" + it,display_title + ", All, " + it,num_bins_x, x_bin_min, x_bin_max)}
 
 				def hist_mini_array = [x1_1,x1_2,x1_3]
 				histogram_array.add([hist_params, hist_mini_array])
-			}
+			//}
+			/*if (bins_t =="no"){
+				def x1_1 	= [:].withDefault{new H1F(root_title + "_cd_" + it,display_title + ", CD, " + it ,num_bins_x, x_bin_min, x_bin_max)}
+				def x1_2 	= [:].withDefault{new H1F(root_title + "_fd_" + it,display_title + ", FD, " + it,num_bins_x, x_bin_min, x_bin_max)}
+				def x1_3 	= [:].withDefault{new H1F(root_title + "_all_" + it,display_title + ", All, " + it,num_bins_x, x_bin_min, x_bin_max)}
+
+				def hist_mini_array = [x1_1,x1_2,x1_3]
+				histogram_array.add([hist_params, hist_mini_array])
+			}*/
 		}
 	}
 
@@ -343,11 +351,14 @@ println("File saved at ../hipo-root-files/${outputfilename}. \n")
 //********* Save data in hipo and text files *****************
 
 def phi_xbdir = "/PhiPlots"
+def t_xbdir = "/t_Plots"
+
 
 TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
 out.mkdir('/'+OutFileName+phi_xbdir)
+out.mkdir('/'+OutFileName+t_xbdir)
 
 
 /*
@@ -362,36 +373,61 @@ for (histo_couplet in histogram_array){
 	hist_params = histo_couplet[0]
 	hist_mini_array = histo_couplet[1]
 
-	if (hist_params.get("bins_xb") == "yes"){
-		out.cd('/'+OutFileName+phi_xbdir)
-		
+	if ((hist_params.get("bins_xb") == "yes") && (hist_params.get("bins_q2") == "yes")){
+		if (hist_params.get("bins_t") == "yes"){
+			out.cd('/'+OutFileName+phi_xbdir)
+			for (int hist_ind=0; hist_ind < hist_mini_array.size(); hist_ind++){
 
-		for (int hist_ind=0; hist_ind < hist_mini_array.size(); hist_ind++){
+				def hist_object =  hist_mini_array[hist_ind]
+				for (int xbi=0;xbi< binning_xb.size()-1;xbi++){
+					for (int q2i=0;q2i< binning_q2.size()-1;q2i++){
+						for (int ti=0;ti< binning_t.size()-1;ti++){
 
-			def hist_object =  hist_mini_array[hist_ind]
+							def lowxb = (binning_xb[xbi]).toFloat().round(3)
+							def highxb = (binning_xb[xbi+1]).toFloat().round(3)
+							def lowq2 = (binning_q2[q2i]).toFloat().round(3)
+							def highq2 = (binning_q2[q2i+1]).toFloat().round(3)
+							def lowt = (binning_t[ti]).toFloat().round(3)
+							def hight = (binning_t[ti+1]).toFloat().round(3)
+							
+							def title_xB = " $lowxb < xB < $highxb, "
+							def title_q2 = "$lowq2 < q2 < $highq2, "
+							def title_t = "$lowt < t < $hight"
 
-			for (int xbi=0;xbi< binning_xb.size()-1;xbi++){
-				for (int q2i=0;q2i< binning_q2.size()-1;q2i++){
-					for (int ti=0;ti< binning_t.size()-1;ti++){
+							out.addDataSet(hist_object[title_xB+title_q2+title_t])
+						}
+					}
+				}
+
+			}
+
+		}
+		if (hist_params.get("bins_t") == "no"){	
+			out.cd('/'+OutFileName+t_xbdir)
+			
+
+			for (int hist_ind=0; hist_ind < hist_mini_array.size(); hist_ind++){
+				
+
+				def hist_object =  hist_mini_array[hist_ind]
+				for (int xbi=0;xbi< binning_xb.size()-1;xbi++){
+					for (int q2i=0;q2i< binning_q2.size()-1;q2i++){
 
 						def lowxb = (binning_xb[xbi]).toFloat().round(3)
 						def highxb = (binning_xb[xbi+1]).toFloat().round(3)
 						def lowq2 = (binning_q2[q2i]).toFloat().round(3)
 						def highq2 = (binning_q2[q2i+1]).toFloat().round(3)
-						def lowt = (binning_t[ti]).toFloat().round(3)
-						def hight = (binning_t[ti+1]).toFloat().round(3)
-						
+
 						def title_xB = " $lowxb < xB < $highxb, "
 						def title_q2 = "$lowq2 < q2 < $highq2, "
-						def title_t = "$lowt < t < $hight"
-
-						out.addDataSet(hist_object[title_xB+title_q2+title_t])
+						out.addDataSet(hist_object[title_xB+title_q2])
+					
 					}
 				}
+
 			}
 
 		}
-
 	}
 	else{
 		out.cd('/'+OutFileName)				
