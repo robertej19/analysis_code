@@ -77,7 +77,7 @@ class EventProcessor {
 
 
 	//NEED Q2 GREATER THAN 1
-	def processEvent(j,event,hist_array_in,fcupBeamChargeMax,cuts_array,t_bins) {
+	def processEvent(j,event,hist_array_in,fcupBeamChargeMax,cuts_array,binning_xb) {
 		//println("starting to process event")
 
 		
@@ -150,9 +150,9 @@ class EventProcessor {
 				//println("first electron is"+ele.e())
 				//println("indexElectron and indexProton are " + ['px','py','pz'].collect{bankParticle.getFloat(it,indexElectron)})
 
-				def particleElectron_theta = Math.toDegrees(particleElectron.theta())
-				def particleProton_theta = Math.toDegrees(particleProton.theta())
-				if(particleProton_theta<0) particleProton_theta+=360 //Make angles be non-negative
+				def particleElectronTheta = Math.toDegrees(particleElectron.theta())
+				def particleProtonTheta = Math.toDegrees(particleProton.theta())
+				if(particleProtonTheta<0) particleProtonTheta+=360 //Make angles be non-negative
 
 
 				def wvec = beam+target-particleElectron
@@ -166,9 +166,10 @@ class EventProcessor {
 				//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
 	
 				def particleProtonPhi = Math.toDegrees(particleProton.phi())
-		
 				if(particleProtonPhi<0) particleProtonPhi+=360
 
+				def particleElectronPhi = Math.toDegrees(particleElectron.phi())
+				if(particleElectronPhi<0) particleElectronPhi+=360
 				
 
 			//This is currently unused, I think for handling sectors
@@ -196,31 +197,43 @@ class EventProcessor {
 				//printer("Associated title_xb_q2 is $title_xb_q2",2)
 
 
-				def variable_map_nocuts = ["particleProtonTheta":particleProton_theta,"particleElectronTheta":particleElectron_theta,"q_squared":-qvec.mass2()]
+				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,"q_squared":-qvec.mass2(),
+							"particleProtonPhi":particleProtonPhi]
 
-				
-
-
+				def title_xB = ""
+				for(int xbi=0;xbi<binning_xb.size()-1;xbi++){
+					if(binning_xb[xbi]<xBjorken && xBjorken<binning_xb[xbi+1]){
+						def low = (binning_xb[xbi]).toFloat().round(3)
+						def high = (binning_xb[xbi+1]).toFloat().round(3)
+						title_xB += "$low-xB-$high"
+						//println(title_xB)
+					}
+				}
+			
 				//Fill nocut histgrams
 				for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 					//unpack
-					def all_index = 2
-					def fd_index = 1
-					def cd_index = 0
-					def variable_map = variable_map_nocuts
 					def hist_couplet = hist_array_in[hist_couplet_index]
 					def hist_params = hist_couplet[0]
-					def hist_mini_array = hist_couplet[1]							
-					def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
-					if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
+					def hist_mini_array = hist_couplet[1]	
+					if (hist_params.get("ex_no_cuts_split") == "yes"){	
 
-					//Fill histos
-					hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
-					if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
-					if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+						def all_index = 5
+						def fd_index = 4
+						def cd_index = 3
+						def variable_map = variable_map_nocuts
 											
-					//Repack
-					hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
+						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
+
+						//Fill histos
+						hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+						if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+						if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+												
+						//Repack
+						hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+					}
 				}
 
 
@@ -254,19 +267,15 @@ class EventProcessor {
 					//And the 4 momentum of the reconstructed pion. 
 					def thetaXPi = particleX.vect().theta(particleGammaGammaPair.vect())
 					//Below is the boolean cut, requiring the angle between X and the Pion to be less than 2 degrees
-					def excut_thetaXPi = thetaXPi<2
-				
 
 					//Here we define the difference between the 4 vectors of teh pion and X 4 vectors
 					def diff_between_X_and_GG = particleX-particleGammaGammaPair
 
 					//Here we define a boolean cut - need the difference in transverse momentum of 
 					//To be less than 300 MeV in each direction
-					def excut_dpt0 = diff_between_X_and_GG.px().abs()<0.3 && diff_between_X_and_GG.py().abs()<0.3
-					
-					def dmisse0 = diff_between_X_and_GG.e()
-					def excut_dmisse0 = dmisse0<1
 
+					def dmisse0 = diff_between_X_and_GG.e()
+		
 					
 					//Fill related histgrams
 				/*	hist_dpt0_nocuts.fill(diff_between_X_and_GG.px().abs()*1000,diff_between_X_and_GG.py().abs()*1000)
@@ -299,11 +308,6 @@ class EventProcessor {
 					}
 
 					
-
-
-
-
-
 				
 					def dvep_array = [particleX, particleGammaGammaPair, wvec, qvec]
 					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array,cuts_array)
@@ -314,15 +318,24 @@ class EventProcessor {
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
 
 
+					def variable_map_excuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
+									"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
+									"particlePionEnergy":particleGammaGammaPair.e(),"particlePionMass":particleGammaGammaPairmass*1000,
+									"missingEnergy":particleX.e(),"missingMass":particleX.mass(),
+									"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
+									"missingEnergyDifference":dmisse0,
+									"angle_X_Pi":thetaXPi,"t_vector":t_momentum,"t_vector_recon":t_momentum_recon,
+									"q_squared":-qvec.mass2(),"x_bjorken":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
+									]
 
-					def variable_map_excuts = ["particleProtonTheta":particleProton_theta,"particleElectronTheta":particleElectron_theta,"q_squared":-qvec.mass2()]
+
 
 					//Fill excut histgrams
 					for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 						//unpack
-						def all_index = 5
-						def fd_index = 4
-						def cd_index = 3
+						def all_index = 2
+						def fd_index = 1
+						def cd_index = 0
 						def variable_map = variable_map_excuts
 						def hist_couplet = hist_array_in[hist_couplet_index]
 						def hist_params = hist_couplet[0]
@@ -330,56 +343,31 @@ class EventProcessor {
 						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
 						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
 
-						//Fill histos
-						hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
-						if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
-						if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
-												
+
+						if (hist_params.get("bins_bjorkenx") == "yes"){
+							hist_mini_array[all_index][title_xB].fill(fillvars)
+							if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xB].fill(fillvars)	} //Fill FD
+							if (proton_location == 'CD'){hist_mini_array[cd_index][title_xB].fill(fillvars)	} //Fill CD
+													}
+						else{
+							//Fill histos
+							hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+							if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+							if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+						}							
 						//Repack
 						hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+						
 					}
 
 					
-					/*
-
-					def TitleUltra = 0
-
-
-					for(int xti=0;xti<t_bins.size()-1;xti++){
-						if(t_bins[xti]<t_momentum && t_momentum<t_bins[xti+1]){
-							def low = (t_bins[xti]).toFloat().round(3)
-							def high = (t_bins[xti+1]).toFloat().round(3)
-							TitleUltra = title_xb_q2 +" " + "$low < t <  $high"
-							//println(TitleUltra)
-						}
-					}
-
-					//println("LEPTHAD IS " + LeptHadAngle)
-
-
-					Hist_Ultra_Phi[TitleUltra].fill(LeptHadAngle)
-*/
+					if (proton_location == 'FD'){ fd_event = 1	}
+					if (proton_location == 'CD'){ cd_event = 1	}
 
 					dvpp_event = 1
 				}
 			}
 		}
-
-	/*	def hist_array_out_final = []
-		println(hist_array_out.size()+"is the size")
-		if (hist_array_out.size()>0){
-			println("doing the good thign")
-			hist_array_out_final = hist_array_out
-		}
-		else{
-			println("doing the bad thign")
-			hist_array_out_final = hist_array_in
-		}
-*/
-		//println(hist_array_out_final)
-
-
-		//Set up and return arguements
 
 		return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, hist_array_in]
 	}

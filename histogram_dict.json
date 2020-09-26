@@ -55,5 +55,64 @@
 		"log_scale": "no",
         "x_axis": "Number of Photons in Event",
         "y_axis": "Number of Events"
+    }],
+
+    "hist_phi_xbq2t": [{
+        "root_title": "hist_phi_xbq2t",
+        "display_title": "Phi Distribution Over XbQ2T",
+
+        "cd_fd_split": "no",
+        "ex_no_cuts_split": "no",
+        "pre_cuts":"no",
+
+        "num_bins_x": 20,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "fill_x":"LeptHadAngle",
+
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_bjorkenx":"yes",
+        "bins_q2":"yes",
+        "bins_t":"yes",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Number of Photons in Event",
+        "y_axis": "Number of Events"
+    }],
+
+    "hist_theta_phi_proton": [{
+        "root_title": "hist_theta_phi_proton",
+        "display_title": "Theta vs. Phi Angles for Proton",
+
+        "cd_fd_split": "yes",
+        "ex_no_cuts_split": "yes",
+        "pre_cuts":"no",
+
+        "num_bins_x": 1440,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "fill_x":"particleProtonPhi",
+     
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":100,
+        "fill_z":"particleProtonTheta",
+
+        "bins_bjorkenx":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
     }]
+
 }
