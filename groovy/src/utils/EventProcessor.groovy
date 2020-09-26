@@ -77,7 +77,7 @@ class EventProcessor {
 
 
 	//NEED Q2 GREATER THAN 1
-	def processEvent(j,event,hist_array_in,fcupBeamChargeMax,cuts_array,binning_xb) {
+	def processEvent(j,event,hist_array_in,fcupBeamChargeMax,cuts_array,binning_scheme) {
 		//println("starting to process event")
 
 		
@@ -85,6 +85,11 @@ class EventProcessor {
 		
 
 		//Define standard variables
+
+		def binning_xb = binning_scheme[0]
+		def binning_q2 = binning_scheme[1]
+		def binning_t = binning_scheme[2]
+
 		def dvpp_event = 0
 		def fd_event = 0 
 		def cd_event = 0
@@ -157,12 +162,13 @@ class EventProcessor {
 
 				def wvec = beam+target-particleElectron
 				def qvec = beam-particleElectron
+				def qsquared = -qvec.mass2()
 				def particleX = beam+target-particleElectron-particleProton
 				//def t_sqrt = particleProton - target //t = (p'-p)^2
 				//def t_MomTran = t_sqrt.vect().dot(t_sqrt.vect())
 
 				//printerUtil.printer("particleX mass squared is:${particleX.mass2()}",0)
-				def xBjorken = -qvec.mass2()/(2*particleProton.vect().dot(qvec.vect()))
+				def xBjorken = qsquared/(2*particleProton.vect().dot(qvec.vect()))
 				//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
 	
 				def particleProtonPhi = Math.toDegrees(particleProton.phi())
@@ -193,22 +199,40 @@ class EventProcessor {
 				def xBRound = Math.round(xb_bins*xBjorken+0.5)
 				def tRound = (Math.round(t_momentum*10)/10)
 				
-				def title_xb_q2 = "${((xBRound-1)/xb_bins).round(2)} < xB < ${((xBRound)/xb_bins).round(2)}_ ${q2Round - 0.5} < q2 < ${q2Round+0.0}"
-				//printer("Associated title_xb_q2 is $title_xb_q2",2)
 
-
-				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,"q_squared":-qvec.mass2(),
+				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,"q_squared":qsquared,
 							"particleProtonPhi":particleProtonPhi]
 
 				def title_xB = ""
+				def title_q2 = ""
+				def title_t = ""
+				def title_xbq2t = ""
+				
 				for(int xbi=0;xbi<binning_xb.size()-1;xbi++){
 					if(binning_xb[xbi]<xBjorken && xBjorken<binning_xb[xbi+1]){
-						def low = (binning_xb[xbi]).toFloat().round(3)
-						def high = (binning_xb[xbi+1]).toFloat().round(3)
-						title_xB += "$low-xB-$high"
-						//println(title_xB)
+						def lowxb = (binning_xb[xbi]).toFloat().round(3)
+						def highxb = (binning_xb[xbi+1]).toFloat().round(3)
+						title_xB += " $lowxb < xB < $highxb, "
 					}
 				}
+
+				for(int q2i=0;q2i<binning_q2.size()-1;q2i++){
+					if(binning_q2[q2i] < qsquared && qsquared < binning_q2[q2i+1]){
+						def lowq2 = (binning_q2[q2i]).toFloat().round(3)
+						def highq2 = (binning_q2[q2i+1]).toFloat().round(3)
+						title_q2 += "$lowq2 < q2 < $highq2, "
+					}
+				}
+
+				for(int ti=0;ti<binning_t.size()-1;ti++){
+					if(binning_t[ti] < t_momentum && t_momentum < binning_t[ti+1]){
+						def lowt = (binning_t[ti]).toFloat().round(3)
+						def hight = (binning_t[ti+1]).toFloat().round(3)
+						title_t += "$lowt < t < $hight"
+					}
+				}
+
+				title_xbq2t += title_xB+title_q2+title_t
 			
 				//Fill nocut histgrams
 				for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
@@ -330,6 +354,8 @@ class EventProcessor {
 
 
 
+
+
 					//Fill excut histgrams
 					for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 						//unpack
@@ -344,11 +370,16 @@ class EventProcessor {
 						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
 
 
-						if (hist_params.get("bins_bjorkenx") == "yes"){
-							hist_mini_array[all_index][title_xB].fill(fillvars)
-							if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xB].fill(fillvars)	} //Fill FD
-							if (proton_location == 'CD'){hist_mini_array[cd_index][title_xB].fill(fillvars)	} //Fill CD
-													}
+
+						if (hist_params.get("bins_xb") == "yes"){
+							if (hist_params.get("bins_q2") == "yes"){
+								if (hist_params.get("bins_t") == "yes"){
+									hist_mini_array[all_index][title_xbq2t].fill(fillvars)
+									if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2t].fill(fillvars)	} //Fill FD
+									if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2t].fill(fillvars)	} //Fill CD
+								}
+							}
+						}
 						else{
 							//Fill histos
 							hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram

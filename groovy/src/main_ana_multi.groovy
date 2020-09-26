@@ -65,8 +65,7 @@ def eventProcessor = new EventProcessor()
 def fg = new FileGetter()
 def lumicalc = new LumiCalc()
 def su = new ScreenUpdater()
-printerUtil = new Printer() //This needs to be defined as global (no def before the object name) so that it can be used in all methods
-
+def jsonSlurper = new JsonSlurper()
 
 def DesiredNumEventsToProcess = args[1].toInteger()
 def NumFilesToProcess = args[2].toInteger()
@@ -89,23 +88,28 @@ def NumGlobalFDEvents = 0
 def t_bins = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
 
 
-//********************* Define Histograms **************** //
+// ******************************************************************* //
+// ****************** Read in infromation from json files ************ //
+// ******************************************************************* //
 
+// *********************** Define Binning **************************** //
+file_loc_binning = "../../histogram_binning.json"
 
-
-filename = "../../histogram_dict.json"
+def data_binning = jsonSlurper.parse(new File(file_loc_binning))
  
-def jsonSlurper = new JsonSlurper()
-def data = jsonSlurper.parse(new File(filename))
- 
+def binning_t = data_binning.get("binning_t")
+def binning_xb = data_binning.get("binning_xb")
+def binning_q2 = data_binning.get("binning_q2")
+def binning_scheme = [binning_xb,binning_q2,binning_t]
+
+
+// *********************** Define Histograms **************************** //
+file_loc_histograms = "../../histogram_dict.json"
+def data_histograms = jsonSlurper.parse(new File(file_loc_histograms))
 def histogram_array = []
 
-def binning_t = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
-//def binning_xb = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 1]
-def binning_xb = [0,0.5,1]
-def binning_q2 = [0,2,4,8,12]
 
-for (hist in data){
+for (hist in data_histograms){
     
     def hist_params = (hist.getValue()[0])
 
@@ -126,7 +130,7 @@ for (hist in data){
 	def fill_z = hist_params.get("fill_z")
 
 
-	def bins_xb = hist_params.get("bins_bjorkenx")
+	def bins_xb = hist_params.get("bins_xb")
 	def bins_q2 = hist_params.get("bins_q2")
 	def bins_t = hist_params.get("bins_t")
 
@@ -199,6 +203,7 @@ for (hist in data){
 }
 
 
+// *********************** Define Cuts **************************** //
 json_cuts_file = "../../cut_dict.json"
 def cuts_json = jsonSlurper.parse(new File(json_cuts_file))
 def cuts_array = []
@@ -207,13 +212,17 @@ for (cut_type in cuts_json){
 }
 
 
+// ******************************************************************* //
+// ****************** Running Through Files ************************** //
+// ******************************************************************* //
+
 //********************* Display pre reunning statistics **************** //
-printerUtil.printer("\n \nThe following files will be processed: ",1)
+println("\n \nThe following files will be processed: ")
 for (FileName in FilesToProcess){
 	GlobalFileSizeToProcess+= FileName.length()
-	printerUtil.printer("$FileName - " + (FileName.length()/Mil/1000).round(2)+"GB",2)
+	println("$FileName - " + (FileName.length()/Mil/1000).round(2)+"GB")
 }
-printerUtil.printer("\n" + (GlobalFileSizeToProcess/Mil/1000).round(2)+" GB is the total file size \n \n",2)
+println("\n" + (GlobalFileSizeToProcess/Mil/1000).round(2)+" GB is the total file size \n \n")
 
 
 
@@ -255,7 +264,7 @@ GParsPool.withPool NumCores, {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_xb)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			NumLocalFDEvents += funreturns[2]
@@ -288,7 +297,7 @@ GParsPool.withPool NumCores, {
 		else{
 			print("Total run time of ${(TotalFileRunTime*60).round(2)} seconds, ")
 		}
-		printerUtil.printer(" approximate global finish time at ${ReadableETA} ",1)
+		println(" approximate global finish time at ${ReadableETA} ")
 
 		// ******* Compile and print Physics statistics ****** //
 
@@ -306,6 +315,10 @@ GParsPool.withPool NumCores, {
 }
 
 
+
+// ******************************************************************* //
+// ****************** File Saving and Cleanup************************* //
+// ******************************************************************* //
 
 //********* Output final running statistics *****************
 
@@ -349,7 +362,7 @@ for (histo_couplet in histogram_array){
 	hist_params = histo_couplet[0]
 	hist_mini_array = histo_couplet[1]
 
-	if (hist_params.get("bins_bjorkenx") == "yes"){
+	if (hist_params.get("bins_xb") == "yes"){
 		out.cd('/'+OutFileName+phi_xbdir)
 		
 
@@ -358,13 +371,23 @@ for (histo_couplet in histogram_array){
 			def hist_object =  hist_mini_array[hist_ind]
 
 			for (int xbi=0;xbi< binning_xb.size()-1;xbi++){
-				def low = (binning_xb[xbi]).toFloat().round(3)
-				def high = (binning_xb[xbi+1]).toFloat().round(3)
-				def title_xB = "$low-xB-$high"
-				//println(title_xB)
-				//title = title_xB
-				out.addDataSet(hist_object[title_xB])
+				for (int q2i=0;q2i< binning_q2.size()-1;q2i++){
+					for (int ti=0;ti< binning_t.size()-1;ti++){
 
+						def lowxb = (binning_xb[xbi]).toFloat().round(3)
+						def highxb = (binning_xb[xbi+1]).toFloat().round(3)
+						def lowq2 = (binning_q2[q2i]).toFloat().round(3)
+						def highq2 = (binning_q2[q2i+1]).toFloat().round(3)
+						def lowt = (binning_t[ti]).toFloat().round(3)
+						def hight = (binning_t[ti+1]).toFloat().round(3)
+						
+						def title_xB = " $lowxb < xB < $highxb, "
+						def title_q2 = "$lowq2 < q2 < $highq2, "
+						def title_t = "$lowt < t < $hight"
+
+						out.addDataSet(hist_object[title_xB+title_q2+title_t])
+					}
+				}
 			}
 
 		}

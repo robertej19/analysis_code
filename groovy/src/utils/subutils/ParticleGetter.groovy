@@ -82,12 +82,9 @@ class ParticleGetter {
 			}
 
 			if(particleType == "photon_raw"){
-				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){
-					
+				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){	
 					particle_index.add(index)
-					
 				}
-
 			}
 
 

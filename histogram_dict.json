@@ -17,9 +17,9 @@
         "z_bin_max":55,
         "fill_z":"particleElectronTheta",
 
-        "bjorkenx_bins":"no",
-        "q_squared_bins":"no",
-        "t_bins":"no",
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
 
         "y_scale_max": 0,        
 		"second_histo_root_title": "0",
@@ -46,9 +46,9 @@
         "z_bin_max":0,
         "fill_z":"none",
 
-        "bjorkenx_bins":"no",
-        "q_squared_bins":"no",
-        "t_bins":"no",
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
 
 		"y_scale_max": 0,
 		"second_histo_root_title": "0",
@@ -75,7 +75,7 @@
         "z_bin_max":0,
         "fill_z":"none",
 
-        "bins_bjorkenx":"yes",
+        "bins_xb":"yes",
         "bins_q2":"yes",
         "bins_t":"yes",
 
@@ -104,7 +104,7 @@
         "z_bin_max":100,
         "fill_z":"particleProtonTheta",
 
-        "bins_bjorkenx":"no",
+        "bins_xb":"no",
         "bins_q2":"no",
         "bins_t":"no",
 
