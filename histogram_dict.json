@@ -27,42 +27,13 @@
         "x_axis": "Number of Photons in Event",
         "y_axis": "Number of Events"
     }],
-
-    "hist_theta_proton": [{
-        "root_title": "hist_theta_proton",
-        "display_title": "Proton Angle (Theta)",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 10,
-        "x_bin_min": 0,
-        "x_bin_max": 150,
-        "fill_x":"particleProtonTheta",
-
-        "num_bins_z":100,
-        "z_bin_min":0,
-        "z_bin_max":55,
-        "fill_z":"particleElectronTheta",
-
-        "bjorkenx_bins":"no",
-        "q_squared_bins":"no",
-        "t_bins":"no",
-
-        "y_scale_max": 0,        
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
-    }],
     
     "hist_Q2": [{
         "root_title": "hist_Q2",
         "display_title": "Q^2 Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
+        "cd_fd_split": "no",
+        "ex_no_cuts_split": "no",
         "pre_cuts":"no",
 
         "num_bins_x": 1000,

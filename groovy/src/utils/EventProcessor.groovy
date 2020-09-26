@@ -196,58 +196,32 @@ class EventProcessor {
 				//printer("Associated title_xb_q2 is $title_xb_q2",2)
 
 
-				def variable_map = ["particleProtonTheta":particleProton_theta,"particleElectronTheta":particleElectron_theta,"q_squared":-qvec.mass2()]
+				def variable_map_nocuts = ["particleProtonTheta":particleProton_theta,"particleElectronTheta":particleElectron_theta,"q_squared":-qvec.mass2()]
 
 				
 
 
 				//Fill nocut histgrams
-				//for (hist_couplet_index in hist_array_in){	
 				for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 					//unpack
+					def all_index = 2
+					def fd_index = 1
+					def cd_index = 0
+					def variable_map = variable_map_nocuts
 					def hist_couplet = hist_array_in[hist_couplet_index]
 					def hist_params = hist_couplet[0]
-					def hist_mini_array = hist_couplet[1]
-					
+					def hist_mini_array = hist_couplet[1]							
+					def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
+					if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
 
-					if (hist_params.get("ex_no_cuts_split") == "yes"){
-						//for (hist_object in hist_mini_array){
-							
-							
-								if(hist_params.get("num_bins_z") > 0){
-									
-									hist_mini_array[2].fill(variable_map.get(hist_params.get("fill_x")),variable_map.get(hist_params.get("fill_z")))
-									if (proton_location == 'FD'){
-										hist_mini_array[1].fill(variable_map.get(hist_params.get("fill_x")),variable_map.get(hist_params.get("fill_z")))
-									}
-									if (proton_location == 'CD'){
-										hist_mini_array[0].fill(variable_map.get(hist_params.get("fill_x")),variable_map.get(hist_params.get("fill_z")))
-									}
-									
-								}
-								else{
-									/*
-									hist_mini_array[2].fill(variable_map.get((hist_params.get(fill_x)))
-									if (proton_location == 'FD'){
-										hist_mini_array[1].fill(variable_map.get((hist_params.get(fill_x)))
-									}
-									if (proton_location == 'CD'){
-										hist_mini_array[0].fill(variable_map.get((hist_params.get(fill_x)))
-									}
-									*/
-								}
-								
-						//}
-					}
-					
+					//Fill histos
+					hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+					if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+					if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+											
 					//Repack
-					def hist_couplet_out = [hist_params,hist_mini_array]
-					//hist_array_out.add(hist_couplet_out)
-					hist_array_in[hist_couplet_index] = hist_couplet_out
+					hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
 				}
-				//hist_array_in = hist_array_out
-				//println("in-eventsize is :"+hist_array_in.size())
-
 
 
 
@@ -339,47 +313,34 @@ class EventProcessor {
 
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
 
-					//fill histgrams
+
+
+					def variable_map_excuts = ["particleProtonTheta":particleProton_theta,"particleElectronTheta":particleElectron_theta,"q_squared":-qvec.mass2()]
+
+					//Fill excut histgrams
+					for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
+						//unpack
+						def all_index = 5
+						def fd_index = 4
+						def cd_index = 3
+						def variable_map = variable_map_excuts
+						def hist_couplet = hist_array_in[hist_couplet_index]
+						def hist_params = hist_couplet[0]
+						def hist_mini_array = hist_couplet[1]							
+						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
+						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
+
+						//Fill histos
+						hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+						if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+						if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+												
+						//Repack
+						hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+					}
+
 					
 					/*
-					hist_theta_proton_electron_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
-					if (proton_location == 'FD'){
-						hist_theta_proton_FD_exclu_cuts.fill(particleProton_theta)
-						hist_phi_proton_excuts_FD.fill(particleProtonPhi)
-						hist_theta_proton_electron_FD_exclu_cuts.fill(particleProton_theta,particleElectron_theta)
-						hist_xB_Q2_FD_excuts.fill(xBjorken,-qvec.mass2())
-						hist_lept_had_angle_FD.fill(LeptHadAngle)
-						fd_event = 1
-
-					}
-					if (proton_location == 'CD'){
-						hist_theta_proton_CD_exclu_cuts.fill(particleProton_theta)
-						hist_phi_proton_excuts_CD.fill(particleProtonPhi)
-						hist_xB_Q2_CD_excuts.fill(xBjorken,-qvec.mass2())
-						hist_lept_had_angle_CD.fill(LeptHadAngle)
-						cd_event = 1
-					}
-
-					hist_pion_e_excuts.fill(particleGammaGammaPair.e())
-					hist_missing_e_excuts.fill(particleX.e())
-					hist_x_mass_excuts.fill(particleX.mass())
-					hist_miss_e_mass_excuts.fill(particleX.mass(),particleX.e())
-
-					hist_dpt0_excuts.fill(diff_between_X_and_GG.px().abs()*1000,diff_between_X_and_GG.py().abs()*1000)
-					hist_thetaxpi_excuts.fill(thetaXPi)
-					hist_pion_mass_excuts.fill(particleGammaGammaPairmass*1000)
-					hist_theta_phi_proton_excuts.fill(particleProtonPhi,particleProton_theta)
-					hist_phi_proton_excuts.fill(particleProtonPhi)
-					hist_xB_excuts.fill(xBjorken)
-					hist_Q2_excuts.fill(-qvec.mass2())
-					hist_W_excuts.fill(wvec.mass())
-					hist_xB_Q2_excuts.fill(xBjorken,-qvec.mass2())
-					hist_lept_had_angle.fill(LeptHadAngle)
-					hist_t.fill(t_momentum)
-					hist_t_recon.fill(t_momentum_recon)
-					hist_dmisse0_excuts.fill(dmisse0)
-
-
 
 					def TitleUltra = 0
 

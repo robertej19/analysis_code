@@ -124,34 +124,41 @@ for (hist in data){
 
 	//Split over 2D histogram or not
     if (num_bins_z > 0){
-		if (cd_fd_split == "yes"){
-			if (ex_no_cuts_split == "yes"){
-
-				def x2_1 = new H2F(root_title+"_cd_nocut", display_title+"_cd_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_2 = new H2F(root_title+"_fd_nocut", display_title+"_fd_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_3 = new H2F(root_title+"_all_nocut", display_title+"_all_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_4 = new H2F(root_title+"_cd_excut", display_title+"_cd_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_5 = new H2F(root_title+"_fd_excut", display_title+"_fd_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_6 = new H2F(root_title+"_all_excut", display_title+"_all_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-			
+		//if (cd_fd_split == "yes"){
+			//if (ex_no_cuts_split == "yes"){
+				def x2_1 = new H2F(root_title+"_nocut_cd", display_title+" No Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_2 = new H2F(root_title+"_nocut_fd", display_title+" No Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_3 = new H2F(root_title+"_nocut_all", display_title+" No Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_4 = new H2F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_5 = new H2F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_6 = new H2F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)	
 				def hist_mini_array = [x2_1,x2_2,x2_3,x2_4,x2_5,x2_6]
 
 				histo_couplet.add(hist_params)
 				histo_couplet.add(hist_mini_array)
 				histogram_array.add(histo_couplet)
-			}
-		}		
+			//}
+		//}		
     }
     else {
-        def x1_1 = new H1F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max)
-		
-		def hist_mini_array = [x1_1]
-	
-		histo_couplet.add(hist_params)
-		histo_couplet.add(hist_mini_array)
-		histogram_array.add(histo_couplet)
-    }
+		//if (cd_fd_split == "yes"){
+			//if (ex_no_cuts_split == "yes"){
 
+				def x1_1 = new H1F(root_title+"_nocut_cd", display_title+" No Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_2 = new H1F(root_title+"_nocut_fd", display_title+" No Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_3 = new H1F(root_title+"_nocut_all", display_title+" No Cuts, All", num_bins_x, x_bin_min, x_bin_max)
+				def x1_4 = new H1F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_5 = new H1F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_6 = new H1F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max)
+			
+				def hist_mini_array = [x1_1,x1_2,x1_3,x1_4,x1_5,x1_6]
+
+				histo_couplet.add(hist_params)
+				histo_couplet.add(hist_mini_array)
+				histogram_array.add(histo_couplet)
+			//}
+		//}		
+    }
 }
 
 
@@ -305,7 +312,6 @@ for (histo_couplet in histogram_array){
 	hist_mini_array = histo_couplet[1]
 					
 	for (hist_object in hist_mini_array){
-		println("adding histogram to hipo file")
 		out.addDataSet(hist_object)
 
 	}
