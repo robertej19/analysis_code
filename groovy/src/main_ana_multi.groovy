@@ -455,6 +455,12 @@ for (cut_type in cuts_json){
 
 }
 
+file.append("\n \n \n ***************** \n Used the follwowing binning scheme \n")
+for (key in data_binning.keySet()){
+	file.append("$key was ${data_binning.get(key)} \n")
+}
+
+
 file.append("\n \n \n ***************** \n Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
 for (filename in FilesToProcess){
 	file.append("${filename} \n")
