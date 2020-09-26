@@ -106,54 +106,35 @@ for (hist in data){
 
     def root_title= hist_params.get("root_title")
     def display_title = hist_params.get("display_title")
-
-	def cd_fd_split = hist_params.get("cd_fd_split")
-	def ex_no_cuts_split = hist_params.get("ex_no_cuts_split")
-
     def num_bins_x = hist_params.get("num_bins_x")
     def x_bin_min = hist_params.get("x_bin_min")
     def x_bin_max = hist_params.get("x_bin_max")
-	def fill_x = hist_params.get("fill_x")
-
     def num_bins_z = hist_params.get("num_bins_z")
     def z_bin_min = hist_params.get("z_bin_min")
     def z_bin_max = hist_params.get("z_bin_max")
-	def fill_z = hist_params.get("fill_z")
 
-	def histo_couplet = []
 
 	//Split over 2D histogram or not
     if (num_bins_z > 0){
-		if (cd_fd_split == "yes"){
-			if (ex_no_cuts_split == "yes"){
-
-				def x2_1 = new H2F(root_title+"_cd_nocut", display_title+"_cd_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_2 = new H2F(root_title+"_fd_nocut", display_title+"_fd_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_3 = new H2F(root_title+"_all_nocut", display_title+"_all_nocut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_4 = new H2F(root_title+"_cd_excut", display_title+"_cd_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_5 = new H2F(root_title+"_fd_excut", display_title+"_fd_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-				def x2_6 = new H2F(root_title+"_all_excut", display_title+"_all_excut", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-			
-				def hist_mini_array = [x2_1,x2_2,x2_3,x2_4,x2_5,x2_6]
-
-				histo_couplet.add(hist_params)
-				histo_couplet.add(hist_mini_array)
-				histogram_array.add(histo_couplet)
-			}
-		}		
+        def x2 = new H2F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+		histogram_array.add(x2)
     }
     else {
-        def x1_1 = new H1F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max)
-		
-		def hist_mini_array = [x1_1]
-	
-		histo_couplet.add(hist_params)
-		histo_couplet.add(hist_mini_array)
-		histogram_array.add(histo_couplet)
+        def x1 = new H1F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max)
+		histogram_array.add(x1)
     }
 
+	
+    
 }
 
+def Hist_beta_p 	= [:].withDefault{new H2F("Hist_beta_p${it}"		, "Beta vs. Momentum ${it}"		          ,100,0,1.5,100,0,12)}
+def Hist_beta_T 	= [:].withDefault{new H1F("Hist_beta_T${it}", "T in q2 xb bins of ${it}",50,0,5)}
+def Hist_Ultra_Phi 	= [:].withDefault{new H1F("Hist_Ultra_Phi${it}", "Phi in in q2 xb t bins of ${it}",20,0,360)}
+
+histogram_array.add(Hist_beta_p)
+histogram_array.add(Hist_beta_T)
+histogram_array.add(Hist_Ultra_Phi)
 
 json_cuts_file = "../../cut_dict.json"
 def cuts_json = jsonSlurper.parse(new File(json_cuts_file))
@@ -161,6 +142,8 @@ def cuts_array = []
 for (cut_type in cuts_json){
 	cuts_array.add(cut_type.getValue()[0])
 }
+
+print(cuts_array)
 
 
 //********************* Display pre reunning statistics **************** //
@@ -210,6 +193,7 @@ GParsPool.withPool NumCores, {
 		for (int j=0; j < NumEventsToProcess; j++) {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
+			//println("event number: " + j)
 			def event = reader.getNextEvent()
 			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,t_bins)
 			FCupCharge = funreturns[0]
@@ -291,28 +275,37 @@ TDirectory out = new TDirectory()
 out.mkdir('/'+OutFileName)
 out.cd('/'+OutFileName)
 
-
-/*
-def histos_json_out = histogram_array //Drops the last 3 elements in the array
+def histos_json_out = histogram_array.dropRight(3) //Drops the last 3 elements in the array
 histos_json_out.each { i ->
 	out.addDataSet(i)
 }
-*/
 
-for (histo_couplet in histogram_array){		
-					//unpack
-	hist_params = histo_couplet[0]
-	hist_mini_array = histo_couplet[1]
-					
-	for (hist_object in hist_mini_array){
-		println("adding histogram to hipo file")
-		out.addDataSet(hist_object)
+def binned_histograms = histogram_array.takeRight(3) //Takes the last 3 elements
+def HistPB = binned_histograms[0]
+def HistPT = binned_histograms[1]
+def HistUPhi = binned_histograms[2]
 
+def xb_bins = 10
+for(int xBi=0;xBi<=12;xBi++){
+	for(int q2i=0;q2i<=16;q2i++){
+		def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
+		//printer("title is $title and q2i is $q2i with ${q2i/2}",2)
+		out.addDataSet(HistPB[title])
+		out.addDataSet(HistPT[title])
 	}
 }
 
-
-
+for(int xBi=0;xBi<=12;xBi++){
+	for(int q2i=0;q2i<=16;q2i++){
+		for(int xti=0;xti<t_bins.size()-1;xti++){
+			def title = "${((xBi)/xb_bins).round(2)} < xB < ${((xBi+1)/xb_bins).round(2)}_ ${q2i/2+0.0} < q2 < ${q2i/2+0.5}"
+			def low = (t_bins[xti]).toFloat().round(3)
+			def high = (t_bins[xti+1]).toFloat().round(3)
+			def TitleUltra = title +" " + "$low < t <  $high"
+			out.addDataSet(Hist_Ultra_Phi[TitleUltra])
+		}
+	}
+}
 
 out.writeFile("../hipo-root-files/${outputfilename}.hipo")
 

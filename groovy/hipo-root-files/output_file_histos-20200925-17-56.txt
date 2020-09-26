@@ -1,0 +1,51 @@
+Run information for output_file_histos-20200925-17-56.hipo 
+Script began at 09/25/2020-17:15:51 and finished at 09/25/2020-17:56:39
+total runtime: 40.81 minutes - Processing rate: 14.50 kHz 
+Final global number of DVPP events found: 39819 out of a total of 35510297 - 0.11 %
+Global FD Events Found: 23580, compared to 16523 in the CD, a ratio of 142.7101615900 %Total Integrated Luminosity from the runs processed is 5.15093682981905E39 UNITS??? 
+
+ 
+
+****************** 
+ The following pion cuts were used: 
+
+ ****** DVEP CUTS: 
+ 
+Cut WMass has value 2 
+Cut Q2 has value 1 
+Cut ThetaDifference_X_Pi has value 2 
+Cut MomentumDifference_X_Pi has value 0.3 
+Cut MissingMassSquared has value 1 
+Cut MissingEnergy has value 1 
+
+ ****** PION CUTS: 
+ 
+Cut pion_lower_mass has value 0.1 
+Cut pion_upper_mass has value 0.18 
+Cut pion_min_momentum has value 1.5 
+Cut photon_BH_angle has value 8 
+
+ 
+ 
+ ***************** 
+ Used 1 cores to try to process 20 files, processing a total of 20 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005041.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005043.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005045.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005046.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005047.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005051.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005052.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005053.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005116.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005117.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005119.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005120.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005124.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005125.hipo 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005126.hipo 
