@@ -200,8 +200,12 @@ class EventProcessor {
 				def tRound = (Math.round(t_momentum*10)/10)
 				
 
-				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,"q_squared":qsquared,
-							"particleProtonPhi":particleProtonPhi]
+				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
+								"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
+								"t_momentum":t_momentum,
+								"q2":-qvec.mass2(),"xb":xBjorken, "w_vector":wvec.mass(),
+								]
+
 
 				def title_xB = ""
 				def title_q2 = ""
@@ -245,9 +249,9 @@ class EventProcessor {
 					def hist_mini_array = hist_couplet[1]	
 					if (hist_params.get("ex_no_cuts_split") == "yes"){	
 
-						def all_index = 5
-						def fd_index = 4
-						def cd_index = 3
+						def all_index = 8
+						def fd_index = 7
+						def cd_index = 6
 						def variable_map = variable_map_nocuts
 											
 						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
@@ -280,7 +284,7 @@ class EventProcessor {
 
 					def particleGammaGammaPair = particleGamma_1+particleGamma_2
 					def particleGammaGammaPairmass = particleGammaGammaPair.mass()
-
+					
 
 					//hist_pion_mass_nocuts.fill(particleGammaGammaPairmass*1000) //Report the mass in MeV
 
@@ -334,28 +338,56 @@ class EventProcessor {
 						LeptHadAngle = -LeptHadAngle+360
 					}
 
+
+					def variable_map_excuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
+					"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
+					"particlePionEnergy":particleGammaGammaPair.e(),"particlePionMass":particleGammaGammaPairmass*1000,
+					"particleXEnergy":particleX.e(),"particleXMass":particleX.mass(),
+					"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
+					"missingEnergyDifference":dmisse0,
+					"thetaXPi":thetaXPi,"t_momentum":t_momentum,"t_momentum_recon":t_momentum_recon,
+					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
+					]
+
+
+
+
+					//Fill prex cut histgrams
+					for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
+						//unpack
+						def hist_couplet = hist_array_in[hist_couplet_index]
+						def hist_params = hist_couplet[0]
+						def hist_mini_array = hist_couplet[1]	
+						if (hist_params.get("prex_cuts") == "yes"){	
+
+
+							def all_index = 5
+							def fd_index = 4
+							def cd_index = 3
+							def variable_map = variable_map_excuts
+												
+							def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
+							if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
+
+							//Fill histos
+							hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+							if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+							if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+													
+							//Repack
+							hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+						}
+					}
 					
 				
 					def dvep_array = [particleX, particleGammaGammaPair, wvec, qvec]
 					def is_DVEP_event = DVEPCutter.cutDVEP(dvep_array,cuts_array)
 
 
+
 					if(!(ispi0 && is_DVEP_event)) { continue}
 
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
-
-
-					def variable_map_excuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
-									"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
-									"particlePionEnergy":particleGammaGammaPair.e(),"particlePionMass":particleGammaGammaPairmass*1000,
-									"missingEnergy":particleX.e(),"missingMass":particleX.mass(),
-									"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
-									"missingEnergyDifference":dmisse0,
-									"angle_X_Pi":thetaXPi,"t_momentum":t_momentum,"t_vector_recon":t_momentum_recon,
-									"q_squared":-qvec.mass2(),"x_bjorken":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
-									]
-
-
 
 
 

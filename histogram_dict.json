@@ -1,69 +1,13 @@
-{
-    "hist_theta_proton_electron": [{
-        "root_title": "hist_theta_proton_electron",
-        "display_title": "Proton vs. Electron Angles (Theta)",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 100,
-        "x_bin_min": 0,
-        "x_bin_max": 150,
-        "fill_x":"particleProtonTheta",
-
-        "num_bins_z":100,
-        "z_bin_min":0,
-        "z_bin_max":55,
-        "fill_z":"particleElectronTheta",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-        "y_scale_max": 0,        
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
-    }],
-    
-    "hist_Q2": [{
-        "root_title": "hist_Q2",
-        "display_title": "Q^2 Distribution",
-
-        "cd_fd_split": "no",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-
-        "num_bins_x": 1000,
-        "x_bin_min": 0,
-        "x_bin_max": 12,
-        "fill_x":"q_squared",
-
-        "num_bins_z":0,
-        "z_bin_min":0,
-        "z_bin_max":0,
-        "fill_z":"none",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
-    }],
-
+{    
     "hist_phi_xbq2t": [{
         "root_title": "hist_phi_xbq2t",
-        "display_title": "Phi Distribution Over XbQ2T",
+        "display_title": "Phi Distribution Over Xb,Q2,T of",
 
         "cd_fd_split": "no",
-        "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"no",
+        "ex_no_cuts_split": "no",
+        
 
         "num_bins_x": 20,
         "x_bin_min": 0,
@@ -82,17 +26,18 @@
 		"y_scale_max": 0,
 		"second_histo_root_title": "0",
 		"log_scale": "no",
-        "x_axis": "Number of Photons in Event",
-        "y_axis": "Number of Events"
+        "x_axis": "Angle between Lepton and Hadron Planes",
+        "y_axis": "Counts"
     }],
 
     "hist_t_xbq2": [{
         "root_title": "hist_t_xbq2",
-        "display_title": "t Distribution Over XbQ2",
+        "display_title": "t Distribution Over Xb, Q2 of",
 
         "cd_fd_split": "no",
         "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 10,
         "x_bin_min": 0,
@@ -114,35 +59,7 @@
         "x_axis": "Number of Photons in Event",
         "y_axis": "Number of Events"
     }],
-
-    "hist_theta_phi_proton": [{
-        "root_title": "hist_theta_phi_proton",
-        "display_title": "Theta vs. Phi Angles for Proton",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 1440,
-        "x_bin_min": 0,
-        "x_bin_max": 360,
-        "fill_x":"particleProtonPhi",
-     
-        "num_bins_z":500,
-        "z_bin_min":0,
-        "z_bin_max":100,
-        "fill_z":"particleProtonTheta",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
-    }],
+    
 
     "hist_num_protons": [{
         "root_title": "hist_num_protons",
@@ -151,6 +68,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 10,
         "x_bin_min": 0,
@@ -180,6 +98,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 10,
         "x_bin_min": 0,
@@ -209,6 +128,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 20,
         "x_bin_min": 0,
@@ -238,11 +158,12 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1500,
         "x_bin_min": 0,
         "x_bin_max": 50,
-        "fill_x":"particleElectronPhi",
+        "fill_x":"particleElectronTheta",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -267,11 +188,12 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1500,
         "x_bin_min": 0,
-        "x_bin_max": 50,
-        "fill_x":"particleProtonPhi",
+        "x_bin_max": 150,
+        "fill_x":"particleProtonTheta",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -296,6 +218,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1000,
         "x_bin_min": -10,
@@ -325,6 +248,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1000,
         "x_bin_min": -10,
@@ -354,16 +278,17 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 800,
         "x_bin_min": 0,
         "x_bin_max": 150,
-        "fill_x":"particleProtonPhi",
+        "fill_x":"particleProtonTheta",
      
         "num_bins_z":800,
         "z_bin_min":0,
         "z_bin_max":55,
-        "fill_z":"particleProtonTheta",
+        "fill_z":"particleElectronTheta",
 
         "bins_xb":"no",
         "bins_q2":"no",
@@ -372,8 +297,8 @@
 		"y_scale_max": 0,
 		"second_histo_root_title": "0",
 		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
+        "x_axis": "Proton Angle (Theta)",
+        "y_axis": "Electron Angle (Theta)"
     }],
 
     "hist_proton_theta_phi": [{
@@ -383,6 +308,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 800,
         "x_bin_min": -10,
@@ -391,7 +317,7 @@
      
         "num_bins_z":800,
         "z_bin_min":0,
-        "z_bin_max":55,
+        "z_bin_max":150,
         "fill_z":"particleProtonTheta",
 
         "bins_xb":"no",
@@ -412,6 +338,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 800,
         "x_bin_min": -10,
@@ -434,35 +361,6 @@
         "y_axis": "Theta"
     }],
 
-    "hist_xb_q2": [{
-        "root_title": "hist_xb_q2",
-        "display_title": "Bjorken X vs. Q^2",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 100,
-        "x_bin_min": 0,
-        "x_bin_max": 1.2,
-        "fill_x":"xb",
-     
-        "num_bins_z":10,
-        "z_bin_min":0,
-        "z_bin_max":12,
-        "fill_z":"qsquared",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
-    }],
-
     "hist_xb": [{
         "root_title": "hist_xb",
         "display_title": "Bjorken X",
@@ -470,6 +368,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 100,
         "x_bin_min": 0,
@@ -499,11 +398,12 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 12,
-        "fill_x":"qsquared",
+        "fill_x":"q2",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -521,23 +421,24 @@
         "y_axis": "Theta"
     }],
 
-    "hist_lept_had_angle": [{
-        "root_title": "hist_lept_had_angle",
-        "display_title": "Angle Between Lepton and Hadron Planes",
+    "hist_xb_q2": [{
+        "root_title": "hist_xb_q2",
+        "display_title": "Bjorken X vs. Q^2",
 
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
-        "num_bins_x": 90,
+        "num_bins_x": 100,
         "x_bin_min": 0,
-        "x_bin_max": 360,
-        "fill_x":"LeptHadAngle",
+        "x_bin_max": 1.2,
+        "fill_x":"xb",
      
-        "num_bins_z":0,
+        "num_bins_z":100,
         "z_bin_min":0,
-        "z_bin_max":0,
-        "fill_z":"none",
+        "z_bin_max":12,
+        "fill_z":"q2",
 
         "bins_xb":"no",
         "bins_q2":"no",
@@ -557,11 +458,12 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "yes",
         "pre_cuts":"no",
+        "prex_cuts":"no",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 12,
-        "fill_x":"w_vec",
+        "fill_x":"w_vector",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -579,6 +481,67 @@
         "y_axis": "Theta"
     }],
 
+    "hist_t": [{
+        "root_title": "hist_t",
+        "display_title": "Momentum transfer to Nucleon (t)",
+
+        "cd_fd_split": "yes",
+        "ex_no_cuts_split": "no",
+        "pre_cuts":"no",
+        "prex_cuts":"yes",
+
+        "num_bins_x": 1000,
+        "x_bin_min": -1,
+        "x_bin_max": 7,
+        "fill_x":"t_momentum",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_t_recon": [{
+        "root_title": "hist_t_recon",
+        "display_title": "Reconstructed Momentum transfer to Nucleon (t)",
+
+        "cd_fd_split": "yes",
+        "ex_no_cuts_split": "no",
+        "pre_cuts":"no",
+        "prex_cuts":"yes",
+
+        "num_bins_x": 1000,
+        "x_bin_min": -1,
+        "x_bin_max": 7,
+        "fill_x":"t_momentum_recon",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    
     "hist_pion_energy": [{
         "root_title": "hist_pion_energy",
         "display_title": "Pion Energy",
@@ -586,6 +549,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -614,6 +578,7 @@
 
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "no",
+        "prex_cuts":"yes",
         "pre_cuts":"no",
 
         "num_bins_x": 1000,
@@ -637,35 +602,6 @@
         "y_axis": "Theta"
     }],
 
-    "hist_missing_mass_energy": [{
-        "root_title": "hist_missing_mass_energy",
-        "display_title": "Missing Energy vs Missing Mass",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 500,
-        "x_bin_min": 0,
-        "x_bin_max": 5,
-        "fill_x":"particlePionMass",
-     
-        "num_bins_z":500,
-        "z_bin_min":0,
-        "z_bin_max":10,
-        "fill_z":"particlePionMass",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
-    }],
-
     "hist_missing_mass": [{
         "root_title": "hist_missing_mass",
         "display_title": "Missing Mass",
@@ -673,6 +609,7 @@
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -695,18 +632,19 @@
         "y_axis": "Theta"
     }],
 
-    "hist_t": [{
-        "root_title": "hist_t",
-        "display_title": "Momentum transfer to Nucleon (t)",
+    "hist_missing_energy": [{
+        "root_title": "hist_missing_energy",
+        "display_title": "Missing Energy",
 
         "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
+        "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
 
         "num_bins_x": 1000,
-        "x_bin_min": -1,
-        "x_bin_max": 7,
-        "fill_x":"particlePionMass",
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "fill_x":"particleXEnergy",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -724,18 +662,79 @@
         "y_axis": "Theta"
     }],
 
-    "hist_t_recon": [{
-        "root_title": "hist_t_recon",
-        "display_title": "Reconstructed Momentum transfer to Nucleon (t)",
+    "hist_missing_mass_energy": [{
+        "root_title": "hist_missing_mass_energy",
+        "display_title": "Missing Energy vs Missing Mass",
 
         "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
+        "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
+
+        "num_bins_x": 500,
+        "x_bin_min": 0,
+        "x_bin_max": 5,
+        "fill_x":"particleXMass",
+     
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":10,
+        "fill_z":"particleXEnergy",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_missing_momentum_diff": [{
+        "root_title": "hist_missing_momentum_diff",
+        "display_title": "Difference in Missing Momentum and Pion Momentum",
+
+        "cd_fd_split": "yes",
+        "ex_no_cuts_split": "no",
+        "pre_cuts":"no",
+        "prex_cuts":"yes",
+
+        "num_bins_x": 500,
+        "x_bin_min": 0,
+        "x_bin_max": 500,
+        "fill_x":"momentumDiffX",
+     
+        "num_bins_z":500,
+        "z_bin_min":0,
+        "z_bin_max":500,
+        "fill_z":"momentumDiffY",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_missing_energy_diff": [{
+        "root_title": "hist_missing_energy_diff",
+        "display_title": "Difference in Missing Energy and Pion Energy",
+
+        "cd_fd_split": "yes",
+        "ex_no_cuts_split": "no",
+        "pre_cuts":"no",
+        "prex_cuts":"yes",
 
         "num_bins_x": 1000,
-        "x_bin_min": -1,
-        "x_bin_max": 7,
-        "fill_x":"particlePionMass",
+        "x_bin_min": 0,
+        "x_bin_max": 10,
+        "fill_x":"missingEnergyDifference",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -758,8 +757,9 @@
         "display_title": "Angle Between X and Pion Candidates",
 
         "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
+        "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
 
         "num_bins_x": 600,
         "x_bin_min": -1,
@@ -782,76 +782,20 @@
         "y_axis": "Theta"
     }],
 
-    "hist_missing_momentum_diff": [{
-        "root_title": "hist_missing_momentum_diff",
-        "display_title": "Difference in Missing Momentum and Pion Momentum",
+
+    "hist_lept_had_angle": [{
+        "root_title": "hist_lept_had_angle",
+        "display_title": "Angle Between Lepton and Hadron Planes",
 
         "cd_fd_split": "yes",
         "ex_no_cuts_split": "no",
         "pre_cuts":"no",
+        "prex_cuts":"yes",
 
-        "num_bins_x": 500,
+        "num_bins_x": 90,
         "x_bin_min": 0,
-        "x_bin_max": 500,
-        "fill_x":"thetaXPi",
-     
-        "num_bins_z":500,
-        "z_bin_min":0,
-        "z_bin_max":500,
-        "fill_z":"none",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
-    }],
-
-    "hist_missing_energy": [{
-        "root_title": "hist_missing_energy",
-        "display_title": "Missing Energy",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-
-        "num_bins_x": 1000,
-        "x_bin_min": 0,
-        "x_bin_max": 10,
-        "fill_x":"thetaXPi",
-     
-        "num_bins_z":0,
-        "z_bin_min":0,
-        "z_bin_max":0,
-        "fill_z":"none",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Phi",
-        "y_axis": "Theta"
-    }],
-
-    "hist_missing_energy_diff": [{
-        "root_title": "hist_missing_energy_diff",
-        "display_title": "Difference in Missing Energy and Pion Energy",
-
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-
-        "num_bins_x": 1000,
-        "x_bin_min": 0,
-        "x_bin_max": 10,
-        "fill_x":"thetaXPi",
+        "x_bin_max": 360,
+        "fill_x":"LeptHadAngle",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -871,8 +815,3 @@
 
 
 }
-
-
-  
-
-
