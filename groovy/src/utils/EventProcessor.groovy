@@ -120,7 +120,7 @@ class EventProcessor {
 
 		if(fcupBeamCharge > fcupBeamChargeMax){ fcupBeamChargeMax = fcupBeamCharge	} //Replace fcupBeamcharge with the largest value
 
-		def ihel = bankEvent.getByte('helicity',0) //Helicity of ... something
+		def i_helicity = bankEvent.getByte('helicity',0) //Helicity of ... something
 		
 
 		//For each event, index where pid is 11 (electron) and 2212 (proton) and put into array, 
@@ -141,6 +141,43 @@ class EventProcessor {
 
 		//Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
 		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
+
+
+		/////////////////////////////////////////////
+		// FIRST HISTOGRAM FILL SPOT //////////////
+		/////////////////////////////////////////////////
+
+
+		def variable_map_pre_fill = ["number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
+			"number_protons":protons_in_event.size(),"helicity":i_helicity]
+
+		//Fill pre-fill histgrams
+		for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
+			//unpack
+			def hist_couplet = hist_array_in[hist_couplet_index]
+			def hist_params = hist_couplet[0]
+			def hist_mini_array = hist_couplet[1]	
+			if (hist_params.get("pre_fill") == "yes"){	
+
+				def all_index = 0
+				def variable_map = variable_map_pre_fill
+									
+				def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
+
+			
+				if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
+
+				//println(hist_params.get("fill_x"))
+				//println(fillvars)
+				//Fill histos
+				hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram						
+				//Repack
+				hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+			}
+		}
+
+
+
 
 		
 		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
@@ -241,17 +278,23 @@ class EventProcessor {
 				title_xbq2 += title_xB+title_q2
 
 
+				/////////////////////////////////////////////
+				// SECOND HISTOGRAM FILL SPOT //////////////
+				/////////////////////////////////////////////////
+
+
+
 				//Fill nocut histgrams
 				for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 					//unpack
 					def hist_couplet = hist_array_in[hist_couplet_index]
 					def hist_params = hist_couplet[0]
 					def hist_mini_array = hist_couplet[1]	
-					if (hist_params.get("ex_no_cuts_split") == "yes"){	
+					if (hist_params.get("pro_fill") == "yes"){	
 
-						def all_index = 8
-						def fd_index = 7
-						def cd_index = 6
+						def all_index = 5
+						def fd_index = 4
+						def cd_index = 3
 						def variable_map = variable_map_nocuts
 											
 						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
@@ -350,6 +393,9 @@ class EventProcessor {
 					]
 
 
+					/////////////////////////////////////////////
+					// THIRD HISTOGRAM FILL SPOT //////////////
+					/////////////////////////////////////////////////
 
 
 					//Fill prex cut histgrams
@@ -358,7 +404,7 @@ class EventProcessor {
 						def hist_couplet = hist_array_in[hist_couplet_index]
 						def hist_params = hist_couplet[0]
 						def hist_mini_array = hist_couplet[1]	
-						if (hist_params.get("prex_cuts") == "yes"){	
+						if (hist_params.get("prex_fill") == "yes"){	
 
 
 							def all_index = 5
@@ -390,6 +436,10 @@ class EventProcessor {
 					//IF WE HAVE MADE IT THIS FAR, WE NOW HAVE A DVEP EVENT!!!!!!!!
 
 
+					/////////////////////////////////////////////
+					// FOURTH HISTOGRAM FILL SPOT //////////////
+					/////////////////////////////////////////////////
+
 
 					//Fill excut histgrams
 					for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
@@ -405,30 +455,33 @@ class EventProcessor {
 						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
 
 
+						if (hist_params.get("ex_fill") == "yes"){	
 
-						if (hist_params.get("bins_xb") == "yes"){
-							if (hist_params.get("bins_q2") == "yes"){
-								if (hist_params.get("bins_t") == "yes"){
-									hist_mini_array[all_index][title_xbq2t].fill(fillvars)
-									if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2t].fill(fillvars)	} //Fill FD
-									if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2t].fill(fillvars)	} //Fill CD
-								}
-								if (hist_params.get("bins_t") == "no"){
-									hist_mini_array[all_index][title_xbq2].fill(fillvars)
-									if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2].fill(fillvars)	} //Fill FD
-									if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2].fill(fillvars)	} //Fill CD
+							if (hist_params.get("bins_xb") == "yes"){
+								if (hist_params.get("bins_q2") == "yes"){
+									if (hist_params.get("bins_t") == "yes"){
+										hist_mini_array[all_index][title_xbq2t].fill(fillvars)
+										if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2t].fill(fillvars)	} //Fill FD
+										if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2t].fill(fillvars)	} //Fill CD
+									}
+									if (hist_params.get("bins_t") == "no"){
+										hist_mini_array[all_index][title_xbq2].fill(fillvars)
+										if (proton_location == 'FD'){ hist_mini_array[fd_index][title_xbq2].fill(fillvars)	} //Fill FD
+										if (proton_location == 'CD'){hist_mini_array[cd_index][title_xbq2].fill(fillvars)	} //Fill CD
+									}
 								}
 							}
-						}
-						else{
-							//Fill histos
-							hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
-							if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
-							if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
-						}							
-						//Repack
-						hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
-						
+							else{
+								//Fill histos
+								hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
+								if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
+								if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+							}	
+							//Repack
+							hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
+
+						}					
+					
 					}
 
 					

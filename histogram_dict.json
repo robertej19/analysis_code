@@ -3,10 +3,10 @@
         "root_title": "hist_phi_xbq2t",
         "display_title": "Phi Distribution Over Xb,Q2,T of",
 
-        "cd_fd_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
-        "ex_no_cuts_split": "no",
+        "pre_fill": "no",
+        "pro_fill":"no",
+        "prex_fill":"no",
+        "ex_fill": "yes",
         
 
         "num_bins_x": 20,
@@ -34,10 +34,10 @@
         "root_title": "hist_t_xbq2",
         "display_title": "t Distribution Over Xb, Q2 of",
 
-        "cd_fd_split": "no",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 10,
         "x_bin_min": 0,
@@ -65,15 +65,15 @@
         "root_title": "hist_num_protons",
         "display_title": "Number of Protons Per Event",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "yes",
+        "pro_fill": "no",
+        "prex_fill":"no",
+        "ex_fill":"no",
 
         "num_bins_x": 10,
         "x_bin_min": 0,
         "x_bin_max": 9,
-        "fill_x":"particleProtonPhi",
+        "fill_x":"number_protons",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -95,15 +95,15 @@
         "root_title": "hist_helicity",
         "display_title": "Helicity of each Event",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "yes",
+        "pro_fill": "no",
+        "prex_fill":"no",
+        "ex_fill":"no",
 
-        "num_bins_x": 10,
-        "x_bin_min": 0,
-        "x_bin_max": 9,
-        "fill_x":"particleProtonPhi",
+        "num_bins_x": 20,
+        "x_bin_min": -5,
+        "x_bin_max": 5,
+        "fill_x":"helicity",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -122,18 +122,48 @@
     }],
 
     "hist_num_photons": [{
-        "root_title": "hist_num_photons",
-        "display_title": "Number of Photons Per Event",
+        "root_title": "hist_num_photons_good",
+        "display_title": "Number of Photons Per Event, 400 MeV Minimum Cut",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "yes",
+        "pro_fill": "no",
+        "prex_fill":"no",
+        "ex_fill":"no",
 
         "num_bins_x": 20,
         "x_bin_min": 0,
         "x_bin_max": 19,
-        "fill_x":"particleProtonPhi",
+        "fill_x":"number_photons_good",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Phi",
+        "y_axis": "Theta"
+    }],
+
+    "hist_num_photons_bad": [{
+        "root_title": "hist_num_photons_bad",
+        "display_title": "Number of Photons Per Event, No Cut",
+
+        "pre_fill": "yes",
+        "pro_fill": "no",
+        "prex_fill":"no",
+        "ex_fill":"no",
+
+        "num_bins_x": 20,
+        "x_bin_min": 0,
+        "x_bin_max": 19,
+        "fill_x":"number_photons_bad",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -155,10 +185,10 @@
         "root_title": "hist_electron_theta",
         "display_title": "Electron Theta Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1500,
         "x_bin_min": 0,
@@ -185,10 +215,10 @@
         "root_title": "hist_proton_theta",
         "display_title": "Proton Theta Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1500,
         "x_bin_min": 0,
@@ -215,10 +245,10 @@
         "root_title": "hist_proton_phi",
         "display_title": "Proton Phi Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": -10,
@@ -245,10 +275,10 @@
         "root_title": "hist_electron_phi",
         "display_title": "Electron Phi Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": -10,
@@ -275,10 +305,10 @@
         "root_title": "hist_proton_electron_theta",
         "display_title": "Proton vs. Electron Theta Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 800,
         "x_bin_min": 0,
@@ -305,10 +335,10 @@
         "root_title": "hist_proton_theta_phi",
         "display_title": "Proton Theta vs. Phi",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 800,
         "x_bin_min": -10,
@@ -335,10 +365,10 @@
         "root_title": "hist_electron_theta_phi",
         "display_title": "Electron Theta vs. Phi",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 800,
         "x_bin_min": -10,
@@ -365,10 +395,10 @@
         "root_title": "hist_xb",
         "display_title": "Bjorken X",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 100,
         "x_bin_min": 0,
@@ -395,10 +425,10 @@
         "root_title": "hist_q2",
         "display_title": "Q^2",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -425,10 +455,10 @@
         "root_title": "hist_xb_q2",
         "display_title": "Bjorken X vs. Q^2",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 100,
         "x_bin_min": 0,
@@ -455,10 +485,10 @@
         "root_title": "hist_w",
         "display_title": "W Distribution",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "yes",
-        "pre_cuts":"no",
-        "prex_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -485,10 +515,10 @@
         "root_title": "hist_t",
         "display_title": "Momentum transfer to Nucleon (t)",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": -1,
@@ -515,10 +545,10 @@
         "root_title": "hist_t_recon",
         "display_title": "Reconstructed Momentum transfer to Nucleon (t)",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": -1,
@@ -546,10 +576,10 @@
         "root_title": "hist_pion_energy",
         "display_title": "Pion Energy",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -576,14 +606,14 @@
         "root_title": "hist_pion_mass",
         "display_title": "Pion Mass",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "prex_cuts":"yes",
-        "pre_cuts":"no",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
-        "x_bin_max": 10,
+        "x_bin_max": 1000,
         "fill_x":"particlePionMass",
      
         "num_bins_z":0,
@@ -606,10 +636,10 @@
         "root_title": "hist_missing_mass",
         "display_title": "Missing Mass",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -636,10 +666,10 @@
         "root_title": "hist_missing_energy",
         "display_title": "Missing Energy",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -666,10 +696,10 @@
         "root_title": "hist_missing_mass_energy",
         "display_title": "Missing Energy vs Missing Mass",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 500,
         "x_bin_min": 0,
@@ -696,10 +726,10 @@
         "root_title": "hist_missing_momentum_diff",
         "display_title": "Difference in Missing Momentum and Pion Momentum",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 500,
         "x_bin_min": 0,
@@ -726,10 +756,10 @@
         "root_title": "hist_missing_energy_diff",
         "display_title": "Difference in Missing Energy and Pion Energy",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 1000,
         "x_bin_min": 0,
@@ -756,10 +786,10 @@
         "root_title": "hist_thetaXPi",
         "display_title": "Angle Between X and Pion Candidates",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 600,
         "x_bin_min": -1,
@@ -787,10 +817,10 @@
         "root_title": "hist_lept_had_angle",
         "display_title": "Angle Between Lepton and Hadron Planes",
 
-        "cd_fd_split": "yes",
-        "ex_no_cuts_split": "no",
-        "pre_cuts":"no",
-        "prex_cuts":"yes",
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
 
         "num_bins_x": 90,
         "x_bin_min": 0,

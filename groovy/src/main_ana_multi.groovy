@@ -116,9 +116,10 @@ for (hist in data_histograms){
     def root_title= hist_params.get("root_title")
     def display_title = hist_params.get("display_title")
 
-	def cd_fd_split = hist_params.get("cd_fd_split")
-	def ex_no_cuts_split = hist_params.get("ex_no_cuts_split")
-	def prex_cuts_split = hist_params.get("prex_cuts")
+	def pre_fill = hist_params.get("pre_fill")
+	def pro_fill = hist_params.get("pro_fill")
+	def prex_fill = hist_params.get("prex_fill")
+	def ex_fill = hist_params.get("ex_fill")      
 
     def num_bins_x = hist_params.get("num_bins_x")
     def x_bin_min = hist_params.get("x_bin_min")
@@ -137,7 +138,7 @@ for (hist in data_histograms){
 
 	def histo_couplet = []
 
-	//Split over 2D histogram or not
+	def hist_mini_array = []
 
 	if (bins_xb == "yes"){
 		if (bins_q2 =="yes"){
@@ -148,75 +149,92 @@ for (hist in data_histograms){
 				def x1_5 	= [:].withDefault{new H1F(root_title + "_prexcut_fd_" + it,display_title + " Pre-Excl. Cuts,  FD, " + it,num_bins_x, x_bin_min, x_bin_max)}
 				def x1_6 	= [:].withDefault{new H1F(root_title + "_prexcut_all_" + it,display_title + " Pre-Excl. Cuts,  All, " + it,num_bins_x, x_bin_min, x_bin_max)}
 
-				def hist_mini_array = [x1_1,x1_2,x1_3,x1_4,x1_5,x1_6]
+				hist_mini_array.add(x1_1)
+				hist_mini_array.add(x1_2)
+				hist_mini_array.add(x1_3)
+				hist_mini_array.add(x1_4)
+				hist_mini_array.add(x1_5)
+				hist_mini_array.add(x1_6)
+
 				histogram_array.add([hist_params, hist_mini_array])
 		}
 	}
-
 	else{
 		if (num_bins_z > 0){
-			//if (cd_fd_split == "yes"){
-				//if (ex_no_cuts_split == "yes"){
-					def x2_1 = new H2F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-					def x2_2 = new H2F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-					def x2_3 = new H2F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)	
+			if (ex_fill == "yes"){
+				def x2_1 = new H2F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_2 = new H2F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_3 = new H2F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)	
 
-					def x2_4 = new H2F(root_title+"_prexcut_cd", display_title+" Pre-Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-					def x2_5 = new H2F(root_title+"_prexcut_fd", display_title+" Pre-Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-					def x2_6 = new H2F(root_title+"_prexcut_all", display_title+" Pre-Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)	
-										
-	
-					def hist_mini_array = [x2_1,x2_2,x2_3,x2_4,x2_5,x2_6]
+				hist_mini_array.add(x2_1)
+				hist_mini_array.add(x2_2)
+				hist_mini_array.add(x2_3)	
+			}
+			if (prex_fill == "yes"){
+				def x2_4 = new H2F(root_title+"_prexcut_cd", display_title+" Pre-Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_5 = new H2F(root_title+"_prexcut_fd", display_title+" Pre-Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_6 = new H2F(root_title+"_prexcut_all", display_title+" Pre-Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)	
 
-					if (ex_no_cuts_split == "yes"){
-
-						def x2_7 = new H2F(root_title+"_nocut_cd", display_title+" No Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-						def x2_8 = new H2F(root_title+"_nocut_fd", display_title+" No Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-						def x2_9 = new H2F(root_title+"_nocut_all", display_title+" No Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
-						
-							hist_mini_array.add(x2_7)
-							hist_mini_array.add(x2_8)
-							hist_mini_array.add(x2_9)
-
-					}
+				hist_mini_array.add(x2_4)
+				hist_mini_array.add(x2_5)
+				hist_mini_array.add(x2_6)					
+			}
+			if (pro_fill == "yes"){
+				def x2_7 = new H2F(root_title+"_nocut_cd", display_title+" No Cuts, CD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_8 = new H2F(root_title+"_nocut_fd", display_title+" No Cuts, FD", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
+				def x2_9 = new H2F(root_title+"_nocut_all", display_title+" No Cuts, All", num_bins_x, x_bin_min, x_bin_max, num_bins_z, z_bin_min, z_bin_max)
 					
-					histo_couplet.add(hist_params)
-					histo_couplet.add(hist_mini_array)
-					histogram_array.add(histo_couplet)
-				//}
-			//}		
+				hist_mini_array.add(x2_7)
+				hist_mini_array.add(x2_8)
+				hist_mini_array.add(x2_9)
+			}
+				
+			histo_couplet.add(hist_params)
+			histo_couplet.add(hist_mini_array)
+			histogram_array.add(histo_couplet)	
 		}
 		else {
-
-			def x1_1 = new H1F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
-			def x1_2 = new H1F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
-			def x1_3 = new H1F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max)
+			if (ex_fill == "yes"){
+				def x1_1 = new H1F(root_title+"_excut_cd", display_title+" Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_2 = new H1F(root_title+"_excut_fd", display_title+" Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_3 = new H1F(root_title+"_excut_all", display_title+" Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max)
 		
-			def x1_4 = new H1F(root_title+"_prexcut_cd", display_title+" Pre-Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
-			def x1_5 = new H1F(root_title+"_prexcut_fd", display_title+" Pre-Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
-			def x1_6 = new H1F(root_title+"_prexcut_all", display_title+" Pre-Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max)
+				hist_mini_array.add(x1_1)
+				hist_mini_array.add(x1_2)
+				hist_mini_array.add(x1_3)	
+			}
+			if (prex_fill == "yes"){
+				def x1_4 = new H1F(root_title+"_prexcut_cd", display_title+" Pre-Excl. Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_5 = new H1F(root_title+"_prexcut_fd", display_title+" Pre-Excl. Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
+				def x1_6 = new H1F(root_title+"_prexcut_all", display_title+" Pre-Excl. Cuts, All", num_bins_x, x_bin_min, x_bin_max)
 
-			def hist_mini_array = [x1_1,x1_2,x1_3,x1_4,x1_5,x1_6]
-
-			if (ex_no_cuts_split == "yes"){
-
+				hist_mini_array.add(x1_4)
+				hist_mini_array.add(x1_5)
+				hist_mini_array.add(x1_6)					
+			}
+			if (pro_fill == "yes"){
 				def x1_7 = new H1F(root_title+"_nocut_cd", display_title+" No Cuts, CD", num_bins_x, x_bin_min, x_bin_max)
 				def x1_8 = new H1F(root_title+"_nocut_fd", display_title+" No Cuts, FD", num_bins_x, x_bin_min, x_bin_max)
 				def x1_9 = new H1F(root_title+"_nocut_all", display_title+" No Cuts, All", num_bins_x, x_bin_min, x_bin_max)
-
+	
 				hist_mini_array.add(x1_7)
 				hist_mini_array.add(x1_8)
 				hist_mini_array.add(x1_9)
-
 			}
+			if (pre_fill == "yes"){
+				def x1_10 = new H1F(root_title, display_title, num_bins_x, x_bin_min, x_bin_max)
 
+				hist_mini_array.add(x1_10)
+			}
+				
 			histo_couplet.add(hist_params)
 			histo_couplet.add(hist_mini_array)
-			histogram_array.add(histo_couplet)
+			histogram_array.add(histo_couplet)	
 	
 		}		
 	}
 }
+
 
 
 // *********************** Define Cuts **************************** //
