@@ -88,14 +88,6 @@ plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
 
 
 
-
-"""
-Make a dictionary mappping hist titles to axis titles, other properities
-Add date to filename!
-"""
-
-
-
 if os.path.isdir(plots_folder):
 	print('removing previous database file')
 	subprocess.call(['rm','-rf',plots_folder])
@@ -109,6 +101,27 @@ print(plots_folder+" is now present")
 
 
 
+hist_suffexes_cuts = ["_nocut","_prexcut","_excut"]
+title_suffexes_cuts = [", No Cuts ",", Before Excl. Cuts",", After Excl. Cuts"]
+hist_suffexes_locs = ["all","fd","cd"]
+title_suffexes_locs = [", All",", FD",", CD"]
+
+
+def title_maker(data_dict,hist_name):
+	title_base = data[hist_key][0]["display_title"]
+
+	for cut_ind, suffex_cut in enumerate(hist_suffexes_cuts):
+		if suffex_cut in hist_name:
+			title_base += title_suffexes_cuts[cut_ind]
+
+	for loc_ind, suffex_loc in enumerate(hist_suffexes_locs):
+		if suffex_loc in hist_name:
+			title_base += title_suffexes_locs[loc_ind]
+
+	print("title for {} is {}".format(hist_name, title_base))
+	return title_base
+
+	
 
 
 
@@ -117,29 +130,42 @@ for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
 	hist_root_ID = obj.GetName() #e.g. this is something like output_file_histos_hist_phi_proton_excuts_FD
 	hist_name = hist_root_ID.split("file_histos_")[1] #e.g. this is something like hist_phi_proton_excuts_FD
-	if hist_name in data:
-		#for key in data[hist_name][0]:
-		#	print("hist property {} has value {}".format(key,data[hist_name][0][key]))
-
-		display_title = data[hist_name][0]["display_title"]
-		num_bins_x      = data[hist_name][0]["num_bins_x"]
-		x_bin_min 	  = data[hist_name][0]["x_bin_min"]
-		x_bin_max     = data[hist_name][0]["x_bin_max"]
-		x_axis_title        = data[hist_name][0]["x_axis"]
-		y_axis_title        = data[hist_name][0]["y_axis"]
-		y_scale_max   = data[hist_name][0]["y_scale_max"]
-		double_plots   = data[hist_name][0]["double_plots"]
-		second_histo_root_title = data[hist_name][0]["second_histo_root_title"]
-		log_scale   = data[hist_name][0]["log_scale"]
-
-
-		makeplot(plots_dir,hist_root_ID,hist_name,
-					display_title, num_bins_x, x_bin_min, x_bin_max,
-					x_axis_title, y_axis_title, y_scale_max,
-					double_plots, second_histo_root_title, log_scale)
-
+	#print("hist name is {}".format(hist_name))
+	if ("hist_phi_xbq2t" in hist_name) or ("hist_t_xbq2" in hist_name):
+			#print("skipping {}, for now".format(hist_name))
+			xv = 2
 	else:
-		print("File {} not found in json formatting, skipping".format(hist_name))
+
+		keylogs = 0 
+		for hist_key in data:
+			#print(hist_key)
+			
+			if data[hist_key][0]["root_title"] in hist_name:
+				keylogs = 1
+				
+				# if hist_name in data:
+				# #for key in data[hist_name][0]:
+				# #	print("hist property {} has value {}".format(key,data[hist_name][0][key]))
+
+				display_title = title_maker(data,hist_name)
+				num_bins_x      = data[hist_key][0]["num_bins_x"]
+				x_bin_min 	  = data[hist_key][0]["x_bin_min"]
+				x_bin_max     = data[hist_key][0]["x_bin_max"]
+				x_axis_title        = data[hist_key][0]["x_axis"]
+				y_axis_title        = data[hist_key][0]["y_axis"]
+				y_scale_max   = data[hist_key][0]["y_scale_max"]
+				double_plots   = "no"
+				second_histo_root_title = data[hist_key][0]["second_histo_root_title"]
+				log_scale   = data[hist_key][0]["log_scale"]
+
+			
+				makeplot(plots_dir,hist_root_ID,hist_name,
+							display_title, num_bins_x, x_bin_min, x_bin_max,
+							x_axis_title, y_axis_title, y_scale_max,
+							double_plots, second_histo_root_title, log_scale)
+
+		if keylogs == 0:
+			print("File {} not found in json formatting, skipping".format(hist_name))
 
 
 """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOff,xmin,xmax,ymax,1 = enable double plots,second histo name"""

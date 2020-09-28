@@ -1,0 +1,46 @@
+Run information for output_file_histos-20200928-00-28.hipo 
+Script began at 09/27/2020-22:15:35 and finished at 09/28/2020-00:28:54
+total runtime: 133.31 minutes - Processing rate: 14.81 kHz 
+Final global number of DVPP events found: 22024 out of a total of 118452805 - 0.02 %
+Global FD Events Found: 6683, compared to 15467 in the CD, a ratio of 43.2081205100 %Total Integrated Luminosity from the runs processed is 1.1327871281115221E39 UNITS??? 
+
+ 
+
+****************** 
+ The following pion cuts were used: 
+
+ ****** DVEP CUTS: 
+ 
+Cut WMass has value 2 
+Cut Q2 has value 1 
+Cut ThetaDifference_X_Pi has value 2 
+Cut MomentumDifference_X_Pi has value 0.3 
+Cut MissingMassSquared has value 1 
+Cut MissingEnergy has value 1 
+
+ ****** PION CUTS: 
+ 
+Cut pion_lower_mass has value 0.1 
+Cut pion_upper_mass has value 0.18 
+Cut pion_min_momentum has value 1.5 
+Cut photon_BH_angle has value 8 
+
+ 
+ 
+ ***************** 
+ Used the follwowing binning scheme 
+binning_t was [0.09, 0.15, 0.20, 0.30, 0.40, 0.60, 1.0, 1.5, 2, 5] 
+binning_xb was [0, 0.1, 0.2, 0.4, 0.6, 1] 
+binning_q2 was [0, 2, 4, 6, 8, 10, 12] 
+
+ 
+ 
+ ***************** 
+ Used 1 cores to try to process 7 files, processing a total of 7 files. The following files were processed: 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005422.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005423.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005424.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005425.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005426.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005437.hipo 
+/mnt/d/CLAS12Data/skim4/skim4-20200927/skim4_005439.hipo 

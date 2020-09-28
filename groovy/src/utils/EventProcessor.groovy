@@ -229,7 +229,7 @@ class EventProcessor {
 
 
 
-				def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t
+				def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t (needs to be squared?)
 
 				
 				def q2Round = Math.round((-qvec.mass2())*2+0.5)/2
@@ -241,6 +241,7 @@ class EventProcessor {
 								"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
 								"t_momentum":t_momentum,
 								"q2":-qvec.mass2(),"xb":xBjorken, "w_vector":wvec.mass(),
+								"particleProtonMass":particleProton.mass(),
 								]
 
 
@@ -390,6 +391,7 @@ class EventProcessor {
 					"missingEnergyDifference":dmisse0,
 					"thetaXPi":thetaXPi,"t_momentum":t_momentum,"t_momentum_recon":t_momentum_recon,
 					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
+					"particleProtonMass":particleProton.mass(),
 					]
 
 

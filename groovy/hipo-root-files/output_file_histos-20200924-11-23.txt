@@ -1,8 +1,0 @@
-Run information for output_file_histos-20200924-11-23.hipo 
-Script began at 09/24/2020-11:23:49 and finished at 09/24/2020-11:23:50
-total runtime: 1.34 seconds - Processing rate: 0.07 kHz 
-No DVPP events found out of a total of 100 
- No DVEP events found in CD, all (if any) DVEP events are in FDTotal Integrated Luminosity from the runs processed is 2.8748817312150592E35 UNITS??? 
-The following pion cuts were used: 
-Used 1 cores to try to process 1 files, processing a total of 1 files. The following files were processed: 
-/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo 

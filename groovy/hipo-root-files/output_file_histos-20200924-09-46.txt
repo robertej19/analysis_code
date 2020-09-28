@@ -1,4 +1,0 @@
-Run information for output_file_histos-20200924-09-46.hipo 
-Script began at 09/24/2020-09:46:12 and finished at 09/24/2020-09:46:28
-total runtime: 15.93 seconds - Processing rate: 31.39 kHz 
-Final global number of DVPP events found: 0 out of a total of 500000 - 0.00 %
