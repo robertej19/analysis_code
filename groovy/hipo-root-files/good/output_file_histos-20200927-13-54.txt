@@ -2,7 +2,8 @@ Run information for output_file_histos-20200927-13-54.hipo
 Script began at 09/27/2020-11:45:20 and finished at 09/27/2020-13:54:51
 total runtime: 129.52 minutes - Processing rate: 9.19 kHz 
 Final global number of DVPP events found: 81846 out of a total of 71447307 - 0.11 %
-Global FD Events Found: 46303, compared to 36106 in the CD, a ratio of 128.2418434600 %Total Integrated Luminosity from the runs processed is 1.0500636594647036E40 UNITS??? 
+Global FD Events Found: 46303, compared to 36106 in the CD, a ratio of 128 %
+Total Integrated Luminosity from the runs processed is 1.050E40
 
  
 

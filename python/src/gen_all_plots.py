@@ -38,7 +38,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	ROOT.gErrorIgnoreLevel = ROOT.kWarning #This quiets root file save messages
 
 	h1 = root_tree.Get(hist_root_ID)
-	print("Saving Histogram {}".format(h1.GetName()))
+	
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	#need to get this fixed, currently only works with int arguements
@@ -53,14 +53,18 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	h1.SetXTitle(x_axis_title)
 	h1.SetYTitle(y_axis_title)
 
-	h1.GetXaxis.CenterTitle(True)
-	h1.GetYaxis.CenterTitle(True)
+	h1.GetXaxis().CenterTitle()
+	h1.GetYaxis().CenterTitle()
 
-	#h1.GetXaxis.SetLabelSize(10)
-	gStyle.SetLabelSize(50)
-	h1.SetLineWidth(2.5) #use this to make line width thicker
+	#h1.GetXaxis().SetTitleSize(5)
+	#gStyle.SetLabelSize(50)
+	h1.SetLineWidth(2) #use this to make line width thicker
+
+	print("Saving Histogram {}".format(h1.GetName()))
 
 	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
+
+	
 
 
 	if double_plots == "yes":
@@ -108,7 +112,7 @@ print(plots_folder+" is now present")
 hist_suffexes_cuts = ["_nocut","_prexcut","_excut"]
 title_suffexes_cuts = [", No Cuts ",", Before Excl. Cuts",", After Excl. Cuts"]
 hist_suffexes_locs = ["all","fd","cd"]
-title_suffexes_locs = [", All",", FD",", CD"]
+title_suffexes_locs = [", FD & CD",", FD",", CD"]
 
 
 def title_maker(data_dict,hist_name):
@@ -122,7 +126,7 @@ def title_maker(data_dict,hist_name):
 		if suffex_loc in hist_name:
 			title_base += title_suffexes_locs[loc_ind]
 
-	print("title for {} is {}".format(hist_name, title_base))
+	#print("title for {} is {}".format(hist_name, title_base))
 	return title_base
 
 	
@@ -146,6 +150,39 @@ for key in root_tree.GetListOfKeys():
 			
 			if data[hist_key][0]["root_title"] in hist_name:
 				keylogs = 1
+	
+	
+				if "hist_xb_q2" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_xb_q2"
+
+				if "hist_missing_energy_diff" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_missing_energy_diff"
+
+				if "hist_missing_mass_energy" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_missing_mass_energy"
+
+				if "hist_kinematic_t_recon" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_kinematic_t_recon"
+
+				if "hist_proton_theta_phi" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_proton_theta_phi"
+
+				if "hist_electron_theta_phi" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_electron_theta_phi"
+				
+				if "hist_num_photons_bad" in hist_name:
+					#print("found the annoying histogram")
+					hist_key = "hist_num_photons_bad"
+				
+				
+
+
 				
 				# if hist_name in data:
 				# #for key in data[hist_name][0]:

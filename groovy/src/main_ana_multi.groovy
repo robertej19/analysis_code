@@ -13,6 +13,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.Date
+import java.text.DecimalFormat
 
 
 //From JLab
@@ -479,18 +480,24 @@ else{
 }
 file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n")
 if (NumGlobalDVPPEvents>0){
-	file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} %\n")
+	file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} % of all events\n")
 }
 else{
 	file.append("No DVPP events found out of a total of $GlobalNumEventsProcessed \n ")
 }
 if (NumGlobalCDEvents >0){
-	file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${NumGlobalFDEvents/NumGlobalCDEvents*100} %")
+	file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${(NumGlobalFDEvents/NumGlobalCDEvents*100).round(1)} %\n")
 }
 else{
 	file.append("No DVEP events found in CD, all (if any) DVEP events are in FD \n")
 }	
-file.append("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS??? \n")
+
+//double d = 3.7578845854848E41;
+//double d2 = 3.416436417734133;
+DecimalFormat f = new DecimalFormat("0.###E0");
+//System.out.println();
+
+file.append("Total Integrated Luminosity from the runs processed is ${(f.format(GlobalLumiTotal))} \n")
 file.append("\n \n\n****************** \n The following pion cuts were used: \n")
 
 for (cut_type in cuts_json){

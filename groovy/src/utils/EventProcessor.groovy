@@ -328,6 +328,8 @@ class EventProcessor {
 
 					def particleGammaGammaPair = particleGamma_1+particleGamma_2
 					def particleGammaGammaPairmass = particleGammaGammaPair.mass()
+
+					def particle0 = beam+target-particleElectron-particleProton-particleGammaGammaPair
 					
 
 					//hist_pion_mass_nocuts.fill(particleGammaGammaPairmass*1000) //Report the mass in MeV
@@ -386,14 +388,17 @@ class EventProcessor {
 					def variable_map_excuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
 					"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
 					"particlePionEnergy":particleGammaGammaPair.e(),"particlePionMass":particleGammaGammaPairmass*1000,
-					"particleXEnergy":particleX.e(),"particleXMass":particleX.mass(),
+					"particleXEnergy":particleX.e(),"particleXMassSquared":particleX.mass2(),
 					"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
 					"missingEnergyDifference":dmisse0,
 					"thetaXPi":thetaXPi,"t_momentum":t_momentum,"t_momentum_recon":t_momentum_recon,
 					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
 					"particleProtonMass":particleProton.mass(),
+					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
 					]
 
+					//println("particle0 energy is "+particle0.e())
+					//println("particle0 mass is "+particle0.mass())
 
 					/////////////////////////////////////////////
 					// THIRD HISTOGRAM FILL SPOT //////////////

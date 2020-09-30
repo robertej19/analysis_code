@@ -522,8 +522,8 @@
         "x_axis": "W (GeV)",
         "y_axis": "Counts"
     }],
-    "hist_t": [{
-        "root_title": "hist_t",
+    "hist_kinematic_t": [{
+        "root_title": "hist_kinematic_t",
         "display_title": "Momentum transfer to Nucleon (t)",
 
         "pre_fill": "no",
@@ -551,8 +551,8 @@
         "x_axis": "-t (GeV^{2})",
         "y_axis": "Counts"
     }],
-    "hist_t_recon": [{
-        "root_title": "hist_t_recon",
+    "hist_kinematic_t_recon": [{
+        "root_title": "hist_kinematic_t_recon",
         "display_title": "Reconstructed Momentum transfer to Nucleon (t)",
 
         "pre_fill": "no",
@@ -638,9 +638,9 @@
         "x_axis": "Pion Mass (MeV)",
         "y_axis": "Counts"
     }],
-    "hist_missing_mass": [{
-        "root_title": "hist_missing_mass",
-        "display_title": "Missing Mass",
+    "hist_missing_mass_squared_epX": [{
+        "root_title": "hist_missing_mass_squared_epX",
+        "display_title": "Missing Mass Squared (epX)",
 
         "pre_fill": "no",
         "pro_fill": "no",
@@ -648,9 +648,38 @@
         "ex_fill":"yes",
 
         "num_bins_x": 1000,
-        "x_bin_min": 0,
-        "x_bin_max": 5,
-        "fill_x":"particleXMass",
+        "x_bin_min": -5,
+        "x_bin_max": 15,
+        "fill_x":"particleXMassSquared",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Missing Mass (GeV)",
+        "y_axis": "Counts"
+    }],
+    "hist_missing_mass_squared_epgg": [{
+        "root_title": "hist_missing_mass_squared_epgg",
+        "display_title": "Missing Mass Squared (ep#gamma#gamma)",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 1000,
+        "x_bin_min": -1,
+        "x_bin_max": 1,
+        "fill_x":"particle0MassSquared",
      
         "num_bins_z":0,
         "z_bin_min":0,
@@ -696,9 +725,9 @@
         "x_axis": "Missing Energy (GeV)",
         "y_axis": "Counts"
     }],
-    "hist_missing_mass_energy": [{
-        "root_title": "hist_missing_mass_energy",
-        "display_title": "Missing Energy vs Missing Mass",
+    "hist_missing_mass_squared_energy": [{
+        "root_title": "hist_missing_mass_squared_energy",
+        "display_title": "Missing Energy vs Missing Mass Squared",
 
         "pre_fill": "no",
         "pro_fill": "no",
@@ -708,7 +737,7 @@
         "num_bins_x": 100,
         "x_bin_min": 0,
         "x_bin_max": 4,
-        "fill_x":"particleXMass",
+        "fill_x":"particleXMassSquared",
      
         "num_bins_z":300,
         "z_bin_min":0,
@@ -783,8 +812,68 @@
         "x_axis": "Energy Difference (GeV)",
         "y_axis": "Counts"
     }],
-    "hist_thetaXPi": [{
-        "root_title": "hist_thetaXPi",
+    "hist_diff_missing_mass_squared_energy": [{
+        "root_title": "hist_diff_missing_mass_energy",
+        "display_title": "Missing Energy vs Missing Mass Squared of ep#gamma#gamma",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 300,
+        "x_bin_min": -6,
+        "x_bin_max": 6,
+        "fill_x":"particle0MassSquared",
+     
+        "num_bins_z":600,
+        "z_bin_min":-12,
+        "z_bin_max":12,
+        "fill_z":"particle0Energy",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Missing Mass (GeV)",
+        "y_axis": "Missing Energy (GeV)"
+    }],
+
+    "hist_finer_diff_missing_mass_squared_energy": [{
+        "root_title": "hist_finer_diff_missing_mass_energy",
+        "display_title": "Missing Energy vs Missing Mass Squared of ep#gamma#gamma",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 200,
+        "x_bin_min": -1,
+        "x_bin_max": 1,
+        "fill_x":"particle0MassSquared",
+     
+        "num_bins_z":400,
+        "z_bin_min":-2,
+        "z_bin_max":2,
+        "fill_z":"particle0Energy",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Missing Mass (GeV)",
+        "y_axis": "Missing Energy (GeV)"
+    }],
+
+    "hist_xthetaXPi": [{
+        "root_title": "hist_xthetaXPi",
         "display_title": "Angle Between X and Pion Candidates",
 
         "pre_fill": "no",
