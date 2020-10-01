@@ -91,8 +91,10 @@ class EventProcessor {
 		def binning_t = binning_scheme[2]
 
 		def dvpp_event = 0
-		def fd_event = 0 
-		def cd_event = 0
+		def fd_dvpp_event = 0 
+		def cd_dvpp_event = 0
+		def fd_all_event = 0 
+		def cd_all_event = 0
 
 
 		def xb_bins = 10
@@ -105,13 +107,16 @@ class EventProcessor {
 
 		def banknames = ['REC::Event','REC::Particle','REC::Cherenkov','REC::Calorimeter','REC::Traj','REC::Track','REC::Scintillator']
 
+		//println("might leave")
 
 		// Leave event if not all banks are present
 		if(!(banknames.every{event.hasBank(it)})) {
 			//println("Not all bank events found, returning")
-			return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, hist_array_in]
+			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in]
 		}
 		
+		//println("did not leave")
+
 		
 		def (bankEvent,bankParticle,bankCherenkov,bankECal,bankTraj,bankTrack,bankScintillator) = banknames.collect{event.getBank(it)}
 		def banks = [bankCherenkov:bankCherenkov,bankECal:bankECal,part:bankParticle,bankTraj:bankTraj,bankTrack:bankTrack]
@@ -151,6 +156,7 @@ class EventProcessor {
 		def variable_map_pre_fill = ["number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
 			"number_protons":protons_in_event.size(),"helicity":i_helicity]
 
+		//println("pre-filling histograms")
 		//Fill pre-fill histgrams
 		for (int hist_couplet_index=0; hist_couplet_index < hist_array_in.size(); hist_couplet_index++){
 			//unpack
@@ -178,6 +184,8 @@ class EventProcessor {
 
 
 
+		//println(electrons_in_event.size())
+		//println(protons_in_event.size())
 
 		
 		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
@@ -199,13 +207,15 @@ class EventProcessor {
 
 				def wvec = beam+target-particleElectron
 				def qvec = beam-particleElectron
+				
 				def qsquared = -qvec.mass2()
 				def particleX = beam+target-particleElectron-particleProton
 				//def t_sqrt = particleProton - target //t = (p'-p)^2
 				//def t_MomTran = t_sqrt.vect().dot(t_sqrt.vect())
 
 				//printerUtil.printer("particleX mass squared is:${particleX.mass2()}",0)
-				def xBjorken = qsquared/(2*particleProton.vect().dot(qvec.vect()))
+				def xBjorkenBad = qsquared/(2*particleProton.vect().dot(qvec.vect()))
+				def xBjorken = qsquared/(qsquared +wvec.mass2() - particleProton.mass2())
 				//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
 	
 				def particleProtonPhi = Math.toDegrees(particleProton.phi())
@@ -226,7 +236,12 @@ class EventProcessor {
 
 				def proton_location = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' //This returns FD if proton in FD, CD if CD
 
+				//println(bankParticle.getShort('status',indexProton))
+				//println(proton_location)
 
+
+				if (proton_location == 'FD'){ fd_all_event = 1	}
+				if (proton_location == 'CD'){ cd_all_event = 1	}
 
 
 				def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t (needs to be squared?)
@@ -240,7 +255,8 @@ class EventProcessor {
 				def variable_map_nocuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
 								"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
 								"t_momentum":t_momentum,
-								"q2":-qvec.mass2(),"xb":xBjorken, "w_vector":wvec.mass(),
+								"q2":-qvec.mass2(),"xb":xBjorken, "xbbad":xBjorkenBad,
+								 "w_vector":wvec.mass(),
 								"particleProtonMass":particleProton.mass(),
 								]
 
@@ -395,6 +411,7 @@ class EventProcessor {
 					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
 					"particleProtonMass":particleProton.mass(),
 					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
+					 "xbbad":xBjorkenBad,
 					]
 
 					//println("particle0 energy is "+particle0.e())
@@ -492,15 +509,16 @@ class EventProcessor {
 					}
 
 					
-					if (proton_location == 'FD'){ fd_event = 1	}
-					if (proton_location == 'CD'){ cd_event = 1	}
+					if (proton_location == 'FD'){ fd_dvpp_event = 1	}
+					if (proton_location == 'CD'){ cd_dvpp_event = 1	}
+
 
 					dvpp_event = 1
 				}
 			}
 		}
 
-		return [fcupBeamChargeMax, dvpp_event, fd_event, cd_event, hist_array_in]
+		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in]
 	}
 
 }

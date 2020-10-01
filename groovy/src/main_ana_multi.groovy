@@ -84,8 +84,10 @@ def NumGlobalDVPPEvents = 0
 def NumFilesProcessed = 0
 def GlobalFileSizeToProcess = 0
 def GlobalFileSizeProcessed = 0
-def NumGlobalCDEvents = 0
-def NumGlobalFDEvents = 0
+def NumGlobalCDDVEPEvents = 0
+def NumGlobalFDDVEPEvents = 0
+def NumGlobalCDAllEvents = 0
+def NumGlobalFDAllEvents = 0
 def t_bins = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
 
 
@@ -287,8 +289,10 @@ GParsPool.withPool NumCores, {
 		evcount.set(0)
 		def Float FCupCharge = 0 //For counting charge on faraday cup
 		def NumLocalDVPPEvents = 0
-		def NumLocalFDEvents = 0
-		def NumLocalCDEvents = 0
+		def NumLocalFDDVEPEvents = 0
+		def NumLocalCDDVEPEvents = 0
+		def NumLocalFDAllEvents = 0
+		def NumLocalCDAllEvents = 0
 		def FileStartTime = new Date()
 		println("\n \n \n \n Processing file $fname_short - ${(NumEventsToProcess/Mil).round(3)} M events events at ${FileStartTime.format('HH:mm:ss')}")
 
@@ -302,9 +306,11 @@ GParsPool.withPool NumCores, {
 			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
-			NumLocalFDEvents += funreturns[2]
-			NumLocalCDEvents += funreturns[3]
-			histogram_array = funreturns[4]
+			NumLocalFDDVEPEvents += funreturns[2]
+			NumLocalCDDVEPEvents += funreturns[3]
+			NumLocalFDAllEvents += funreturns[4]
+			NumLocalCDAllEvents += funreturns[5]
+			histogram_array = funreturns[6]
 		}
 
 		reader.close()
@@ -336,13 +342,18 @@ GParsPool.withPool NumCores, {
 
 		// ******* Compile and print Physics statistics ****** //
 
-		NumGlobalCDEvents += NumLocalCDEvents
-		NumGlobalFDEvents += NumLocalFDEvents
+		NumGlobalCDDVEPEvents += NumLocalCDDVEPEvents
+		NumGlobalFDDVEPEvents += NumLocalFDDVEPEvents
+
+		NumGlobalCDAllEvents += NumLocalCDAllEvents
+		NumGlobalFDAllEvents += NumLocalFDAllEvents
+
 		NumGlobalDVPPEvents += NumLocalDVPPEvents
 		GlobalLumiTotal += lumicalc.CalcLumi(FCupCharge)
 
 		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
-		println("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents events in the CD")
+		println("Global DVPP FD Events Found: $NumGlobalFDDVEPEvents, compared to $NumGlobalCDDVEPEvents DVPP events in the CD")
+		println("Global FD Events (all) Found: $NumGlobalFDAllEvents, compared to $NumGlobalCDAllEvents events (all) in the CD")
 		println("Charge on FCup from this run: $FCupCharge in nanoColoumbs")
 		println("Total Integrated Luminosity so far is $GlobalLumiTotal-- UNITS???")
 
@@ -485,12 +496,19 @@ if (NumGlobalDVPPEvents>0){
 else{
 	file.append("No DVPP events found out of a total of $GlobalNumEventsProcessed \n ")
 }
-if (NumGlobalCDEvents >0){
-	file.append("Global FD Events Found: $NumGlobalFDEvents, compared to $NumGlobalCDEvents in the CD, a ratio of ${(NumGlobalFDEvents/NumGlobalCDEvents*100).round(1)} %\n")
+if (NumGlobalCDDVEPEvents >0){
+	file.append("Global FD DVPP Events Found: $NumGlobalFDDVEPEvents, compared to $NumGlobalCDDVEPEvents DVPP events in the CD, a ratio of ${(NumGlobalFDDVEPEvents/NumGlobalCDDVEPEvents*100).round(1)} %\n")
 }
 else{
 	file.append("No DVEP events found in CD, all (if any) DVEP events are in FD \n")
-}	
+}
+if (NumGlobalCDAllEvents >0){
+	file.append("Global FD Events (all) Found: $NumGlobalFDAllEvents, compared to $NumGlobalCDAllEvents in the CD, a ratio of ${(NumGlobalFDAllEvents/NumGlobalCDAllEvents*100).round(1)} %\n")
+	file.append("The ratio of FD DVEP events to all events in FD is  ${(NumGlobalFDDVEPEvents/NumGlobalFDAllEvents*100).round(3)} %\n")
+	file.append("The ratio of CD DVEP events to all events in CD is  ${(NumGlobalCDDVEPEvents/NumGlobalCDAllEvents*100).round(3)} %\n")
+	file.append("The number of (all) events not in CD or FD is  ${(GlobalNumEventsProcessed-NumGlobalCDAllEvents-NumGlobalFDAllEvents)} %\n")
+}
+
 
 //double d = 3.7578845854848E41;
 //double d2 = 3.416436417734133;

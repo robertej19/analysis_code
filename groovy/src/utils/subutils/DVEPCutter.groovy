@@ -74,7 +74,7 @@ class DVEPCutter {
 
 		// Exclusive cuts:
 		
-		def WMass = wvector.mass() > WMass_min
+		def WMass = wvector.mass2() > WMass_min
 		def QSquared = -qvector.mass2() > Q2_min
 		def ThetaXPi = thetaXPi < ThetaXPi_max
 		def Dpt0 = diff_between_X_and_GG.px().abs() < MomDiff_max && diff_between_X_and_GG.py().abs() < MomDiff_max

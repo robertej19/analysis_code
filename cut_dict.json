@@ -1,7 +1,7 @@
 {
     "excuts": [{
         "cut_class":"DVEP",
-        "WMass": 2,
+        "WMass": 4,
         "Q2" : 1,
         "ThetaDifference_X_Pi": 2,
         "MomentumDifference_X_Pi": 0.3,

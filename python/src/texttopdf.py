@@ -27,8 +27,10 @@ styleH = styles['Heading1']
 story = []
 
 file_loc = ""
-file_in_base = "output_file_histos-20200929-07-50"
+#file_in_base = "output_file_histos-20200929-07-50"
+file_in_base = "output_file_histos-20200930-06-43"
 #file_in_base = "output_file_histos-20200927-13-54"
+#../../groovy/hipo-root-files/output_file_histos-20200930-06-43.hipo.root
 
 file_in = file_loc + file_in_base + ".txt"
 pdf_name = "aaa"+file_in_base + ".pdf"
