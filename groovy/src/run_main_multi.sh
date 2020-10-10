@@ -1,3 +1,4 @@
+#!/bin/bash
 
 #Usage: ./runit.sh 0 1 3 - the first number is the number of events in each file to process (0 means run all 
 #events in each file)

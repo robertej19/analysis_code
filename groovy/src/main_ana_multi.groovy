@@ -492,6 +492,11 @@ for (histo_couplet in histogram_array){
 
 out.writeFile("../hipo-root-files/${outputfilename}.hipo")
 
+
+File file0 = new File("temp_filename.txt")
+file0.append(outputfilename)
+
+
 File file = new File("../hipo-root-files/${outputfilename}.txt")
 file.append("Run information for ${outputfilename}.hipo \n")
 file.append("Run message: $output_message \n")
