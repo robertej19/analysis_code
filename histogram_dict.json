@@ -807,7 +807,7 @@
 
         "num_bins_x": 1000,
         "x_bin_min": -5,
-        "x_bin_max": 10,
+        "x_bin_max": 5,
         "fill_x":"particleXMassSquared",
      
         "num_bins_z":0,
@@ -834,7 +834,7 @@
         "prex_fill":"yes",
         "ex_fill":"yes",
 
-        "num_bins_x": 500,
+        "num_bins_x": 350,
         "x_bin_min": -1,
         "x_bin_max": 1,
         "fill_x":"particleXMassSquared",
@@ -865,8 +865,8 @@
         "ex_fill":"yes",
 
         "num_bins_x": 1000,
-        "x_bin_min": -1,
-        "x_bin_max": 1,
+        "x_bin_min": -0.2,
+        "x_bin_max": 0.4,
         "fill_x":"particle0MassSquared",
      
         "num_bins_z":0,
@@ -890,7 +890,7 @@
 
     "hist_missing_mass_squared_energy": [{
         "root_title": "hist_missing_mass_squared_energy",
-        "display_title": "Missing Energy (ep#gamma#gamma# vs Missing Mass Squared (epX)",
+        "display_title": "Missing Energy (ep#gamma#gamma) vs Missing Mass Squared (epX)",
 
         "pre_fill": "no",
         "pro_fill": "no",
@@ -898,13 +898,13 @@
         "ex_fill":"yes",
 
         "num_bins_x": 100,
-        "x_bin_min": -4,
-        "x_bin_max": 4,
+        "x_bin_min": -0.8,
+        "x_bin_max": 0.8,
         "fill_x":"particleXMassSquared",
      
         "num_bins_z":300,
-        "z_bin_min":-12,
-        "z_bin_max":12,
+        "z_bin_min":-2,
+        "z_bin_max":2,
         "fill_z":"particle0Energy",
 
         "bins_xb":"no",
@@ -920,7 +920,7 @@
 
     "hist_missing_mass_squared_energy_zoomed": [{
         "root_title": "hist_missing_mass_squared_energy_zoomed",
-        "display_title": "Missing Energy vs Missing Mass Squared of ep#gamma#gamma",
+        "display_title": "Missing Energy (ep#gamma#gamma) vs Missing Mass Squared (epX)",
 
         "pre_fill": "no",
         "pro_fill": "no",
@@ -928,13 +928,13 @@
         "ex_fill":"yes",
 
         "num_bins_x": 200,
-        "x_bin_min": -1,
-        "x_bin_max": 1,
-        "fill_x":"particle0MassSquared",
+        "x_bin_min": -0.2,
+        "x_bin_max": 0.2,
+        "fill_x":"particleXMassSquared",
      
         "num_bins_z":400,
-        "z_bin_min":-2,
-        "z_bin_max":2,
+        "z_bin_min":-0.5,
+        "z_bin_max":0.5,
         "fill_z":"particle0Energy",
 
         "bins_xb":"no",
@@ -1044,5 +1044,64 @@
 		"log_scale": "no",
         "x_axis": "Angle",
         "y_axis": "Counts"
-    }]
+    }],
+    "hist_num_protons_pure": [{
+        "root_title": "hist_num_protons_pure",
+        "display_title": "Number of Protons Per Event",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 15,
+        "x_bin_min": 0,
+        "x_bin_max": 9,
+        "fill_x":"number_protons",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Number of Protons",
+        "y_axis": "Events"
+    }],
+    "hist_num_photons_pure": [{
+        "root_title": "hist_num_photons_pure",
+        "display_title": "Number of Photons Per Event",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 41,
+        "x_bin_min": 0,
+        "x_bin_max": 19,
+        "fill_x":"number_photons_good",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Number of Protons",
+        "y_axis": "Events"
+    }],
+}
 }

@@ -5,7 +5,7 @@
         "Q2" : 1,
         "ThetaDifference_X_Pi": 2,
         "MomentumDifference_X_Pi": 0.3,
-        "MissingMassSquared": 1000,
+        "MissingMassSquared": 1,
         "MissingEnergy": 1
     }],
 

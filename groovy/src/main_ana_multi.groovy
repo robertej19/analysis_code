@@ -88,7 +88,6 @@ def NumGlobalCDDVEPEvents = 0
 def NumGlobalFDDVEPEvents = 0
 def NumGlobalCDAllEvents = 0
 def NumGlobalFDAllEvents = 0
-def t_bins = [0.09,0.15,0.20,0.30,0.40,0.60,1.0,1.5,2,5]
 
 
 // ******************************************************************* //

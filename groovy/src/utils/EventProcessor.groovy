@@ -182,7 +182,17 @@ class EventProcessor {
 			}
 		}
 
+		def only2photons = good_photons_in_event.size() > 1
+		def only2photons2 = good_photons_in_event.size() <3
+		def only1proton = protons_in_event.size() >0
+		def only1proton2 = protons_in_event.size() <2
 
+		//if(!(only1proton2 && only1proton && only2photons2 && only2photons)) {
+			//println("value is $only1proton2 $only1proton $only2photons2 $only2photons")
+			//println(good_photons_in_event.size())
+			//println(protons_in_event.size())
+		//	return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in]
+		//}
 
 		//println(electrons_in_event.size())
 		//println(protons_in_event.size())
@@ -192,6 +202,9 @@ class EventProcessor {
 		//Some of the tiem there are multiple pairs, e.g. [[0,1],[0,3]]
 		for (int indexElectron in electrons_in_event){
 			for (int indexProton in protons_in_event){ 
+				//println("IN GOOD AREA, values"+only1proton2)only1proton, only2photons2, only2photons)
+				//println("value is $only1proton2 $only1proton $only2photons2 $only2photons")
+				
 				//For each electron index, proton index, do the following:
 
 				def particleElectron = LorentzVector.withPID(11,*['px','py','pz'].collect{bankParticle.getFloat(it,indexElectron)}) 
@@ -258,6 +271,8 @@ class EventProcessor {
 								"q2":-qvec.mass2(),"xb":xBjorken, "xbbad":xBjorkenBad,
 								 "w_vector":wvec.mass(),
 								"particleProtonMass":particleProton.mass(),
+								"number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
+			"number_protons":protons_in_event.size(),
 								]
 
 
@@ -317,6 +332,8 @@ class EventProcessor {
 						def fillvars = [variable_map.get(hist_params.get("fill_x")),]	
 						if(hist_params.get("num_bins_z") > 0){ fillvars.add(variable_map.get(hist_params.get("fill_z")))	}
 
+						//println(hist_params.get("fill_x"))
+					//	println(fillvars)
 						//Fill histos
 						hist_mini_array[all_index].fill(fillvars) //Fill "All" histogram
 						if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
@@ -411,7 +428,8 @@ class EventProcessor {
 					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
 					"particleProtonMass":particleProton.mass(),
 					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
-					 "xbbad":xBjorkenBad,
+					 "xbbad":xBjorkenBad,"number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
+			"number_protons":protons_in_event.size(),
 					]
 
 					//println("particle0 energy is "+particle0.e())
