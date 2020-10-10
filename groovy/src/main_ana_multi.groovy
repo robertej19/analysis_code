@@ -51,12 +51,14 @@ MyMods.enable() //I don't know what this does, its from Andrey, don't touch it, 
 ScriptStartTime = new Date()
 println("\n \n Starting Groovy Script at ${ScriptStartTime.format('HH:mm:ss')} \n \n \n \n")
 
+println("arg size is "+ args)
+
 //********************* Read in command line arguements and initilaze globals and objets **************** //
-if (args.size()<4) {
-	println("You need to include the number of events and files you want to process in the start command, and number of cores!")
-	println("THe first arg is the number of events per file to process, the second arg is the number of files to process, and the third is the number of cores")
+if (args.size()<5) {
+	println("You need to include the number of events and files you want to process in the start command, and number of cores, and a run message!")
+	println("THe first arg is the number of events per file to process, the second arg is the number of files to process, and the third is the number of cores, and fourth is the runtime message")
 	println("You can put a 0 for either files or number of events, this will result in all files / events being processed")
-	println("For example, <run-groovy filename.groovy hipo_file_to_process.hipo 1000 10 3")
+	println('For example, <run-groovy filename.groovy hipo_file_to_process.hipo 1000 10 3 "testing new plotting mechanism"')
 	println("Please enter this correctly, and try again. Exiting. \n \n")
 	System.exit(0)
 }
@@ -72,6 +74,17 @@ def DesiredNumEventsToProcess = args[1].toInteger()
 def NumFilesToProcess = args[2].toInteger()
 def NumCores = args[3].toInteger()
 def FilesToProcess = fg.GetFile(args[0]).take(NumFilesToProcess) //args[0] is the path of the directory with all files to process
+def output_message = ""
+
+//Here we start at 4 beause the first 3 arguements are not the text string
+//We need to convert the arguement array into one string, e.g. [this, is, the, message] -> "this is the message"
+//There should be a cleaner way to do this, but this works
+for (int ind=4; ind < args.size(); ind++) {
+	output_message += args[ind] + " "
+}
+
+//def output_message = "pis are good"
+println("output message is $output_message")
 
 Mil = 1000000
 def OutFileName = "output_file_histos"
@@ -481,6 +494,7 @@ out.writeFile("../hipo-root-files/${outputfilename}.hipo")
 
 File file = new File("../hipo-root-files/${outputfilename}.txt")
 file.append("Run information for ${outputfilename}.hipo \n")
+file.append("Run message: $output_message \n")
 file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n")
 if(ScriptRunTime > 1){
 	file.append("total runtime: ${ScriptRunTime.round(2)} minutes - ")

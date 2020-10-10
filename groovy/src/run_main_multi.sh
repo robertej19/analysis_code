@@ -16,7 +16,7 @@
 #for testing on local
 #../scripts/this_run_groovy_4_args.sh prime_sector.groovy /mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/good-data-20200629 $1 $2
 
-../scripts/this_run_groovy_4_args.sh main_ana_multi.groovy /mnt/d/CLAS12Data/skim8-20200629 $1 $2 $3
+../scripts/this_run_groovy_4_args.sh main_ana_multi.groovy /mnt/d/CLAS12Data/skim8-20200629 $1 $2 $3 "$4"
 
 #../scripts/view_hipo.sh output_file_histos.hipo
 
