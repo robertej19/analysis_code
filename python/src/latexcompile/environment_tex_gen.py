@@ -39,8 +39,8 @@ def generate_environment_tex():
 
 
 \listoffigures
-\section{the start}
-\begin{landscape}
+\section{Run Summary}
+
 	"""
 
 	end_doc = r"""

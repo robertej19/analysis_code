@@ -1,0 +1,47 @@
+
+Run information for output_file_histos-20201009-23-48.hipo \\
+Run message: testing arg mechanism la la la la ala   \\
+Script began at 10/09/2020-23:48:23 and finished at 10/09/2020-23:48:25  \\
+total runtime: 1.47 seconds - Processing rate: 0.07 kHz   \\
+No DVPP events found out of a total of 100   \\
+ No DVEP events found in CD, all (if any) DVEP events are in FD   \\
+Global FD Events (all) Found: 80, compared to 25 in the CD, a ratio of 320.0 %  \\
+The ratio of FD DVEP events to all events in FD is  0.000 %  \\
+The ratio of CD DVEP events to all events in CD is  0.000 %  \\
+The number of (all) events not in CD or FD is  -5 %  \\
+Total Integrated Luminosity from the runs processed is 2.875E35   \\
+
+ 
+
+****************** \\
+ The following pion cuts were used: \\
+
+ ****** DVEP CUTS: \\
+ 
+Cut WMass has value 4 \\
+Cut Q2 has value 1 \\
+Cut ThetaDifference_X_Pi has value 2 \\
+Cut MomentumDifference_X_Pi has value 0.3 \\
+Cut MissingMassSquared has value 1 \\
+Cut MissingEnergy has value 1 \\
+
+ ****** PION CUTS: 
+ 
+Cut pion_lower_mass has value 0.1 \\
+Cut pion_upper_mass has value 0.18 \\
+Cut pion_min_momentum has value 1.5 \\
+Cut photon_BH_angle has value 8 \\
+
+ 
+ 
+ ***************** \\
+ Used the follwowing binning scheme \\
+binning_t was [0.09, 0.15, 0.20, 0.30, 0.40, 0.60, 1.0, 1.5, 2, 5] \\
+binning_xb was [0, 0.1, 0.2, 0.3, 0.4, 0.6, 1] \\
+binning_q2 was [1, 2, 3, 4, 6, 10, 12] \\
+
+ 
+ 
+ ***************** \\
+ Used 1 cores to try to process 1 files, processing a total of 1 files. The following files were processed: \\
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo \\

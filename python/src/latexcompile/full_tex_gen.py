@@ -16,10 +16,23 @@ pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-an
 #pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/textest" 
 
 
+with open('examplefile.txt','r') as f_in:
+    data = f_in.read()
+
+
+data = data.replace("%","\%")
+data = data.replace("_","\_")
+
+print(data)
+
+
+
 mypath = pdf_location
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
-midtex = ""
+midtex = r"""
+\begin{landscape}
+"""
 
 for histname in onlyfiles:
     texstring = r"""
@@ -54,13 +67,15 @@ for histname in onlyfiles:
 
 
 
-final_text = start+"cars and bars" + midtex+ end
+final_text = start+data + "\clearpage " +midtex+ end
+#final_text = start+ midtex+ end
+
 #final_text = start
 with open('cards.tex','w') as f:
 	f.write(final_text)
 
-#cmd = ['pdflatex','-interaction', 'nonstopmode','cards.tex']
-cmd = ['pdflatex','--interaction=batchmode','cards.tex','2>&1 > /dev/null']
+cmd = ['pdflatex','-interaction', 'nonstopmode','cards.tex']
+#cmd = ['pdflatex','--interaction=batchmode','cards.tex','2>&1 > /dev/null']
 
 proc = subprocess.Popen(cmd)
 proc.communicate()
