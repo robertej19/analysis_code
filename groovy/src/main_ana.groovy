@@ -496,33 +496,33 @@ out.writeFile("../../analysis_outputs/${output_folder_groovy}/${outputfilename}.
 
 
 File file = new File("../../analysis_outputs/${output_folder_groovy}/${outputfilename}.txt")
-file.append("Run information for ${outputfilename}.hipo \n \\")
-file.append("Run message: $output_message \n \\")
-file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n \\")
+file.append("Run information for ${outputfilename}.hipo \n")
+file.append("Run message: $output_message \n")
+file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n")
 if(ScriptRunTime > 1){
 	file.append("total runtime: ${ScriptRunTime.round(2)} minutes - ")
 }
 else{
 	file.append("total runtime: ${(ScriptRunTime*60).round(2)} seconds - ")
 }
-file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n \\")
+file.append("Processing rate: ${(GlobalNumEventsProcessed/ScriptRunTime/60/1000).round(2)} kHz \n")
 if (NumGlobalDVPPEvents>0){
-	file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} % of all events\n \\")
+	file.append("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed - ${(NumGlobalDVPPEvents/GlobalNumEventsProcessed*100).round(2)} % of all events\n")
 }
 else{
-	file.append("No DVPP events found out of a total of $GlobalNumEventsProcessed \n \\ ")
+	file.append("No DVPP events found out of a total of $GlobalNumEventsProcessed \n ")
 }
 if (NumGlobalCDDVEPEvents >0){
-	file.append("Global FD DVPP Events Found: $NumGlobalFDDVEPEvents, compared to $NumGlobalCDDVEPEvents DVPP events in the CD, a ratio of ${(NumGlobalFDDVEPEvents/NumGlobalCDDVEPEvents*100).round(1)} %\n \\")
+	file.append("Global FD DVPP Events Found: $NumGlobalFDDVEPEvents, compared to $NumGlobalCDDVEPEvents DVPP events in the CD, a ratio of ${(NumGlobalFDDVEPEvents/NumGlobalCDDVEPEvents*100).round(1)} %\n")
 }
 else{
-	file.append("No DVEP events found in CD, all (if any) DVEP events are in FD \n \\")
+	file.append("No DVEP events found in CD, all (if any) DVEP events are in FD \n")
 }
 if (NumGlobalCDAllEvents >0){
-	file.append("Global FD Events (all) Found: $NumGlobalFDAllEvents, compared to $NumGlobalCDAllEvents in the CD, a ratio of ${(NumGlobalFDAllEvents/NumGlobalCDAllEvents*100).round(1)} %\n \\")
-	file.append("The ratio of FD DVEP events to all events in FD is  ${(NumGlobalFDDVEPEvents/NumGlobalFDAllEvents*100).round(3)} %\n \\")
-	file.append("The ratio of CD DVEP events to all events in CD is  ${(NumGlobalCDDVEPEvents/NumGlobalCDAllEvents*100).round(3)} %\n \\")
-	file.append("The number of (all) events not in CD or FD is  ${(GlobalNumEventsProcessed-NumGlobalCDAllEvents-NumGlobalFDAllEvents)} %\n \\")
+	file.append("Global FD Events (all) Found: $NumGlobalFDAllEvents, compared to $NumGlobalCDAllEvents in the CD, a ratio of ${(NumGlobalFDAllEvents/NumGlobalCDAllEvents*100).round(1)} %\n")
+	file.append("The ratio of FD DVEP events to all events in FD is  ${(NumGlobalFDDVEPEvents/NumGlobalFDAllEvents*100).round(3)} %\n")
+	file.append("The ratio of CD DVEP events to all events in CD is  ${(NumGlobalCDDVEPEvents/NumGlobalCDAllEvents*100).round(3)} %\n")
+	file.append("The number of (all) events not in CD or FD is  ${(GlobalNumEventsProcessed-NumGlobalCDAllEvents-NumGlobalFDAllEvents)} %\n")
 }
 
 
@@ -531,26 +531,26 @@ if (NumGlobalCDAllEvents >0){
 DecimalFormat f = new DecimalFormat("0.###E0");
 //System.out.println();
 
-file.append("Total Integrated Luminosity from the runs processed is ${(f.format(GlobalLumiTotal))} \n \\")
-file.append("\n \\ \n \\\n \\****************** \n \\ The following pion cuts were used: \n \\")
+file.append("Total Integrated Luminosity from the runs processed is ${(f.format(GlobalLumiTotal))} \n")
+file.append("\n \n\n****************** \n The following pion cuts were used: \n")
 
 for (cut_type in cuts_json){
 
 	def cut_params = (cut_type.getValue()[0])
 
 	if (cut_params.get("cut_class") == "DVEP"){
-		file.append("\n \\ ****** DVEP CUTS: \n \\ \n \\")
+		file.append("\n ****** DVEP CUTS: \n \n")
 		for(key in cut_params.keySet()){
 			if (key != "cut_class"){
-				file.append("Cut $key has value ${cut_params.get(key)} \n \\")
+				file.append("Cut $key has value ${cut_params.get(key)} \n")
 			}
 		}
 	}
 	if (cut_params.get("cut_class") == "pions"){
-		file.append("\n \\ ****** PION CUTS: \n \\ \n \\")
+		file.append("\n ****** PION CUTS: \n \n")
 		for(key in cut_params.keySet()){
 			if (key != "cut_class"){
-				file.append("Cut $key has value ${cut_params.get(key)} \n \\")
+				file.append("Cut $key has value ${cut_params.get(key)} \n")
 			}
 		}
 	}
@@ -558,14 +558,14 @@ for (cut_type in cuts_json){
 
 }
 
-file.append("\n \\ \n \\ \n \\ ***************** \n \\ Used the follwowing binning scheme \n \\")
+file.append("\n \n \n ***************** \n Used the follwowing binning scheme \n")
 for (key in data_binning.keySet()){
-	file.append("$key was ${data_binning.get(key)} \n \\")
+	file.append("$key was ${data_binning.get(key)} \n")
 }
 
 
-file.append("\n \\ \n \\ \n \\ ***************** \n \\ Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n \\")
+file.append("\n \n \n ***************** \n Used ${NumCores} cores to try to process ${NumFilesToProcess} files, processing a total of ${NumFilesProcessed} files. The following files were processed: \n")
 for (filename in FilesToProcess){
-	file.append("${filename} \n \\")
+	file.append("${filename} \n")
 }
 

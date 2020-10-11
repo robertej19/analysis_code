@@ -19,8 +19,12 @@ pdf_location = sys.argv[1]
 #text_file_location = 'examplefile.txt'
 text_file_location = sys.argv[2]
 
+data = ""
 with open(text_file_location,'r') as f_in:
-    data = f_in.read()
+    line = f_in.readline()
+    while line:
+        data += line + r"""\\"""
+        line = f_in.readline()
 
 
 data = data.replace("%","\%")
