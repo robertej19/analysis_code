@@ -6,6 +6,7 @@ def generate_environment_tex():
 \usepackage{graphicx}
 
 \usepackage{caption}
+\usepackage[margin=1in]{geometry}
 
 \DeclareCaptionLabelFormat{blank}{}
 
@@ -38,7 +39,7 @@ def generate_environment_tex():
 \begin{document}
 
 
-\listoffigures
+
 \section{Run Summary}
 
 	"""

@@ -31,15 +31,24 @@ mypath = pdf_location
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
 midtex = r"""
+\listoffigures
+\clearpage
 \begin{landscape}
 """
+
+import json
+
+with open('../dict_to_json_textfile.json') as fjson:
+  histogram_file_title_mapping = json.load(fjson)
+
+print(histogram_file_title_mapping)
 
 for histname in onlyfiles:
     texstring = r"""
     \begin{figure}[h]
         \centering
 
-        \includegraphics[scale=0.6]{"""
+        \includegraphics[scale=1.1]{"""
 
 #STARTING NOW 
     picname = pdf_location+"/"+histname
@@ -47,7 +56,13 @@ for histname in onlyfiles:
     caption = histname.replace("_"," ")
     caption = caption.replace(".pdf", " ")
 
-    caption_name = caption+"]{~"
+    caption_name = histogram_file_title_mapping[histname]
+    caption_name = caption_name.replace("&","\&")
+    caption_name = caption_name.replace("#gamma","$\gamma$")
+    caption_name = caption_name.replace("#","FIX THIS NUMBERING")
+    caption_name = caption_name.replace("^{2}","$^{2}$")
+    
+
 
     #endstring = r"""}
      #   \label{fig:"""
@@ -61,7 +76,7 @@ for histname in onlyfiles:
     \clearpage
     """
 
-    picstring = texstring + picname + endstring + caption + endstring2
+    picstring = texstring + picname + endstring + caption_name + endstring2
     midtex += picstring
 
 

@@ -8,6 +8,7 @@ import ROOT
 from ROOT import gStyle
 from ROOT import gROOT
 from ROOT import TStyle
+from pathlib import Path
 import json
 
 with open('../../histogram_dict.json') as f:
@@ -132,7 +133,7 @@ def title_maker(data_dict,hist_name):
 	
 
 
-
+hist_file_title_mapping = {}
 
 for key in root_tree.GetListOfKeys():
 	obj = key.ReadObj()
@@ -205,63 +206,22 @@ for key in root_tree.GetListOfKeys():
 							x_axis_title, y_axis_title, y_scale_max,
 							double_plots, second_histo_root_title, log_scale)
 
+				hist_file_title_mapping[hist_name+".pdf"] = display_title
+
 		if keylogs == 0:
 			print("File {} not found in json formatting, skipping".format(hist_name))
 
 
-"""FORMAT: Hist name, title, xaxis, yaxis,logON/LogOff,xmin,xmax,ymax,1 = enable double plots,second histo name"""
-
-
-Dtype8 = ("output_file_histos_Hist_hproThetaFD",
-"Proton Angle (Theta) in FD and in CD","Angle","Counts",
-0,0,0,200000,1,"output_file_histos_Hist_hproThetaCD")
-
-Dtype9 = ("output_file_histos_Hist_hproThetaFDaftercuts",
-"Proton Angle (Theta) in FD and in CD after Excl. Cuts","Angle","Counts",
-0,0,0,300,1,"output_file_histos_Hist_hproThetaCDaftercuts")
-
-
-"""
-	#if "Ultra_Phi" in title:
-	#	if obj.GetEntries()>10 and obj.GetMaximum()>10:
-	#	 histTitle = title
-	#type9 = (title,title,"Phi","Counts",0,0,0,0,0,0)
+#with open("dict_to_json_textfile.txt", 'w') as fout:
+ #   json_dumps_str = json.dumps(hist_file_title_mapping, indent=4)
+#    print(json_dumps_str, file=fout)
 	
-	#plotdistributer(type9,zz,zzz)
-"""
 
+print(hist_file_title_mapping)
 
-# #Full xb range:
-# #xbRange = ["0.00", "0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
-# #Full q2 range:
-# #q2Range = ["0.0","0.5","1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0", "6.5", "7.0","7.5","8.0", "8.5"]
+#example_path = Path('dict_to_json_textfile.json')
+#json_str = json.dumps(hist_file_title_mapping, indent=4) + '\n'
+#example_path.write_text(json_str, encoding='utf-8')
 
-# """
-# xbRange = ["0.10", "0.20", "0.30","0.40", "0.50", "0.60", "0.70", "0.80"]
-# q2Range = ["1.0","1.5","2.0","2.5","3.0", "3.5","4.0", "4.5","5.0", "5.5","6.0"]
-# tRange = ["0.09","0.15","0.2","0.3","0.4","0.6","1.0","1.5","2","5"]
-
-
-# """
-# for k in range(0,len(tRange)-1):
-# 	for j in range(0,len(q2Range)-1) :
-# 		for i in range(0,len(xbRange)-1):
-# 			title = "output_file_histos_Hist_Ultra_Phi{} < xB < {}_ {} < q2 < {} {} < t < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1],tRange[k],tRange[k+1])
-# 			histTitle = "Counts vs. Phi, {} < xB < {}_ {} < q2 < {} {} < t < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1],tRange[k],tRange[k+1])
-# 			type9 = (title,histTitle,"Phi","Counts",0,0,0,0,0,0)
-# 			print(title)
-# 			plotdistributer(type9,zz,zzz)
-# """
-# """FORMAT: Hist name, title, xaxis, yaxis,logON/LogOrootfilename,xmin,xmax,ymax,1 = enable double plots,second histo name"""
-
-# """
-# for j in range(0,len(q2Range)-1) :
-# 	for i in range(0,len(xbRange)-1):
-# 		title = "output_file_histos_Hist_beta_T{} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
-# 		histTitle = "Counts vs. t, {} < xB < {}_ {} < q2 < {}".format(xbRange[i],xbRange[i+1],q2Range[j],q2Range[j+1])
-# 		type9 = (title,histTitle,"t (GeV^2)","Counts",0,0,25,1000,0,0)
-# 		print(title)
-# 		plotdistributer(type9,zz,zzz)
-# """
-# for type in plots:
-# 	plotdistributer(type,zz,zzz)
+with open('dict_to_json_textfile.json', 'w') as output_file:
+        json.dump(hist_file_title_mapping, output_file, indent=4)

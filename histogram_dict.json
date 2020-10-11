@@ -1103,5 +1103,36 @@
         "x_axis": "Number of Protons",
         "y_axis": "Events"
     }],
-}
+
+    "hist_t_xb": [{
+        "root_title": "hist_t_xb",
+        "display_title": "Momentum transfer (t) vs Bjorken X",
+
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 200,
+        "x_bin_min": 0,
+        "x_bin_max": 1.2,
+        "fill_x":"xb",
+     
+        "num_bins_z":200,
+        "z_bin_min":0,
+        "z_bin_max":5,
+        "fill_z":"t_momentum",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Bjorken X",
+        "y_axis": "t (GeV^{2})"
+    }],
+
 }

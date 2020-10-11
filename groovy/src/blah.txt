@@ -11,14 +11,14 @@
  
 
  
- Starting Groovy Script at 23:48:23 
+ Starting Groovy Script at 00:43:34 
  
  
  
 
 arg size is [/mnt/d/CLAS12Data/skim8-20200629, 100, 1, 1, testing, arg, mechanism, la, la, la, la, ala]
 output message is testing arg mechanism la la la la ala 
-[SystemFonts] ---> set size = 25, available 2
+[SystemFonts] ---> set size = 25, available 3
 
  
 The following files will be processed: 
@@ -42,22 +42,22 @@ reader:: ***** number of  events  :       324173
  
  
  
- Processing file skim8_005032.hipo - 0.000 M events events at 23:48:24
+ Processing file skim8_005032.hipo - 0.000 M events events at 00:43:36
 
  
  
 0.00M events have been processed from skim8_005032.hipo, 0.00M events remain
-Processing Rate is 0.2 kHz
-Anticipated file finish time is 23:48:25, 0.30 seconds left
+Processing Rate is 0.1 kHz
+Anticipated file finish time is 00:43:37, 0.47 seconds left
 
  
  
 0.00M events have been processed from skim8_005032.hipo, 0.00M events remain
-Processing Rate is 0.3 kHz
-Anticipated file finish time is 23:48:25, 0.00 seconds left
+Processing Rate is 0.1 kHz
+Anticipated file finish time is 00:43:37, 0.00 seconds left
 Num DVPP Events found in file skim8_005032.hipo is 0
-Finished processing 0.00 M events at 23:48:25, Processed 100 events globally
-Total run time of 0.39 seconds,  approximate global finish time at 23:48:25 
+Finished processing 0.00 M events at 00:43:36, Processed 100 events globally
+Total run time of 0.68 seconds,  approximate global finish time at 00:43:37 
 Global DVPP Events Found: 0, out of 100
 Global DVPP FD Events Found: 0, compared to 0 DVPP events in the CD
 Global FD Events (all) Found: 80, compared to 25 events (all) in the CD
@@ -68,7 +68,7 @@ Total Integrated Luminosity so far is 2.8748817312150592E35-- UNITS???
 
 
 Final Running Statistics:
-Script began at 23:48:23 and finished at 23:48:25, total runtime: 1.47 seconds 
+Script began at 00:43:34 and finished at 00:43:36, total runtime: 2.55 seconds 
  
  
  
@@ -76,7 +76,7 @@ Script began at 23:48:23 and finished at 23:48:25, total runtime: 1.47 seconds
 Processed a total of 1 files
 Final global number of DVPP events found: 0 out of a total of 100
 Total Integrated Luminosity from the runs processed is 2.8748817312150592E35 UNITS???
-File saved at ../hipo-root-files/output_file_histos-20201009-23-48. 
+File saved at ../hipo-root-files/output_file_histos-20201011-00-43. 
 
 [HIPO-WRITER] ---> Schema factory is empty.
 setUserHeaderLengthPadding: IN, fe bit = false
