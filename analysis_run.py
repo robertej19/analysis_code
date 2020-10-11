@@ -64,7 +64,7 @@ print("in ")
 run_command = [run_groovy, groovy_script, data_location, number_of_events, number_of_files, number_of_cores, output_folder_groovy, run_message]
 
 f_out = open(output_folder+"/"+runlog_filename, "w")
-subprocess.call(run_command,stdout=f_out) #pipe commands to file output runlog
+subprocess.call(run_command)#,stdout=f_out) #pipe commands to file output runlog
 
 print("finished running analysis, now trying to do other stuff")
 
@@ -90,7 +90,7 @@ finished_hipo_file = output_folder+"/"+output_base_name+".hipo"
 run_command = [run_groovy,groovy_script, finished_hipo_file]
 
 f_out = open(output_folder+"/"+"conversion_log.txt", "w")
-subprocess.call(run_command,stdout=f_out) #pipe commands to file output runlog
+subprocess.call(run_command)#,stdout=f_out) #pipe commands to file output runlog
 
 
 #******
@@ -125,6 +125,4 @@ run_command = [run_python,python2,plots_path]
 subprocess.call(run_command)
 
 
-
-
-
+subprocess.call(["/home/bobby/bin/wsl-open.sh","cards.pdf"]) #see text file

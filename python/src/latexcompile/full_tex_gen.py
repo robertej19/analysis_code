@@ -15,7 +15,7 @@ start, end = environment_tex_gen.generate_environment_tex()
 #pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/original_python_pdfs" 
 #pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/textest" 
 
-pdf_location = sys.argv[0]
+pdf_location = sys.argv[1]
 
 print("PDF LOCATION IS{}".format(pdf_location))
 
