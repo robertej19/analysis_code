@@ -3,7 +3,7 @@ import subprocess
 import environment_tex_gen
 from os import listdir
 from os.path import isfile, join
-
+import sys
 
 start, end = environment_tex_gen.generate_environment_tex()
 
@@ -12,8 +12,13 @@ start, end = environment_tex_gen.generate_environment_tex()
 #cards = generate_particle_cards.generate_particle_cards(csv_title)
 
 
-pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/original_python_pdfs" 
+#pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/original_python_pdfs" 
 #pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/textest" 
+
+pdf_location = sys.argv[0]
+
+print("PDF LOCATION IS{}".format(pdf_location))
+
 
 
 with open('examplefile.txt','r') as f_in:

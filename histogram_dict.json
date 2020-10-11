@@ -1133,6 +1133,5 @@
 		"log_scale": "no",
         "x_axis": "Bjorken X",
         "y_axis": "t (GeV^{2})"
-    }],
-
+    }]
 }
