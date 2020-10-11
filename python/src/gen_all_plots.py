@@ -92,7 +92,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 		c1.Print(".{}/{}.pdf".format(plots_dir,hist_name+"_logON"))
 
 
-plots_dir = "/../plots/{}/original_python_pdfs".format(root_fileID)
+plots_dir = "/../../analysis_outputs/{}/plots/original_python_pdfs".format(root_fileID)
 plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
 
 

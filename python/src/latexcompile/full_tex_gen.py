@@ -16,12 +16,10 @@ start, end = environment_tex_gen.generate_environment_tex()
 #pdf_location = "/mnt/c/Users/rober/Dropbox/Bobby/Linux/work/CLAS12/mit-clas12-analysis/theana/analysis_code/python/plots/output_file_histos-20201001-02-59/textest" 
 
 pdf_location = sys.argv[1]
+#text_file_location = 'examplefile.txt'
+text_file_location = sys.argv[2]
 
-print("PDF LOCATION IS{}".format(pdf_location))
-
-
-
-with open('examplefile.txt','r') as f_in:
+with open(text_file_location,'r') as f_in:
     data = f_in.read()
 
 
@@ -91,26 +89,33 @@ final_text = start+data + "\clearpage " +midtex+ end
 #final_text = start+ midtex+ end
 
 #final_text = start
-with open('cards.tex','w') as f:
+with open('latexoutput.tex','w') as f:
 	f.write(final_text)
 
-cmd = ['pdflatex','-interaction', 'nonstopmode','cards.tex']
-#cmd = ['pdflatex','--interaction=batchmode','cards.tex','2>&1 > /dev/null']
+cmd = ['pdflatex','-interaction', 'nonstopmode','latexoutput.tex']
+#cmd = ['pdflatex','--interaction=batchmode','latexoutput.tex','2>&1 > /dev/null']
 
+proc = subprocess.Popen(cmd)
+proc.communicate()
 proc = subprocess.Popen(cmd)
 proc.communicate()
 
 retcode = proc.returncode
-if not retcode == 0:
-    os.unlink('cards.pdf')
-    raise ValueError('Error {} executing command: {}'.format(retcode, ' '.join(cmd)))
+#if not retcode == 0:
+#    os.unlink('latexoutput.pdf')
+#    raise ValueError('Error {} executing command: {}'.format(retcode, ' '.join(cmd)))
 
-os.unlink('cards.tex')
-os.unlink('cards.log')
+print(retcode)
+#os.unlink('latexoutput.tex')
+#os.unlink('latexoutput.log')
 
 """ Move the output files into their own directory"""
 
+#print("PDF LOCATION IS{}".format(pdf_location))
 
-cmd = ['/home/bobby/bin/wsl-open.sh','cards.pdf']
+
+
+#cmd = ['/home/bobby/bin/wsl-open.sh','latexoutput.pdf']
 #proc = subprocess.Popen(cmd)
 #proc.communicate()
+

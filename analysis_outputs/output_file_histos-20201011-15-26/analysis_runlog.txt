@@ -1,0 +1,221 @@
++-------------------------------------------------------------------------
+| COATJAVA LIBRARY DIRECTORY =  /home/bobby/theana-software/coatjava/coatjava/bin/..//lib/clas/
++-------------------------------------------------------------------------
+ 
+ 
+*****************************************
+*    Running COAT-JAVA Groovy Scripts   *
+*    Version : 3a  Release : 2016       *
+*****************************************
+ 
+ 
+
+ 
+ Starting Groovy Script at 15:26:27 
+ 
+ 
+ 
+
+arg size is [/mnt/d/CLAS12Data/skim8-20200629, 100000, 5, 1, output_file_histos-20201011-15-26, no, message, here]
+output message is no message here 
+[SystemFonts] ---> set size = 25, available 3
+
+ 
+The following files will be processed: 
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo - 0.75GB
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo - 3.62GB
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo - 8.54GB
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo - 2.17GB
+/mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo - 3.31GB
+
+18.39 GB is the total file size 
+ 
+
+Starting to process files now: 
+ 
+ 
+
+reader:: *****>>>>> openning file : /mnt/d/CLAS12Data/skim8-20200629/skim8_005032.hipo
+reader:: ***** dictionary entries :          135
+reader:: ************ file size   :    752118128
+reader:: **** scan trailer #bytes :         4312
+reader:: ***** number of  records :          134
+reader:: ***** number of  events  :       324173
+[DataSourceDump] --> opened file with events # 
+
+ 
+ 
+ 
+ Processing file skim8_005032.hipo - 0.100 M events events at 15:26:29
+
+ 
+ 
+0.05M events have been processed from skim8_005032.hipo, 0.05M events remain
+Processing Rate is 4.7 kHz
+Anticipated file finish time is 15:26:51, 10.70 seconds left
+
+ 
+ 
+0.10M events have been processed from skim8_005032.hipo, 0.00M events remain
+Processing Rate is 5.1 kHz
+Anticipated file finish time is 15:26:49, 0.00 seconds left
+Num DVPP Events found in file skim8_005032.hipo is 142
+Finished processing 0.10 M events at 15:26:48, Processed 100000 events globally
+Total run time of 19.52 seconds,  approximate global finish time at 15:34:26 
+Global DVPP Events Found: 142, out of 100000
+Global DVPP FD Events Found: 71, compared to 74 DVPP events in the CD
+Global FD Events (all) Found: 76778, compared to 27035 events (all) in the CD
+Charge on FCup from this run: 13383.882 in nanoColoumbs
+Total Integrated Luminosity so far is 1.7609153280783667E37-- UNITS???
+reader:: *****>>>>> openning file : /mnt/d/CLAS12Data/skim8-20200629/skim8_005036.hipo
+reader:: ***** dictionary entries :          135
+reader:: ************ file size   :   3622430580
+reader:: **** scan trailer #bytes :        20728
+reader:: ***** number of  records :          647
+reader:: ***** number of  events  :      1669074
+[DataSourceDump] --> opened file with events # 
+
+ 
+ 
+ 
+ Processing file skim8_005036.hipo - 0.100 M events events at 15:26:48
+
+ 
+ 
+0.05M events have been processed from skim8_005036.hipo, 0.05M events remain
+Processing Rate is 5.5 kHz
+Anticipated file finish time is 15:27:07, 9.15 seconds left
+
+ 
+ 
+0.10M events have been processed from skim8_005036.hipo, 0.00M events remain
+Processing Rate is 5.5 kHz
+Anticipated file finish time is 15:27:07, 0.00 seconds left
+Num DVPP Events found in file skim8_005036.hipo is 144
+Finished processing 0.10 M events at 15:27:07, Processed 200000 events globally
+Total run time of 18.30 seconds,  approximate global finish time at 15:29:08 
+Global DVPP Events Found: 286, out of 200000
+Global DVPP FD Events Found: 151, compared to 139 DVPP events in the CD
+Global FD Events (all) Found: 153834, compared to 53790 events (all) in the CD
+Charge on FCup from this run: 13145.368 in nanoColoumbs
+Total Integrated Luminosity so far is 3.4904494480805247E37-- UNITS???
+reader:: *****>>>>> openning file : /mnt/d/CLAS12Data/skim8-20200629/skim8_005038.hipo
+reader:: ***** dictionary entries :          135
+reader:: ************ file size   :   8536848348
+reader:: **** scan trailer #bytes :        48632
+reader:: ***** number of  records :         1519
+reader:: ***** number of  events  :      3731901
+[DataSourceDump] --> opened file with events # 
+
+ 
+ 
+ 
+ Processing file skim8_005038.hipo - 0.100 M events events at 15:27:07
+
+ 
+ 
+0.05M events have been processed from skim8_005038.hipo, 0.05M events remain
+Processing Rate is 5.7 kHz
+Anticipated file finish time is 15:27:25, 8.84 seconds left
+
+ 
+ 
+0.10M events have been processed from skim8_005038.hipo, 0.00M events remain
+Processing Rate is 5.8 kHz
+Anticipated file finish time is 15:27:24, 0.00 seconds left
+Num DVPP Events found in file skim8_005038.hipo is 126
+Finished processing 0.10 M events at 15:27:24, Processed 300000 events globally
+Total run time of 17.30 seconds,  approximate global finish time at 15:27:48 
+Global DVPP Events Found: 412, out of 300000
+Global DVPP FD Events Found: 216, compared to 201 DVPP events in the CD
+Global FD Events (all) Found: 230951, compared to 80397 events (all) in the CD
+Charge on FCup from this run: 12605.696 in nanoColoumbs
+Total Integrated Luminosity so far is 5.148979020338651E37-- UNITS???
+reader:: *****>>>>> openning file : /mnt/d/CLAS12Data/skim8-20200629/skim8_005039.hipo
+reader:: ***** dictionary entries :          135
+reader:: ************ file size   :   2168657644
+reader:: **** scan trailer #bytes :        12408
+reader:: ***** number of  records :          387
+reader:: ***** number of  events  :       951616
+[DataSourceDump] --> opened file with events # 
+
+ 
+ 
+ 
+ Processing file skim8_005039.hipo - 0.100 M events events at 15:27:24
+
+ 
+ 
+0.05M events have been processed from skim8_005039.hipo, 0.05M events remain
+Processing Rate is 6.1 kHz
+Anticipated file finish time is 15:27:41, 8.26 seconds left
+
+ 
+ 
+0.10M events have been processed from skim8_005039.hipo, 0.00M events remain
+Processing Rate is 6.2 kHz
+Anticipated file finish time is 15:27:41, 0.00 seconds left
+Num DVPP Events found in file skim8_005039.hipo is 145
+Finished processing 0.10 M events at 15:27:40, Processed 400000 events globally
+Total run time of 16.07 seconds,  approximate global finish time at 15:27:56 
+Global DVPP Events Found: 557, out of 400000
+Global DVPP FD Events Found: 291, compared to 271 DVPP events in the CD
+Global FD Events (all) Found: 307929, compared to 106885 events (all) in the CD
+Charge on FCup from this run: 12776.646 in nanoColoumbs
+Total Integrated Luminosity so far is 6.830000484183528E37-- UNITS???
+reader:: *****>>>>> openning file : /mnt/d/CLAS12Data/skim8-20200629/skim8_005040.hipo
+reader:: ***** dictionary entries :          135
+reader:: ************ file size   :   3312088736
+reader:: **** scan trailer #bytes :        18904
+reader:: ***** number of  records :          590
+reader:: ***** number of  events  :      1441989
+[DataSourceDump] --> opened file with events # 
+
+ 
+ 
+ 
+ Processing file skim8_005040.hipo - 0.100 M events events at 15:27:40
+
+ 
+ 
+0.05M events have been processed from skim8_005040.hipo, 0.05M events remain
+Processing Rate is 6.7 kHz
+Anticipated file finish time is 15:27:55, 7.47 seconds left
+
+ 
+ 
+0.10M events have been processed from skim8_005040.hipo, 0.00M events remain
+Processing Rate is 6.7 kHz
+Anticipated file finish time is 15:27:55, 0.00 seconds left
+Num DVPP Events found in file skim8_005040.hipo is 143
+Finished processing 0.10 M events at 15:27:55, Processed 500000 events globally
+Total run time of 14.92 seconds,  approximate global finish time at 15:27:55 
+Global DVPP Events Found: 700, out of 500000
+Global DVPP FD Events Found: 367, compared to 340 DVPP events in the CD
+Global FD Events (all) Found: 384558, compared to 134053 events (all) in the CD
+Charge on FCup from this run: 12878.688 in nanoColoumbs
+Total Integrated Luminosity so far is 8.524447597653325E37-- UNITS???
+
+
+
+
+Final Running Statistics:
+Script began at 15:26:27 and finished at 15:27:55, total runtime: 1.46 minutes 
+ 
+ 
+ 
+
+Processed a total of 5 files
+Final global number of DVPP events found: 700 out of a total of 500000
+Total Integrated Luminosity from the runs processed is 8.524447597653325E37 UNITS???
+File saved at ../../analysis_outputs/output_file_histos-20201011-15-26/output_file_histos-20201011-15-26. 
+
+[HIPO-WRITER] ---> Schema factory is empty.
+setUserHeaderLengthPadding: IN, fe bit = false
+setUserHeaderLengthPadding: END, fe bit = false
+
+
+
+
+
+---> writing data group descriptors, size = 0
