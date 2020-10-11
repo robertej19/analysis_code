@@ -348,6 +348,35 @@
         "x_axis": "Proton Angle (Theta)",
         "y_axis": "Electron Angle (Theta)"
     }],
+    "hist_proton_electron_phi": [{
+        "root_title": "hist_proton_electron_phi",
+        "display_title": "Proton vs. Electron Phi Distribution",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 600,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "fill_x":"particleProtonPhi",
+     
+        "num_bins_z":600,
+        "z_bin_min":0,
+        "z_bin_max":360,
+        "fill_z":"particleElectronPhi",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Proton Angle (Phi)",
+        "y_axis": "Electron Angle (Phi)"
+    }],
     "hist_proton_theta_phi": [{
         "root_title": "hist_proton_theta_phi",
         "display_title": "Proton Theta vs. Phi",
@@ -1133,5 +1162,66 @@
 		"log_scale": "no",
         "x_axis": "Bjorken X",
         "y_axis": "t (GeV^{2})"
+    }],
+
+    "hist_proton_xb_theta": [{
+        "root_title": "hist_proton_xb_theta",
+        "display_title": "Proton Angle (Theta) vs. Bjorken X",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x":200,
+        "x_bin_min":0,
+        "x_bin_max":1.2,
+        "fill_x":"xb",
+
+        "num_bins_z": 800,
+        "z_bin_min": 0,
+        "z_bin_max": 150,
+        "fill_z":"particleProtonTheta",
+
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Bjorken X",
+        "y_axis": "Proton Angle (Theta)"
+    }],
+
+    "hist_proton_q2_theta": [{
+        "root_title": "hist_proton_q2_theta",
+        "display_title": "Proton Angle (Theta) vs. Q^{2}",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 200,
+        "x_bin_min": 0,
+        "x_bin_max": 12,
+        "fill_x":"q2",
+     
+        "num_bins_z": 800,
+        "z_bin_min": 0,
+        "z_bin_max": 150,
+        "fill_z":"particleProtonTheta",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Q^{2} (GeV^{2})",
+        "y_axis": "Proton Angle (Theta)"
     }]
 }
