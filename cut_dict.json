@@ -14,6 +14,7 @@
         "pion_lower_mass": 0.1,
         "pion_upper_mass" : 0.18,
         "pion_min_momentum" : 1.5,
-        "photon_BH_angle" : 8
+        "photon_BH_angle" : 0,
+        "photon_sector" : "yes"
     }]
 }

@@ -40,11 +40,11 @@ import groovy.json.JsonSlurper
 
 
 //From Local
-import utils.FileGetter
-import utils.Printer
-import utils.EventProcessor
-import utils.LumiCalc
-import utils.ScreenUpdater
+import mainutils.FileGetter
+import mainutils.Printer
+import mainutils.EventProcessor
+import mainutils.LumiCalc
+import mainutils.ScreenUpdater
 
 //****************** Initialize ********************** //
 MyMods.enable() //I don't know what this does, its from Andrey, don't touch it, it works

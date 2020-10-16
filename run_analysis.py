@@ -54,9 +54,9 @@ dat5032 = "/mnt/d/CLAS12Data/skim8-5032"
 
 run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
-data_location = simudata
-number_of_events = "0"
-number_of_files = "50"
+data_location = dat5032
+number_of_events = "10000"
+number_of_files = "1"
 number_of_cores = "1"
 run_message = "trying to implement new run event processor features"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"

@@ -1231,6 +1231,36 @@
         "y_axis": "Counts"
     }],
 
+    "hist_pho_ang_esec": [{
+        "root_title": "hist_pho_ang_esec",
+        "display_title": "photon Sector 1 vs photon sector 2 ",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 6,
+        "x_bin_min": 1,
+        "x_bin_max": 7,
+        "fill_x":"pho1sec",
+     
+        "num_bins_z": 6,
+        "z_bin_min": 1,
+        "z_bin_max": 7,
+        "fill_z":"pho2sec",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Photon 1 Sector",
+        "y_axis": "Photon 2 Sector"
+    }],
+
     "hist_electron_pho1_esec": [{
         "root_title": "hist_electron_pho1_esec",
         "display_title": "Electron Sector vs Photon 1 Sector",

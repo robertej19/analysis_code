@@ -1,4 +1,4 @@
-package utils.subutils
+package mainutils.subutils
 
 
 //From Java
@@ -48,6 +48,10 @@ class PionCutter {
 		def photon2 = particleArray[1]
 		def electron = particleArray[2]
 
+		def electron_sector =  particleArray[3]
+		def photon_sector1 =  particleArray[4]
+		def photon_sector2 =  particleArray[5]
+
 		def bool_is_pion = 0
 
 		def pion = photon1 + photon2
@@ -58,6 +62,7 @@ class PionCutter {
 		def pi_mass_high = cutParams.get("pion_upper_mass")
 		def pi_mom_min = cutParams.get("pion_min_momentum")
 		def pi_BH_angle_min = cutParams.get("photon_BH_angle")
+
 		
 
 
@@ -65,11 +70,22 @@ class PionCutter {
 		def cut_mass = pion_mass > pi_mass_low && pion_mass < pi_mass_high
 		def cut_momentum = pion_momentum > pi_mom_min
 
-		def cut_BH1 = electron.vect().theta(photon1.vect()) > pi_BH_angle_min
-		def cut_BH2 = electron.vect().theta(photon2.vect()) > pi_BH_angle_min
+
+
+
+		def cut_sector_pho1 = electron_sector !== photon_sector1
+		def cut_sector_pho2 = electron_sector !== photon_sector2
+		//def cut_BH1 = electron.vect().theta(photon1.vect()) > pi_BH_angle_min
+		//def cut_BH2 = electron.vect().theta(photon2.vect()) > pi_BH_angle_min
 
 		
-		if (cut_mass && cut_momentum && cut_BH1 && cut_BH2){
+		//if (cut_mass && cut_momentum && cut_BH1 && cut_BH2){
+		if (cut_mass && cut_momentum && cut_sector_pho1 && cut_sector_pho2){
+			//println(electron_sector)
+			//println(photon_sector1)
+			//println(photon_sector2)
+			//println(cut_sector_pho1)
+			//println(cut_sector_pho2)
 			bool_is_pion = 1
 		}
 
