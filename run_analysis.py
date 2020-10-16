@@ -46,16 +46,20 @@ runlog_filename = "analysis_runlog.txt"
 
 #arg0 = "$COATJAVA/bin/run-groovy"
 
+loc1inbending = "/mnt/d/CLAS12Data/skim8-20200629"
 loc2outbending = "/mnt/d/CLAS12Data/skim4/skim4-20200927"
 loc3fx = "/mnt/d/CLAS12Data/out"
+simudata = "/mnt/d/CLAS12Data/andreyskim/simudata-20201013/"
+dat5032 = "/mnt/d/CLAS12Data/skim8-5032"
 
 run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
-data_location = "/mnt/d/CLAS12Data/skim8-20200629"
-number_of_events = "0"
-number_of_files = "20"
+data_location = dat5032
+number_of_events = "50000"
+number_of_files = "2"
 number_of_cores = "1"
-run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
+run_message = "trying to implement new run event processor features"
+#run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
 
@@ -64,7 +68,7 @@ print("Running groovy analysis")
 run_command = [run_groovy, groovy_script, data_location, number_of_events, number_of_files, number_of_cores, output_folder_groovy, run_message]
 
 f_out = open(output_folder+"/"+runlog_filename, "w")
-subprocess.call(run_command,stdout=f_out) #pipe commands to file output runlog
+subprocess.call(run_command)#,stdout=f_out) #pipe commands to file output runlog
 
 print("finished running analysis, now trying to do other stuff")
 
@@ -76,9 +80,11 @@ print("finished running analysis, now trying to do other stuff")
 text_file_path = output_folder+"/"+output_base_name+".txt"
 
 
-#subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
-#subprocess.call(["java","-jar","groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
+subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
+subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
 
+
+"""
 
 #******************
 #********** Convert hipo to root file
@@ -150,3 +156,4 @@ subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+"latexoutput.pd
 #os.rename("latexoutput.out",  output_folder+"/"+"latexoutput.out")
 
 #subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+"latexoutput.log"]) #see text file
+"""

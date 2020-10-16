@@ -82,7 +82,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Number of Protons",
         "y_axis": "Events"
@@ -111,7 +111,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Helicity",
         "y_axis": "Events"
@@ -140,7 +140,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Number of Photons",
         "y_axis": "Events"
@@ -169,7 +169,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Number of Photons",
         "y_axis": "Events"
@@ -198,7 +198,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Electron Angle (Theta)",
         "y_axis": "Counts"
@@ -212,7 +212,7 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 1500,
+        "num_bins_x": 500,
         "x_bin_min": 0,
         "x_bin_max": 150,
         "fill_x":"particleProtonTheta",
@@ -227,7 +227,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Proton Angle (Theta)",
         "y_axis": "Counts"
@@ -256,7 +256,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Proton Angle (Phi)",
         "y_axis": "Counts"
@@ -285,7 +285,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Proton Mass (GeV)",
         "y_axis": "Counts"
@@ -314,7 +314,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Electron Angle (Phi)",
         "y_axis": "Counts"
@@ -459,7 +459,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Bjorken X",
         "y_axis": "Counts"
@@ -488,7 +488,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Q^{2} (GeV^{2})",
         "y_axis": "Counts"
@@ -506,35 +506,6 @@
         "x_bin_min": 0,
         "x_bin_max": 1.2,
         "fill_x":"xb",
-     
-        "num_bins_z":200,
-        "z_bin_min":0,
-        "z_bin_max":12,
-        "fill_z":"q2",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "Bjorken X",
-        "y_axis": "Q^{2} (GeV^{2})"
-    }],
-    "hist_xbbad_q2": [{
-        "root_title": "hist_xbbad_q2",
-        "display_title": "Bjorken X vs. Q^{2}",
-
-        "pre_fill": "no",
-        "pro_fill": "yes",
-        "prex_fill":"no",
-        "ex_fill":"yes",
-
-        "num_bins_x": 200,
-        "x_bin_min": 0,
-        "x_bin_max": 1.2,
-        "fill_x":"xbbad",
      
         "num_bins_z":200,
         "z_bin_min":0,
@@ -575,7 +546,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "W (GeV)",
         "y_axis": "Counts"
@@ -598,35 +569,6 @@
         "z_bin_min":0,
         "z_bin_max":12,
         "fill_z":"q2",
-
-        "bins_xb":"no",
-        "bins_q2":"no",
-        "bins_t":"no",
-
-		"y_scale_max": 0,
-		"second_histo_root_title": "0",
-		"log_scale": "no",
-        "x_axis": "W (GeV)",
-        "y_axis": "Q^{2} (GeV^{2})"
-    }],
-    "hist_xb_xbbad": [{
-        "root_title": "hist_xb_xbbad",
-        "display_title": "xb vs xb new",
-
-        "pre_fill": "no",
-        "pro_fill": "yes",
-        "prex_fill":"no",
-        "ex_fill":"yes",
-
-        "num_bins_x": 200,
-        "x_bin_min": 0,
-        "x_bin_max": 1.2,
-        "fill_x":"xb",
-     
-        "num_bins_z":200,
-        "z_bin_min":0,
-        "z_bin_max":1.2,
-        "fill_z":"xbbad",
 
         "bins_xb":"no",
         "bins_q2":"no",
@@ -662,7 +604,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "-t (GeV^{2})",
         "y_axis": "Counts"
@@ -691,7 +633,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "-t (GeV^{2})",
         "y_axis": "Counts"
@@ -720,7 +662,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Pion Energy (GeV)",
         "y_axis": "Counts"
@@ -734,7 +676,7 @@
         "prex_fill":"yes",
         "ex_fill":"yes",
 
-        "num_bins_x": 1000,
+        "num_bins_x": 250,
         "x_bin_min": 0,
         "x_bin_max": 1000,
         "fill_x":"particlePionMass",
@@ -749,11 +691,80 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
 		"log_scale": "no",
         "x_axis": "Pion Mass (MeV)",
-        "y_axis": "Counts"
+        "y_axis": "Counts",
+
+        "double_plots":"yes",
+        "second_histo_root_title": "yes"
     }],
+
+    "hist_pion_BH_mass": [{
+        "root_title": "hist_pion_mass",
+        "display_title": "Pion Mass",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 250,
+        "x_bin_min": 0,
+        "x_bin_max": 1000,
+        "fill_x":"particlePionMass_BH",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"log_scale": "no",
+        "x_axis": "Pion Mass (MeV)",
+        "y_axis": "Counts",
+
+        "double_plots":"yes",
+        "second_histo_root_title": "yes"
+    }],
+
+    "hist_pion_noBH_mass": [{
+        "root_title": "hist_pion_mass",
+        "display_title": "Pion Mass",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 250,
+        "x_bin_min": 0,
+        "x_bin_max": 1000,
+        "fill_x":"particlePionMass_noBH",
+     
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"log_scale": "no",
+        "x_axis": "Pion Mass (MeV)",
+        "y_axis": "Counts",
+
+        "double_plots":"yes",
+        "second_histo_root_title": "yes"
+    }],
+
+
+
 
 
 
@@ -787,7 +798,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Missing Energy (GeV)",
         "y_axis": "Counts"
@@ -816,7 +827,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Missing Energy (GeV)",
         "y_axis": "Counts"
@@ -849,7 +860,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Missing Mass Squared (GeV^{2})",
         "y_axis": "Counts"
@@ -878,7 +889,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Missing Mass Squared (GeV^{2})",
         "y_axis": "Counts"
@@ -908,7 +919,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Missing Mass Squared (GeV^{2})",
         "y_axis": "Counts"
@@ -1040,7 +1051,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Angle",
         "y_axis": "Counts"
@@ -1069,7 +1080,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Angle",
         "y_axis": "Counts"
@@ -1098,7 +1109,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Number of Protons",
         "y_axis": "Events"
@@ -1127,7 +1138,7 @@
         "bins_t":"no",
 
 		"y_scale_max": 0,
-		"second_histo_root_title": "0",
+		"second_histo_root_title": "yes",
 		"log_scale": "no",
         "x_axis": "Number of Protons",
         "y_axis": "Events"
@@ -1223,5 +1234,95 @@
 		"log_scale": "no",
         "x_axis": "Q^{2} (GeV^{2})",
         "y_axis": "Proton Angle (Theta)"
+    }],
+
+    "hist_electron_esec": [{
+        "root_title": "hist_electron_esec",
+        "display_title": "Electron Sector",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 20,
+        "x_bin_min": -2,
+        "x_bin_max": 8,
+        "fill_x":"electron_sector",
+     
+        "num_bins_z": 0,
+        "z_bin_min": 0,
+        "z_bin_max": 0,
+        "fill_z":"null",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Electron Sector",
+        "y_axis": "Counts"
+    }],
+
+    "hist_electron_ang_esec": [{
+        "root_title": "hist_electron_ang_esec",
+        "display_title": "Electron Sector vs Angle ",
+
+        "pre_fill": "no",
+        "pro_fill": "yes",
+        "prex_fill":"no",
+        "ex_fill":"yes",
+
+        "num_bins_x": 20,
+        "x_bin_min": -2,
+        "x_bin_max": 8,
+        "fill_x":"electron_sector",
+     
+        "num_bins_z": 720,
+        "z_bin_min": 0,
+        "z_bin_max": 360,
+        "fill_z":"particleElectronPhi",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Electron Sector",
+        "y_axis": "Counts"
+    }],
+
+    "hist_electron_pho1_esec": [{
+        "root_title": "hist_electron_pho1_esec",
+        "display_title": "Electron Sector vs Photon 1 Sector",
+
+        "pre_fill": "no",
+        "pro_fill": "no",
+        "prex_fill":"yes",
+        "ex_fill":"yes",
+
+        "num_bins_x": 6,
+        "x_bin_min": 1,
+        "x_bin_max": 7,
+        "fill_x":"electron_sector",
+     
+        "num_bins_z": 6,
+        "z_bin_min": 1,
+        "z_bin_max": 7,
+        "fill_z":"pho1sec",
+
+        "bins_xb":"no",
+        "bins_q2":"no",
+        "bins_t":"no",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Electron Sector",
+        "y_axis": "Photon 1 Sector"
     }]
 }

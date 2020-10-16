@@ -10,6 +10,7 @@ from ROOT import gROOT
 from ROOT import TStyle
 from pathlib import Path
 import json
+import array, numpy
 
 with open('../../histogram_dict.json') as f:
   data = json.load(f)
@@ -22,7 +23,7 @@ root_fileID = ((rootfilename.split("/"))[-1]).split(".")[0] #e.g. this is someth
 
 
 
-rootfilename_2 = sys.argv[1]
+rootfilename_2 = sys.argv[2]
 root_tree_2 = ROOT.TFile(rootfilename_2)
 root_fileID_2 = ((rootfilename_2.split("/"))[-1]).split(".")[0] #e.g. this is something like "output_file_histos23-33"
 
@@ -45,6 +46,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 
 	h1 = root_tree.Get(hist_root_ID)
 	
+	print("hist root id is 1 {}".format(hist_root_ID))
 	c1 = ROOT.TCanvas('c1','c1',120,100)
 
 	#need to get this fixed, currently only works with int arguements
@@ -66,22 +68,119 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	#gStyle.SetLabelSize(50)
 	h1.SetLineWidth(2) #use this to make line width thicker
 
+#	binmax = h1.GetMaximumBin()
+	max_yval1 = h1.GetMaximum()
+
+	print("max bin is {}".format(max_yval1))
 	print("Saving Histogram {}".format(h1.GetName()))
 
-	c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
+	#c1.Print(".{}/{}.pdf".format(plots_dir,hist_name))
+
+
+
 
 	
+
+	"""
+
+			# Make two graphs with the same X ranges but different Y values.
+			x = array.array('d',range(10))
+			y1 = array.array('d',(i for i in x))
+			y2 = array.array('d',(-3*i-5 for i in x))
+
+			g1 = ROOT.TGraph(len(x),x,y1)
+			g2 = ROOT.TGraph(len(x),x,y2)
+			color2 = ROOT.kBlue
+			g2.SetLineColor(color2)
+			g2.SetMarkerColor(color2)
+			g2.SetLineStyle(2)
+
+			# Get the dynamic range of both graphs.
+			# Note: you cannot use GetMaximum() or GetMaximum()
+			# as these can contain magic codes like -1111 for autoscaling.
+			y1max = ROOT.TMath.MaxElement(g1.GetN(),g1.GetY())
+			y1min = ROOT.TMath.MinElement(g1.GetN(),g1.GetY())
+			y2max = ROOT.TMath.MaxElement(g2.GetN(),g2.GetY())
+			y2min = ROOT.TMath.MinElement(g2.GetN(),g2.GetY())
+
+			# Define a TF2 that takes a y2 value and scales it to a new
+			# y3 value that has the same dynamic range as y1.
+			params = [ ("y1max", y1max), ("y1min", y1min),
+					("y2max", y2max), ("y2min", y2min) ]
+			fscale = ROOT.TF2("fscale","(y-[3])*([1]-[0])/([3]-[2]) + [1]",y1min,y1max,y2min,y2max)
+			for i,(parname, parvar) in enumerate(params):
+				fscale.SetParName(i,parname)
+				fscale.SetParameter(parname,parvar)
+
+			# Make a new copy of g2 so that the original data are preserved.
+			g3 = g2.Clone("g3")
+			g3.Apply(fscale)
+
+			# Sanity check
+			y3max = ROOT.TMath.MaxElement(g3.GetN(),g3.GetY())
+			y3min = ROOT.TMath.MinElement(g3.GetN(),g3.GetY())
+			assert (y3max == y1max) and (y3min == y1min)
+
+			# Now draw only the first graph and the scaled one.
+			mg = ROOT.TMultiGraph("mg","mg")
+			mg.Add(g1)
+			mg.Add(g3)
+			mg.Draw("ALP")
+			mg.GetXaxis().SetTitle("g1")
+			ROOT.gPad.Modified()
+			ROOT.gPad.Update()
+
+			# Get the coordinates of the left-side Y axis.
+			uxmax, uymin, uymax = ROOT.gPad.GetUxmax(), ROOT.gPad.GetUymin(), ROOT.gPad.GetUymax()
+
+			# Define the inverse function of fscale
+			funscale = ROOT.TF2("funscale","(y-[0])*([3]-[2])/([1]-[0])+[2]",y1min,y1max,y3min,y3max)
+			for i,(parname, parvar) in enumerate(params):
+				funscale.SetParName(i,parname)
+				funscale.SetParameter(parname,parvar)
+			# Note: funscale(0,fscale(0,i)) == i should always be true for all real numbers i.
+
+			right_axis = ROOT.TGaxis(uxmax, uymin, uxmax, uymax,
+									funscale(0,uymin), funscale(0,uymax), 510, "+L" )
+			right_axis.SetTitle("g2")
+			right_axis.Draw()
+
+"""	
 
 
 	if double_plots == "yes":
 		print("accessing title {}".format("output_file_histos_"+second_histo_root_ID))
 		
-		h2 = root_tree.Get("{}".format("output_file_histos_"+second_histo_root_ID))
+		print("hist root id is 2 {}".format("output_file_histos_"+second_histo_root_ID))
+
+		h2 = root_tree_2.Get("{}".format("output_file_histos_"+second_histo_root_ID))
 		print(h2.GetName())
+
+		max_yval2 = h2.GetMaximum()
+
+		scalefactor_natural = max_yval1/max_yval2
+		scalefactor_excuts =  218463/84239
+		scalefactor_all = 215227870/355718
+
+		if "fter" in display_title:
+			scalefactor = scalefactor_excuts
+		else:
+			scalefactor = scalefactor_all
+
+		if scalefactor*max_yval2 > max_yval1:
+			scalefactor = scalefactor_natural
+
+
+
+		h2.Scale(scalefactor,"height")
+		h2.SetFillStyle(3335)
+		h2.SetFillColor( 42)
+
 		h2.SetLineColorAlpha(2,1)
-		h2.Draw("SAME")
+		h2.Draw("HIST SAME")
+
 		#h2.SetAxisRange(0,110000,"Y")
-		display_title += " + Overlay"
+		display_title += " + Scaled Sim."
 
 		gStyle.SetOptStat(0)
 		h1.SetTitle(display_title)
@@ -97,7 +196,8 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 		c1.Print(".{}/{}.pdf".format(plots_dir,hist_name+"_logON"))
 
 
-plots_dir = "/../../analysis_outputs/{}/plots/original_python_pdfs".format(root_fileID)
+#plots_dir = "/../../analysis_outputs/{}/plots/original_python_pdfs".format(root_fileID)
+plots_dir = "/testplots2"
 plots_folder= os.path.dirname(os.path.abspath(__file__))+plots_dir
 
 
@@ -151,43 +251,22 @@ for key in root_tree.GetListOfKeys():
 	else:
 
 		keylogs = 0 
+
+
+
+		for icut in hist_suffexes_cuts:
+			if icut in hist_name:
+				hist_rooter = hist_name.split(icut)[0]
+		
+		print("HIST ROOT IS \n \n \n {} \n\n\n".format(hist_rooter))
+
 		for hist_key in data:
 			#print(hist_key)
 			
-			if data[hist_key][0]["root_title"] in hist_name:
+			if data[hist_key][0]["root_title"] == hist_rooter:
 				keylogs = 1
-	
-	
-				if "hist_xb_q2" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_xb_q2"
-
-				if "hist_missing_energy_diff" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_missing_energy_diff"
-
-				if "hist_missing_mass_energy" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_missing_mass_energy"
-
-				if "hist_kinematic_t_recon" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_kinematic_t_recon"
-
-				if "hist_proton_theta_phi" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_proton_theta_phi"
-
-				if "hist_electron_theta_phi" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_electron_theta_phi"
+			
 				
-				if "hist_num_photons_bad" in hist_name:
-					#print("found the annoying histogram")
-					hist_key = "hist_num_photons_bad"
-				
-				
-
 
 				
 				# if hist_name in data:
@@ -205,11 +284,23 @@ for key in root_tree.GetListOfKeys():
 				second_histo_root_title = data[hist_key][0]["second_histo_root_title"]
 				log_scale   = data[hist_key][0]["log_scale"]
 
-			
-				makeplot(plots_dir,hist_root_ID,hist_name,
-							display_title, num_bins_x, x_bin_min, x_bin_max,
-							x_axis_title, y_axis_title, y_scale_max,
-							double_plots, second_histo_root_title, log_scale)
+
+				if hist_name == "hist_num_protons":
+					print("GOT STRANGE PLOT: \n\n\n\n\n\n\n\n\n\n\n\n her:")
+					print("display is {}".format(display_title))
+
+				if "CD" not in display_title:
+					if second_histo_root_title == "yes":
+						print("trying to doubleplot")
+						print(second_histo_root_title)
+
+						double_plots   = "yes"
+						second_histo_root_title = hist_name
+
+						makeplot(plots_dir,hist_root_ID,hist_name,
+									display_title, num_bins_x, x_bin_min, x_bin_max,
+									x_axis_title, y_axis_title, y_scale_max,
+									double_plots, second_histo_root_title, log_scale)
 
 				hist_file_title_mapping[hist_name+".pdf"] = display_title
 
@@ -222,7 +313,7 @@ for key in root_tree.GetListOfKeys():
 #    print(json_dumps_str, file=fout)
 	
 
-print(hist_file_title_mapping)
+#print(hist_file_title_mapping)
 
 #example_path = Path('dict_to_json_textfile.json')
 #json_str = json.dumps(hist_file_title_mapping, indent=4) + '\n'

@@ -102,6 +102,7 @@ def NumGlobalCDDVEPEvents = 0
 def NumGlobalFDDVEPEvents = 0
 def NumGlobalCDAllEvents = 0
 def NumGlobalFDAllEvents = 0
+def ArrGlobalFDDVEPEvents = []
 
 
 // ******************************************************************* //
@@ -324,6 +325,13 @@ GParsPool.withPool NumCores, {
 			NumLocalFDAllEvents += funreturns[4]
 			NumLocalCDAllEvents += funreturns[5]
 			histogram_array = funreturns[6]
+
+			if (funreturns[2] == 1){
+				//println("adding event ${evcount.get()}")
+				ArrGlobalFDDVEPEvents.add(evcount.get())
+			}
+
+			
 		}
 
 		reader.close()
@@ -568,4 +576,9 @@ file.append("\n \n \n ***************** \n Used ${NumCores} cores to try to proc
 for (filename in FilesToProcess){
 	file.append("${filename} \n")
 }
+
+
+
+file.append("Here are all the numbers of events passing exclusivity cuts: \n ${ArrGlobalFDDVEPEvents}")
+
 

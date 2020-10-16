@@ -241,6 +241,10 @@ class EventProcessor {
 			//This is currently unused, I think for handling sectors
 				def esec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexElectron}?.with{bankScintillator.getByte('sector',it)}
 				def psec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexProton}?.with{bankScintillator.getByte('sector',it)}
+				
+				//println(esec)
+
+				def electron_sector = esec
 				if(psec==0) {
 					psec = Math.floor(particleProtonPhi/60).toInteger() +2
 					if(psec==7) psec=1
@@ -272,7 +276,7 @@ class EventProcessor {
 								 "w_vector":wvec.mass(),
 								"particleProtonMass":particleProton.mass(),
 								"number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
-			"number_protons":protons_in_event.size(),
+			"number_protons":protons_in_event.size(),"electron_sector":electron_sector
 								]
 
 
@@ -354,6 +358,22 @@ class EventProcessor {
 					def indexParticleGamma_1 = gamma_pair[0]
 					def indexParticleGamma_2 = gamma_pair[1]
 
+
+					def pho1sec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexParticleGamma_1}?.with{bankScintillator.getByte('sector',it)}
+					def pho2sec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexParticleGamma_2}?.with{bankScintillator.getByte('sector',it)}
+				
+					//println(pho1sec)
+					//println(pho2sec)
+
+					if (pho1sec == null){
+						//println("pho1sec is null, changing to match electron sector")
+						pho1sec = electron_sector
+					}
+					if (pho2sec == null){
+						//println("pho1sec is null, changing to match electron sector")
+						pho2sec = electron_sector
+					}
+
 					def particleGamma_1 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,indexParticleGamma_1)})
 					def particleGamma_2 = LorentzVector.withPID(22,*['px','py','pz'].collect{bankParticle.getFloat(it,indexParticleGamma_2)})
 					
@@ -429,7 +449,8 @@ class EventProcessor {
 					"particleProtonMass":particleProton.mass(),
 					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
 					 "xbbad":xBjorkenBad,"number_photons_good":good_photons_in_event.size(),"number_photons_bad":bad_photons_in_event.size(),
-			"number_protons":protons_in_event.size(),
+			"number_protons":protons_in_event.size(),"electron_sector":electron_sector,
+					"pho1sec":pho1sec, "pho2sec":pho2sec
 					]
 
 					//println("particle0 energy is "+particle0.e())
