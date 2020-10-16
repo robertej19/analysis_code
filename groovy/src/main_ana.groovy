@@ -46,6 +46,17 @@ import mainutils.EventProcessor
 import mainutils.LumiCalc
 import mainutils.ScreenUpdater
 
+
+import mainutils.pid.electron.ElectronFromEvent
+import mainutils.event.Event
+import mainutils.event.EventConverter
+import mainutils.utils.KinTool
+import mainutils.pid.electron.ElectronSelector
+import mainutils.pid.proton.ProtonFromEvent
+import mainutils.pid.proton.ProtonSelector
+import mainutils.pid.gamma.GammaFromEvent
+import mainutils.pid.gamma.GammaSelector
+
 //****************** Initialize ********************** //
 MyMods.enable() //I don't know what this does, its from Andrey, don't touch it, it works
 ScriptStartTime = new Date()
@@ -281,6 +292,86 @@ println("\n" + (GlobalFileSizeToProcess/Mil/1000).round(2)+" GB is the total fil
 println("Starting to process files now: \n \n \n")
 
 
+
+
+
+
+def field_setting = "outbending"
+// cut lvl meanings: 0 loose, 1 med, 2 tight
+el_cut_strictness_lvl=["ecal_cut_lvl":1,
+		       "nphe_cut_lvl":1,
+		       "vz_cut_lvl":1,
+		       "anti_pion_cut_lvl":1
+]
+
+
+//use these two lines for the second and third method
+def ele_selector = new ElectronSelector()
+//if you want to use the ElectronSelector class
+//ele_selector.initializeCuts()
+//use the two methods below
+//must be called in this order
+ele_selector.setElectronCutStrictness(el_cut_strictness_lvl)
+ele_selector.setCutParameterFromMagField(field_setting)
+
+//use two lines below for first method
+def electron = new ElectronFromEvent();
+//if you want to do it manually use the two lines below
+electron.setElectronCutStrictness(el_cut_strictness_lvl)
+electron.setElectronCutParameters(field_setting)
+ 
+def myElectronCutStrategies = [
+    electron.passElectronStatus,
+    electron.passElectronChargeCut,
+    electron.passElectronTrackQualityCut,
+    electron.passElectronMinMomentum,
+    electron.passElectronEBPIDCut,
+    electron.passElectronSamplingFractionCut,
+    electron.passElectronNpheCut,
+    electron.passElectronVertexCut,
+    electron.passElectronPCALFiducialCut,
+    electron.passElectronPCALEdepCut,
+    electron.passElectronDCR1,
+    electron.passElectronDCR2,
+    electron.passElectronDCR3,
+    electron.passElectronAntiPionCut
+]
+
+//Similary, we can keep the same structures for proton
+//use two lines below for first method
+//there is no cut level for proton at this stage
+def pro_selector = new ProtonSelector()
+def proton = new ProtonFromEvent();
+def myProtonCutStrategies = [
+	proton.passProtonEBPIDCut,
+	proton.passProtonDCR1,
+	proton.passProtonDCR2,
+	proton.passProtonDCR3,
+    proton.passProtonTrackQuality,
+    proton.passProtonCDPolarAngleCut,
+    proton.passProtonVertexCut
+]
+pro_selector.setCutParameterFromMagField(field_setting)
+proton.setProtonCutParameters(field_setting)
+
+//the same for gamma
+//use these two lines for the second and third method
+def gam_selector = new GammaSelector()
+//use two lines below for first method
+def gamma = new GammaFromEvent();
+ 
+def myGammaCutStrategies = [
+    gamma.passGammaEBPIDCut,
+    gamma.passGammaPCALFiducialCut,
+    gamma.passGammaBetaCut
+]
+
+def part_selectors = [ele_selector, pro_selector, gam_selector]
+
+def cut_strats = [myElectronCutStrategies, myProtonCutStrategies, myGammaCutStrategies]
+
+
+
 GParsPool.withPool NumCores, {
 	FilesToProcess.eachParallel{fname->
 		
@@ -317,7 +408,7 @@ GParsPool.withPool NumCores, {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			NumLocalFDDVEPEvents += funreturns[2]
