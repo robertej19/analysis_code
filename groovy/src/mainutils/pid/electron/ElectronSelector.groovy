@@ -1,6 +1,6 @@
-package pid.electron
-import event.Event
-import pid.electron.ElectronFromEvent
+package mainutils.pid.electron
+import mainutils.event.Event
+import mainutils.pid.electron.ElectronFromEvent
 
 class ElectronSelector {
 

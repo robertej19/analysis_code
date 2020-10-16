@@ -1,10 +1,10 @@
-package event
+package mainutils.event
 import org.jlab.detector.base.DetectorType
 import org.jlab.io.hipo.HipoDataEvent
-import event.Event
-import event.DCHit
-import event.FtofHit
-import event.ECHit
+import mainutils.event.Event
+import mainutils.event.DCHit
+import mainutils.event.FtofHit
+import mainutils.event.ECHit
 
 class EventConverter {
 

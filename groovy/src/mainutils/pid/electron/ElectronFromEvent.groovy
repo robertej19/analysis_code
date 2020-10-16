@@ -1,7 +1,7 @@
-package pid.electron
+package mainutils.pid.electron
 
 import org.jlab.detector.base.DetectorType
-import event.Event
+import mainutils.event.Event
 
 class ElectronFromEvent {
 

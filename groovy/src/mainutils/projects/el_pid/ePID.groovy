@@ -12,10 +12,10 @@ import org.jlab.jroot.ROOTFile
 import groovyx.gpars.GParsPool
 import java.util.concurrent.ConcurrentHashMap
 //personal 
-import examples.epkpkm
-import mon.electronPlotter
-import event.EventConverter
-import event.Event
+import mainutils.examples.epkpkm
+import mainutils.mon.electronPlotter
+import mainutils.event.EventConverter
+import mainutils.event.Event
 
 //dmriser
 LorentzVector.metaClass.static.withPID = {pid,x,y,z->

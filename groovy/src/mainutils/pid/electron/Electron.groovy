@@ -1,4 +1,4 @@
-package pid.electron
+package mainutils.pid.electron
 import org.jlab.detector.base.DetectorType
 
 class Electron {

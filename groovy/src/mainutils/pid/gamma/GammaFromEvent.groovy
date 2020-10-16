@@ -1,7 +1,7 @@
-package pid.gamma
+package mainutils.pid.gamma
 
 import org.jlab.detector.base.DetectorType
-import event.Event
+import mainutils.event.Event
 
 class GammaFromEvent {
 

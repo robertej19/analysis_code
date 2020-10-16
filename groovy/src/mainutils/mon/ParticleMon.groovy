@@ -1,4 +1,4 @@
-package mon
+package mainutils.mon
 import org.jlab.detector.base.DetectorType
 import org.jlab.clas.physics.Particle
 import org.jlab.clas.physics.Vector3

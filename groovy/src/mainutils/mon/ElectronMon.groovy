@@ -1,4 +1,4 @@
-package mon
+package mainutils.mon
 import org.jlab.io.hipo.HipoDataSource
 import org.jlab.detector.base.DetectorType
 import org.jlab.clas.physics.Particle
@@ -10,10 +10,10 @@ import org.jlab.groot.data.H2F
 import org.jlab.groot.data.TDirectory
 import java.util.concurrent.ConcurrentHashMap
 import java.util.LinkedHashMap
-import pid.electron.ElectronFromEvent
-import event.Event
-import event.EventConverter
-import utils.KinTool
+import mainutils.pid.electron.ElectronFromEvent
+import mainutils.event.Event
+import mainutils.event.EventConverter
+import mainutils.utils.KinTool
 
 class ElectronMon{
 

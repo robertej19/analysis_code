@@ -80,8 +80,8 @@ print("finished running analysis, now trying to do other stuff")
 text_file_path = output_folder+"/"+output_base_name+".txt"
 
 
-subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
-subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
+#subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
+#subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
 
 
 """

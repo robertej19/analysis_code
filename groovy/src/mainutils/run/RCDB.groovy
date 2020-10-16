@@ -1,4 +1,4 @@
-package run
+package mainutils.run
 
 import org.jlab.detector.calib.utils.RCDBProvider
 import org.jlab.detector.calib.utils.RCDBConstants

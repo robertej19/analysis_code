@@ -1,9 +1,9 @@
-package pid.proton
+package mainutils.pid.proton
 
 import org.jlab.io.base.DataBank;
 import org.jlab.io.base.DataEvent;
-import pid.proton.ProtonFromEvent
-import event.Event
+import mainutils.pid.proton.ProtonFromEvent
+import mainutils.event.Event
 import org.jlab.clas.physics.Vector3
 
 class ProtonSelector{

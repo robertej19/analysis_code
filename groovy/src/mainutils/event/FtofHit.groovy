@@ -1,4 +1,4 @@
-package event
+package mainutils.event
 
 class FtofHit {
     Short sector, paddle, layer

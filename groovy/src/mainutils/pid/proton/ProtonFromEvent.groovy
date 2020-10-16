@@ -1,8 +1,8 @@
-package pid.proton
+package mainutils.pid.proton
 
 import org.jlab.detector.base.DetectorType
 import org.jlab.clas.physics.Particle
-import event.Event
+import mainutils.event.Event
 
 class ProtonFromEvent {
 

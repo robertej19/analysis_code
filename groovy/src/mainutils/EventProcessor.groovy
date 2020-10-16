@@ -16,6 +16,9 @@ import java.util.concurrent.TimeUnit
 import java.util.Date
 
 
+import org.jlab.clas.physics.Particle
+import org.jlab.io.hipo.HipoDataSource
+
 //From JLab
 import org.jlab.clas.physics.LorentzVector
 import org.jlab.clas.physics.Vector3
@@ -43,6 +46,18 @@ import mainutils.subutils.ParticleGetter
 import mainutils.subutils.PermutationMaker
 import mainutils.subutils.PionCutter
 import mainutils.subutils.DVEPCutter
+
+
+
+import mainutils.pid.electron.ElectronFromEvent
+import mainutils.event.Event
+import mainutils.event.EventConverter
+import mainutils.utils.KinTool
+import mainutils.pid.electron.ElectronSelector
+import mainutils.pid.proton.ProtonFromEvent
+import mainutils.pid.proton.ProtonSelector
+import mainutils.pid.gamma.GammaFromEvent
+import mainutils.pid.gamma.GammaSelector
 
 
 		//println bankParticle.getInt('status')

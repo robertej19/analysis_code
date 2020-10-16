@@ -1,4 +1,4 @@
-package utils
+package mainutils.utils
 import org.jlab.clas.physics.LorentzVector
 import org.jlab.clas.pdg.PDGDatabase
 

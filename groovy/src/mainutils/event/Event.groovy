@@ -1,11 +1,15 @@
-package event
+package mainutils.event
 import org.jlab.detector.base.DetectorType
-import event.DCHit
-import event.FtofHit
-import event.ECHit
-import event.CovarianceMatrix
+
+
+
+import mainutils.event.DCHit
+import mainutils.event.FtofHit
+import mainutils.event.ECHit
+import mainutils.event.CovarianceMatrix
 
 class Event {
+
 
     // Scalars
     Short npart, mc_npart, helicity
@@ -158,5 +162,6 @@ class Event {
         mc_vz = new HashMap<Integer, Float>()
         mc_vt = new HashMap<Integer, Float>()
     }
+
 }
 

@@ -1,9 +1,9 @@
-package mon
+package mainutils.mon
 import org.jlab.detector.base.DetectorType
 import org.jlab.clas.physics.Particle
 import org.jlab.clas.physics.Vector3
 import org.jlab.groot.data.H2F
-import exclusive.EP
+import mainutils.exclusive.EP
 
 class Elastic {
   def beam = new Particle(11, 0,0,10.6)//7.546)

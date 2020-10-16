@@ -1,4 +1,4 @@
-package event
+package mainutils.event
 
 class DCHit {
     Float x, y, z

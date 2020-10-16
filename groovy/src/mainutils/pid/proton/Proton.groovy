@@ -1,4 +1,4 @@
-package pid.proton
+package mainutils.pid.proton
 
 import org.jlab.clas.physics.Vector3
 

@@ -1,10 +1,10 @@
-package mon
+package mainutils.mon
 import org.jlab.detector.base.DetectorType
 import org.jlab.clas.physics.Particle
 import org.jlab.clas.physics.Vector3
 import org.jlab.groot.data.H1F
-import groovy.sql.Sql
-import pid.electron.Electron
+import mainutils.groovy.sql.Sql
+import mainutils.pid.electron.Electron
 
 class GoodElectron {
   def plots = [:].withDefault{[:].withDefault{new H1F("heth_$it", "electron theta", 90,0,45)}}

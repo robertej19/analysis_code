@@ -5,7 +5,7 @@ import org.jlab.clas.physics.Vector3
 import org.jlab.groot.data.H2F
 import org.jlab.groot.data.TDirectory
 import java.util.concurrent.ConcurrentHashMap
-import pid.electron.Electron
+import mainutils.pid.electron.Electron
 
 def beam = 10.604
 

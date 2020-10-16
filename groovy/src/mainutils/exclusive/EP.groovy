@@ -1,10 +1,10 @@
-package exclusive
+package mainutils.exclusive
 
 import org.jlab.io.hipo.HipoDataEvent
 import org.jlab.clas.physics.Particle
 import org.jlab.clas.physics.Vector3
-import pid.electron.Electron
-import pid.proton.Proton
+import mainutils.pid.electron.Electron
+import mainutils.pid.proton.Proton
 
 class EP {
   static def getEP(HipoDataEvent event) {

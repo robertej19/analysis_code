@@ -1,6 +1,6 @@
-package pid.gamma
-import event.Event
-import pid.gamma.GammaFromEvent
+package mainutils.pid.gamma
+import mainutils.event.Event
+import mainutils.pid.gamma.GammaFromEvent
 
 class GammaSelector {
 
