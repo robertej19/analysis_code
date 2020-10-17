@@ -58,7 +58,7 @@ data_location = simudata
 number_of_events = "0"
 number_of_files = "500"
 number_of_cores = "1"
-run_message = "trying to fit distros, loser Exclusivity cuts"
+run_message = "Production run"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
@@ -105,7 +105,7 @@ subprocess.call(run_command,stdout=f_out) #pipe commands to file output runlog
 #Generate root plots from root file
 print("trying to generate all plots")
 
-"""
+
 os.chdir("../../python/src")
 
 run_python = "python2"
@@ -156,4 +156,3 @@ subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+"latexoutput.pd
 #os.rename("latexoutput.out",  output_folder+"/"+"latexoutput.out")
 
 #subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+"latexoutput.log"]) #see text file
-"""

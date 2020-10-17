@@ -11,8 +11,8 @@
 
     "pion_cuts": [{
         "cut_class":"pions",
-        "pion_lower_mass": 0.05,
-        "pion_upper_mass" : 0.25,
+        "pion_lower_mass": 0.07,
+        "pion_upper_mass" : 0.2,
         "pion_min_momentum" : 1.5,
         "photon_BH_angle" : 0,
         "photon_sector" : "yes"

@@ -79,7 +79,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
 
 	#params = (100,0,np.sqrt(sorted(lists)[0])/6,0)
   
-  params = (4000, 140, 1, 0) #This is the estimate for pion mass
+  params = (4000, 140, 12, 0) #This is the estimate for pion mass
  # params = (4000, 0, 1, 0) #This is the estimate for missing mass squared
 
 
@@ -100,7 +100,7 @@ def fit_histo(histo,mincut,maxcut,energy_conv):
     #print("params were{}".format(params))
 
     params_list.append(new_params)
-    if abs(new_params[2]-params[2])<0.000001:
+    if abs(new_params[2]-params[2])<0.001:
       print("breaking after {}".format(i))
       break
     if i>8:
