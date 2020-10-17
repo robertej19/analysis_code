@@ -670,6 +670,7 @@ for (filename in FilesToProcess){
 
 
 
-file.append("Here are all the numbers of events passing exclusivity cuts: \n ${ArrGlobalFDDVEPEvents}")
+File file22 = new File("../../analysis_outputs/${output_folder_groovy}/${outputfilename}-exclusive-event-numbers.txt")
+file22.append("Here are all the numbers of events passing exclusivity cuts: \n ${ArrGlobalFDDVEPEvents}")
 
 
