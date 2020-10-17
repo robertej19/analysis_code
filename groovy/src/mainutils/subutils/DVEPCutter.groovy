@@ -78,8 +78,8 @@ class DVEPCutter {
 		def QSquared = -qvector.mass2() > Q2_min
 		def ThetaXPi = thetaXPi < ThetaXPi_max
 		def Dpt0 = diff_between_X_and_GG.px().abs() < MomDiff_max && diff_between_X_and_GG.py().abs() < MomDiff_max
-		def Dmisse0 = dmisse0 < MissingEnergy_max
-		def MissingMassSquared = particleX.mass2() < MissingMassSquared_max
+		def Dmisse0 = dmisse0.abs() < MissingEnergy_max
+		def MissingMassSquared = particleX.mass2().abs() < MissingMassSquared_max
 
 
 

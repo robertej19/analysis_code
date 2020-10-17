@@ -401,7 +401,7 @@ class EventProcessor {
 								 "w_vector":wvec.mass(),
 								"particleProtonMass":particleProton.mass(),
 								"number_photons_good":good_photons_in_event.size(),"number_photons_bad":good_photons_in_event.size(),
-			"number_protons":protons_in_event.size(),"electron_sector":electron_sector
+								"number_protons":protons_in_event.size(),"electron_sector":electron_sector
 								]
 
 

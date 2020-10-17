@@ -58,7 +58,7 @@ data_location = simudata
 number_of_events = "0"
 number_of_files = "5"
 number_of_cores = "1"
-run_message = "Quick test"
+run_message = "Pseduo-production for data"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
