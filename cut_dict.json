@@ -5,14 +5,14 @@
         "Q2" : 1,
         "ThetaDifference_X_Pi": 2,
         "MomentumDifference_X_Pi": 0.3,
-        "MissingMassSquared": 1,
-        "MissingEnergy": 1
+        "MissingMassSquared": 0.7,
+        "MissingEnergy": 0.7
     }],
 
     "pion_cuts": [{
         "cut_class":"pions",
-        "pion_lower_mass": 0.1,
-        "pion_upper_mass" : 0.18,
+        "pion_lower_mass": 0.05,
+        "pion_upper_mass" : 0.25,
         "pion_min_momentum" : 1.5,
         "photon_BH_angle" : 0,
         "photon_sector" : "yes"

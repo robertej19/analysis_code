@@ -58,7 +58,7 @@ data_location = simudata
 number_of_events = "0"
 number_of_files = "500"
 number_of_cores = "1"
-run_message = "trying to implement new run event processor features"
+run_message = "trying to fit distros, loser Exclusivity cuts"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
@@ -80,11 +80,11 @@ print("finished running analysis, now trying to do other stuff")
 text_file_path = output_folder+"/"+output_base_name+".txt"
 
 
-subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
-subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
+#subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
+#subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
 
 
-"""
+
 
 #******************
 #********** Convert hipo to root file
@@ -105,7 +105,7 @@ subprocess.call(run_command,stdout=f_out) #pipe commands to file output runlog
 #Generate root plots from root file
 print("trying to generate all plots")
 
-
+"""
 os.chdir("../../python/src")
 
 run_python = "python2"

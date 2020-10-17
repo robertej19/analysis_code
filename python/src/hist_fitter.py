@@ -13,6 +13,16 @@ histo_title = "5040_Hist_deltaB_psec1_layer1"
 hipo_histos = ROOT.TFile(sys.argv[1])
 h0 = hipo_histos.Get(histo_title)
 
+
+for key in hipo_histos.GetListOfKeys():
+  obj = key.ReadObj()
+  print(obj.GetName())
+  print(obj.GetTitle())
+  print(obj.GetNbinsX())
+  print(obj.GetNbinsY())
+  print(obj.GetEntries())
+
+
 e = 10.6 #GeV
 bins = 800
 eperbin = e/bins
