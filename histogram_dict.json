@@ -183,7 +183,7 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 1500,
+        "num_bins_x": 1000,
         "x_bin_min": 0,
         "x_bin_max": 50,
         "fill_x":"particleElectronTheta",
@@ -212,7 +212,7 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 500,
+        "num_bins_x": 250,
         "x_bin_min": 0,
         "x_bin_max": 150,
         "fill_x":"particleProtonTheta",
@@ -241,7 +241,7 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 380,
+        "num_bins_x": 200,
         "x_bin_min": -10,
         "x_bin_max": 370,
         "fill_x":"particleProtonPhi",
@@ -444,9 +444,9 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 1000,
+        "num_bins_x": 300,
         "x_bin_min": 0,
-        "x_bin_max": 1.2,
+        "x_bin_max": 1,
         "fill_x":"xb",
      
         "num_bins_z":0,
@@ -473,7 +473,7 @@
         "prex_fill":"no",
         "ex_fill":"yes",
 
-        "num_bins_x": 1000,
+        "num_bins_x": 300,
         "x_bin_min": 0,
         "x_bin_max": 12,
         "fill_x":"q2",
@@ -647,7 +647,7 @@
         "prex_fill":"yes",
         "ex_fill":"yes",
 
-        "num_bins_x": 1000,
+        "num_bins_x": 500,
         "x_bin_min": 0,
         "x_bin_max": 10,
         "fill_x":"particlePionEnergy",
@@ -676,7 +676,7 @@
         "prex_fill":"yes",
         "ex_fill":"yes",
 
-        "num_bins_x": 250,
+        "num_bins_x": 750,
         "x_bin_min": 0,
         "x_bin_max": 1000,
         "fill_x":"particlePionMass",

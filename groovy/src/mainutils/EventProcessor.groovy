@@ -148,7 +148,7 @@ class EventProcessor {
 
 	//The below is all depreciated after implementing cuts from drejenko
 	
-
+/*
 		def electrons_in_event = ParticleGetter.getParticle(bankParticle,"electron")
 		def protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
 
@@ -164,7 +164,7 @@ class EventProcessor {
 		
 
 		//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
-
+*/
 //******************************* IMPLEMENT NEW PID METHODS
 
 
@@ -242,10 +242,10 @@ class EventProcessor {
 
 		//REPLACE WITH BETTER PID
 
-//		def good_photons_in_event = my_good_gam
+		def good_photons_in_event = my_good_gam
 		//println(my_good_gam)
-//		def electrons_in_event = my_good_el
-//		def protons_in_event = my_good_pro
+		def electrons_in_event = my_good_el
+		def protons_in_event = my_good_pro
 		
 //Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
 		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
