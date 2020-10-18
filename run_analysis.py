@@ -51,12 +51,13 @@ loc2outbending = "/mnt/d/CLAS12Data/skim4/skim4-20200927"
 loc3fx = "/mnt/d/CLAS12Data/out"
 simudata = "/mnt/d/CLAS12Data/andreyskim/simudata-20201013/"
 dat5032 = "/mnt/d/CLAS12Data/skim8-5032"
+online_sim = "/volatile/clas12/kenjo/cache/"
 
 run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
-data_location = simudata
+data_location = dat5032
 number_of_events = "0"
-number_of_files = "5"
+number_of_files = "1"
 number_of_cores = "1"
 run_message = "Pseduo-production for data"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
