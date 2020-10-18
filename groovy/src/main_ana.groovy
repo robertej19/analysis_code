@@ -86,6 +86,14 @@ def NumFilesToProcess = args[2].toInteger()
 def NumCores = args[3].toInteger()
 def FilesToProcess = fg.GetFile(args[0]).take(NumFilesToProcess) //args[0] is the path of the directory with all files to process
 def output_folder_groovy = args[4]
+
+def filedir = "../../analysis_outputs"
+
+if (output_folder_groovy == "default"){
+	filedir = "."
+	output_folder_groovy = "groovy_output"
+}
+
 def output_message = ""
 
 //Here we start at 4 beause the first 3 arguements are not the text string
@@ -135,6 +143,7 @@ def binning_scheme = [binning_xb,binning_q2,binning_t]
 file_loc_histograms = "../../histogram_dict.json"
 def data_histograms = jsonSlurper.parse(new File(file_loc_histograms))
 def histogram_array = []
+
 
 
 for (hist in data_histograms){
@@ -416,10 +425,11 @@ GParsPool.withPool NumCores, {
 			NumLocalFDAllEvents += funreturns[4]
 			NumLocalCDAllEvents += funreturns[5]
 			histogram_array = funreturns[6]
+			bankevent_number = funreturns[7]
 
 			if (funreturns[2] == 1){
 				//println("adding event ${evcount.get()}")
-				ArrGlobalFDDVEPEvents.add(evcount.get())
+				ArrGlobalFDDVEPEvents.add(bankevent_number)
 			}
 
 			
@@ -496,7 +506,7 @@ else{
 println("Processed a total of $NumFilesProcessed files")
 println("Final global number of DVPP events found: $NumGlobalDVPPEvents out of a total of $GlobalNumEventsProcessed")
 println("Total Integrated Luminosity from the runs processed is $GlobalLumiTotal UNITS???")
-println("File saved at ../../analysis_outputs/${output_folder_groovy}/${outputfilename}. \n")
+println("File to be saved at $filedir/${output_folder_groovy}/${output_folder_groovy}. \n")
 
 //********* Save data in hipo and text files *****************
 
@@ -590,12 +600,13 @@ for (histo_couplet in histogram_array){
 
 
 
-out.writeFile("../../analysis_outputs/${output_folder_groovy}/${outputfilename}.hipo")
+
+out.writeFile("$filedir/${output_folder_groovy}/${output_folder_groovy}.hipo")
 
 
 
-File file = new File("../../analysis_outputs/${output_folder_groovy}/${outputfilename}.txt")
-file.append("Run information for ${outputfilename}.hipo \n")
+File file = new File("$filedir/${output_folder_groovy}/${output_folder_groovy}.txt")
+file.append("Run information for ${output_folder_groovy}.hipo \n")
 file.append("Run message: $output_message \n")
 file.append("Script began at ${ScriptStartTime.format('MM/dd/YYYY-HH:mm:ss')} and finished at ${ScriptEndTime.format('MM/dd/YYYY-HH:mm:ss')}\n")
 if(ScriptRunTime > 1){
@@ -670,7 +681,7 @@ for (filename in FilesToProcess){
 
 
 
-File file22 = new File("../../analysis_outputs/${output_folder_groovy}/${outputfilename}-exclusive-event-numbers.txt")
+File file22 = new File("$filedir/${output_folder_groovy}/${output_folder_groovy}-exclusive-event-numbers.txt")
 file22.append("Here are all the numbers of events passing exclusivity cuts: \n ${ArrGlobalFDDVEPEvents}")
 
 

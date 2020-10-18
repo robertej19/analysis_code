@@ -119,7 +119,7 @@ class EventProcessor {
 
 
 
-		def banknames = ['REC::Event','REC::Particle','REC::Cherenkov','REC::Calorimeter','REC::Traj','REC::Track','REC::Scintillator']
+		def banknames = ['REC::Event','REC::Particle','REC::Cherenkov','REC::Calorimeter','REC::Traj','REC::Track','REC::Scintillator','RUN::config']
 
 		//println("might leave")
 
@@ -132,14 +132,18 @@ class EventProcessor {
 		//println("did not leave")
 
 		
-		def (bankEvent,bankParticle,bankCherenkov,bankECal,bankTraj,bankTrack,bankScintillator) = banknames.collect{event0.getBank(it)}
-		def banks = [bankCherenkov:bankCherenkov,bankECal:bankECal,part:bankParticle,bankTraj:bankTraj,bankTrack:bankTrack]
+		def (bankEvent,bankParticle,bankCherenkov,bankECal,bankTraj,bankTrack,bankScintillator,bankRun) = banknames.collect{event0.getBank(it)}
+		def banks = [bankCherenkov:bankCherenkov,bankECal:bankECal,part:bankParticle,bankTraj:bankTraj,bankTrack:bankTrack,bankRun:bankRun]
 
 		def fcupBeamCharge = bankEvent.getFloat('beamCharge',0) //This is the (un?)gated beam charge in nanoColoumbs
 
+		def run_number = bankRun.getInt('event',0)
+
+		//println(run_number)
+
 		if(fcupBeamCharge > fcupBeamChargeMax){ fcupBeamChargeMax = fcupBeamCharge	} //Replace fcupBeamcharge with the largest value
 
-		def i_helicity = bankEvent.getByte('helicity',0) //Helicity of ... something
+		def i_helicity = bankEvent.getByte('helicity',0) //Helicity
 		
 
 		//For each event0, index where pid is 11 (electron) and 2212 (proton) and put into array, 
@@ -162,9 +166,9 @@ class EventProcessor {
 		//Get a list of "good" photons in the event0
 		def good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
 		
-
-		//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
 */
+		//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
+
 //******************************* IMPLEMENT NEW PID METHODS
 
 
@@ -240,13 +244,12 @@ class EventProcessor {
 
 
 
-		//REPLACE WITH BETTER PID
-
 		def good_photons_in_event = my_good_gam
 		//println(my_good_gam)
 		def electrons_in_event = my_good_el
 		def protons_in_event = my_good_pro
-		
+
+
 //Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
 		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
 
@@ -353,7 +356,8 @@ class EventProcessor {
 				//def t_MomTran = t_sqrt.vect().dot(t_sqrt.vect())
 
 				//printerUtil.printer("particleX mass squared is:${particleX.mass2()}",0)
-				def xBjorkenBad = qsquared/(2*particleProton.vect().dot(qvec.vect()))
+				//def xBjorkenBad = qsquared/(2*particleProton.vect().dot(qvec.vect()))
+				def xBjorkenBad = 0 //this needs to be removed from code as it is legacy, but not harmful now
 				def xBjorken = qsquared/(qsquared +wvec.mass2() - particleProton.mass2())
 				//printerUtil.printer("adding XB to hist "+index_of_electrons_and_protons,0)
 	
@@ -686,7 +690,7 @@ class EventProcessor {
 			}
 		}
 
-		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in]
+		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,run_number]
 	}
 
 }
