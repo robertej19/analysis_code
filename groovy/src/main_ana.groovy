@@ -389,6 +389,12 @@ GParsPool.withPool NumCores, {
 
 		def fname_short = fname.toString().split('/').last()
 
+		def run_number0 = (fname_short.split('_').last())
+		print("RUN NUMBER NOT IS ${run_number0}")
+		def run_number = run_number0.split('.hip').first()
+		print("RUN NUMBER IS : ${run_number}")
+
+
 		def NumEventsInFile= reader.getSize().toInteger()
 		def NumEventsToProcess = DesiredNumEventsToProcess
 			if (DesiredNumEventsToProcess > NumEventsInFile){NumEventsToProcess = NumEventsInFile}
@@ -412,6 +418,10 @@ GParsPool.withPool NumCores, {
 
 
 		
+
+		File file_listings = new File("$filedir/${output_folder_groovy}/${output_folder_groovy}-${run_number}-events_listing.txt")
+		//file_listings.append("Run Number, Event Number, Helicity, xB, Q2, t, phi \n")
+
 		// ******* Pass to event processor, increment variables of interest ****** //
 		for (int j=0; j < NumEventsToProcess; j++) {
 			evcount.getAndIncrement()
@@ -425,17 +435,26 @@ GParsPool.withPool NumCores, {
 			NumLocalFDAllEvents += funreturns[4]
 			NumLocalCDAllEvents += funreturns[5]
 			histogram_array = funreturns[6]
-			bankevent_number = funreturns[7]
+			def bankevent_number = (funreturns[7])[0]
+			def helicity = (funreturns[7])[1]
+			def xb_val = (funreturns[7])[2]
+			def q2_val = (funreturns[7])[3]
+			def t_val = (funreturns[7])[4]
+			def phi_val = (funreturns[7])[5]
 
 			if (funreturns[2] == 1){
 				//println("adding event ${evcount.get()}")
 				ArrGlobalFDDVEPEvents.add(bankevent_number)
+				file_listings.append("${run_number}, ${bankevent_number}, ${helicity}, ${xb_val}, ${q2_val}, ${t_val}, ${phi_val}\n")
 			}
 
 			
 		}
 
 		reader.close()
+
+
+
 
 		println("Num DVPP Events found in file $fname_short is $NumLocalDVPPEvents")
 

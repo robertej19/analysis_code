@@ -1,7 +1,7 @@
 {    
     "hist_phi_xbq2t": [{
         "root_title": "hist_phi_xbq2t",
-        "display_title": "Phi Distribution Over Xb,Q2,T of",
+        "display_title": "Positive Helicity Phi Distribution Over Xb,Q2,T of",
 
         "pre_fill": "no",
         "pro_fill":"no",
@@ -12,7 +12,37 @@
         "num_bins_x": 20,
         "x_bin_min": 0,
         "x_bin_max": 360,
-        "fill_x":"LeptHadAngle",
+        "fill_x":"LeptHadAngle_pos",
+
+        "num_bins_z":0,
+        "z_bin_min":0,
+        "z_bin_max":0,
+        "fill_z":"none",
+
+        "bins_xb":"yes",
+        "bins_q2":"yes",
+        "bins_t":"yes",
+
+		"y_scale_max": 0,
+		"second_histo_root_title": "0",
+		"log_scale": "no",
+        "x_axis": "Angle between Lepton and Hadron Planes",
+        "y_axis": "Counts"
+    }],
+    "hist_neg_phi_xbq2t": [{
+        "root_title": "hist_neg_phi_xbq2t",
+        "display_title": "Negative Helicity Phi Distribution Over Xb,Q2,T of",
+
+        "pre_fill": "no",
+        "pro_fill":"no",
+        "prex_fill":"no",
+        "ex_fill": "yes",
+        
+
+        "num_bins_x": 20,
+        "x_bin_min": 0,
+        "x_bin_max": 360,
+        "fill_x":"LeptHadAngle_neg",
 
         "num_bins_z":0,
         "z_bin_min":0,

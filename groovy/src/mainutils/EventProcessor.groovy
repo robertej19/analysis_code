@@ -95,6 +95,8 @@ class EventProcessor {
 		//println("starting to process event0")
 
 		
+		def null_return_array = ["null","null"]
+		def return_array = null_return_array
 		//Unfold histgrams
 		
 
@@ -126,7 +128,7 @@ class EventProcessor {
 		// Leave event if not all banks are present
 		if(!(banknames.every{event0.hasBank(it)})) {
 			//println("Not all bank events found, returning")
-			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in]
+			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in, return_array]
 		}
 		
 		//println("did not leave")
@@ -152,7 +154,7 @@ class EventProcessor {
 
 	//The below is all depreciated after implementing cuts from drejenko
 	
-/*
+
 		def electrons_in_event = ParticleGetter.getParticle(bankParticle,"electron")
 		def protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
 
@@ -166,12 +168,12 @@ class EventProcessor {
 		//Get a list of "good" photons in the event0
 		def good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
 		
-*/
+
 		//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
 
 //******************************* IMPLEMENT NEW PID METHODS
 
-
+"""
 
 		def myElectronCutStrategies = cut_strats[0]
 		def myProtonCutStrategies = cut_strats[1]
@@ -248,6 +250,9 @@ class EventProcessor {
 		//println(my_good_gam)
 		def electrons_in_event = my_good_el
 		def protons_in_event = my_good_pro
+
+
+"""
 
 
 //Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
@@ -568,6 +573,15 @@ class EventProcessor {
 						LeptHadAngle = -LeptHadAngle+360
 					}
 
+					def LeptHadAngle_pos = LeptHadAngle
+					def LeptHadAngle_neg = -1000
+
+					if (i_helicity < 0){
+						LeptHadAngle_neg = LeptHadAngle
+						LeptHadAngle_pos = -1000
+					}
+						
+
 
 					def variable_map_excuts = ["particleProtonTheta":particleProtonTheta,"particleElectronTheta":particleElectronTheta,
 					"particleProtonPhi":particleProtonPhi,"particleElectronPhi":particleElectronPhi,
@@ -576,7 +590,7 @@ class EventProcessor {
 					"momentumDiffX":diff_between_X_and_GG.px().abs()*1000,"momentumDiffY":diff_between_X_and_GG.py().abs()*1000,
 					"missingEnergyDifference":dmisse0,
 					"thetaXPi":thetaXPi,"t_momentum":t_momentum,"t_momentum_recon":t_momentum_recon,
-					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"w_vector":wvec.mass(),
+					"q2":-qvec.mass2(),"xb":xBjorken, "LeptHadAngle":LeptHadAngle,"LeptHadAngle_pos":LeptHadAngle_pos, "LeptHadAngle_neg":LeptHadAngle_neg, "w_vector":wvec.mass(),
 					"particleProtonMass":particleProton.mass(),
 					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
 					 "xbbad":xBjorkenBad,"number_photons_good":good_photons_in_event.size(),"number_photons_bad":good_photons_in_event.size(),
@@ -683,14 +697,16 @@ class EventProcessor {
 					
 					if (proton_location == 'FD'){ fd_dvpp_event = 1	}
 					if (proton_location == 'CD'){ cd_dvpp_event = 1	}
-
-
 					dvpp_event = 1
+
+					def return_array_vals = [run_number,i_helicity,xBjorken,-qvec.mass2(),t_momentum,LeptHadAngle]
+					return_array = return_array_vals
 				}
 			}
 		}
 
-		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,run_number]
+		
+		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,return_array]
 	}
 
 }

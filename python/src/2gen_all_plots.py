@@ -12,6 +12,15 @@ from pathlib import Path
 import json
 import array, numpy
 
+
+"""
+python2 2gen_all_plots.py ../../analysis_outputs/20201011/output_file_histos-20201011-17-56/output_file_histos-20201011-17-56.hipo.root ../../analysis_outputs/20201013/output_file_histos-20201013-15-04/output_file_histos-20201013-15-04.hipo.root
+
+"""
+
+
+
+
 with open('../../histogram_dict.json') as f:
   data = json.load(f)
 
@@ -51,7 +60,7 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 
 	#need to get this fixed, currently only works with int arguements
 	#if x_bin_max > 0:
-	#	h1.GetXaxis().SetRange(x_bin_min,x_bin_max)
+	
 	h1.Draw("colz")
 	if y_scale_max > 0:
 		h1.SetAxisRange(0,y_scale_max,"Y")
@@ -64,12 +73,23 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 	h1.GetXaxis().CenterTitle()
 	h1.GetYaxis().CenterTitle()
 
+	rebinfact = 1
+	h1.Rebin(rebinfact)
+
+	
 	#h1.GetXaxis().SetTitleSize(5)
 	#gStyle.SetLabelSize(50)
 	h1.SetLineWidth(2) #use this to make line width thicker
 
 #	binmax = h1.GetMaximumBin()
 	max_yval1 = h1.GetMaximum()
+
+
+
+
+	y1int = h1.Integral()
+
+	print("maxint n is {}".format(y1int))
 
 	print("max bin is {}".format(max_yval1))
 	print("Saving Histogram {}".format(h1.GetName()))
@@ -158,8 +178,11 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 
 		max_yval2 = h2.GetMaximum()
 
+		y2int = h2.Integral()
+
 		scalefactor_natural = max_yval1/max_yval2
 		scalefactor_excuts =  218463/84239
+		
 		scalefactor_all = 215227870/355718
 
 		if "fter" in display_title:
@@ -171,9 +194,13 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 			scalefactor = scalefactor_natural
 
 
+		scalefactor = y1int/y2int
+
+		h2.Rebin(rebinfact)
 
 		h2.Scale(scalefactor,"height")
-		h2.SetFillStyle(3335)
+		#h2.SetFillStyle(3335)
+		h2.SetFillStyle(3004)
 		h2.SetFillColor( 42)
 
 		h2.SetLineColorAlpha(2,1)
@@ -181,6 +208,9 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 
 		#h2.SetAxisRange(0,110000,"Y")
 		display_title += " + Scaled Sim."
+
+		h2.GetXaxis().SetRange(0,250)
+		h1.GetXaxis().SetRange(0,250)
 
 		gStyle.SetOptStat(0)
 		h1.SetTitle(display_title)

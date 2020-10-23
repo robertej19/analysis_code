@@ -59,7 +59,7 @@ class ParticleGetter {
 			}
 
 			if(particleType == "photon"){
-				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=000){ //This previously was at 2000, but this neglects FT photons
+				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){ //This previously was at 2000, but this neglects FT photons - set this to 000 
 					//println("index is: " + index)
 
 					def px = bankParticle.getFloat("px",index)

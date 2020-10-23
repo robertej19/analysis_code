@@ -49,6 +49,7 @@ runlog_filename = "analysis_runlog.txt"
 loc1inbending = "/mnt/d/CLAS12Data/skim8-20200629"
 loc2outbending = "/mnt/d/CLAS12Data/skim4/skim4-20200927"
 loc3fx = "/mnt/d/CLAS12Data/out"
+loc4="/mnt/d/CLAS12Data/gemctest"
 simudata = "/mnt/d/CLAS12Data/andreyskim/simudata-20201013/"
 dat5032 = "/mnt/d/CLAS12Data/skim8-5032"
 online_sim = "/volatile/clas12/kenjo/cache/"
@@ -56,10 +57,10 @@ online_sim = "/volatile/clas12/kenjo/cache/"
 run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
 data_location = loc1inbending
-number_of_events = "100"
-number_of_files = "1"
+number_of_events = "0"
+number_of_files = "200"
 number_of_cores = "1"
-run_message = "Testing run number"
+run_message = "Producing full dataset with EB, photon low energy cut, no FT"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
@@ -82,10 +83,13 @@ text_file_path = output_folder+"/"+output_base_name+".txt"
 
 
 subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
+subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+"-005032-events_listing.txt"])
+subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+"-exclusive-event-numbers.txt"])
+"""
 subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
 
 
-"""
+
 
 #******************
 #********** Convert hipo to root file
