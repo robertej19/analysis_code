@@ -91,7 +91,7 @@ import mainutils.pid.gamma.GammaSelector
 class EventProcessor {
 
 
-	def processEvent(j,event0,hist_array_in,fcupBeamChargeMax,cuts_array,binning_scheme,cut_strats,part_selectors) {
+	def processEvent(j,event0,hist_array_in,fcupBeamChargeMax,cuts_array,binning_scheme,cut_strats,part_selectors,custom_PID) {
 		//println("starting to process event0")
 
 		
@@ -111,7 +111,7 @@ class EventProcessor {
 		def cd_dvpp_event = 0
 		def fd_all_event = 0 
 		def cd_all_event = 0
-
+		def num_electrons = 0
 
 		def xb_bins = 10
 		def beam = LorentzVector.withPID(11,0,0,10.6)
@@ -128,7 +128,7 @@ class EventProcessor {
 		// Leave event if not all banks are present
 		if(!(banknames.every{event0.hasBank(it)})) {
 			//println("Not all bank events found, returning")
-			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in, return_array]
+			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in, return_array,1,1]
 		}
 		
 		//println("did not leave")
@@ -139,9 +139,9 @@ class EventProcessor {
 
 		def fcupBeamCharge = bankEvent.getFloat('beamCharge',0) //This is the (un?)gated beam charge in nanoColoumbs
 
-		def run_number = bankRun.getInt('event',0)
+		def event_number = bankRun.getInt('event',0)
 
-		//println(run_number)
+		//println(event_number)
 
 		if(fcupBeamCharge > fcupBeamChargeMax){ fcupBeamChargeMax = fcupBeamCharge	} //Replace fcupBeamcharge with the largest value
 
@@ -153,109 +153,119 @@ class EventProcessor {
 
 
 	//The below is all depreciated after implementing cuts from drejenko
-	
 
-		def electrons_in_event = ParticleGetter.getParticle(bankParticle,"electron")
-		def protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
-
-
-		if (electrons_in_event.size() > 1){
-			println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX more than 1 electron in event0: ")
-			println(electrons_in_event)
-		}
+		def good_photons_in_event = []
+		def electrons_in_event = []
+		def protons_in_event = []
 
 
-		//Get a list of "good" photons in the event0
-		def good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
+		if (custom_PID == 0 ){
+
+			//print("not using custom PID")
 		
 
-		//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
+			electrons_in_event = ParticleGetter.getParticle(bankParticle,"electron")
+			protons_in_event = ParticleGetter.getParticle(bankParticle,"proton")
+
+
+			if (electrons_in_event.size() > 1){
+				println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX more than 1 electron in event0: ")
+				println(electrons_in_event)
+			}
+
+
+			//Get a list of "good" photons in the event0
+			good_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon")
+			
+
+			//def bad_photons_in_event = ParticleGetter.getParticle(bankParticle,"photon_raw")
+
+		}
 
 //******************************* IMPLEMENT NEW PID METHODS
 
-"""
-
-		def myElectronCutStrategies = cut_strats[0]
-		def myProtonCutStrategies = cut_strats[1]
-		def myGammaCutStrategies = cut_strats[2]
+		if (custom_PID == 1 ){
+			//println("using custom PID")
 
 
-		def ele_selector = part_selectors[0]
-		def pro_selector = part_selectors[1]
-		def gam_selector = part_selectors[2]
+			def myElectronCutStrategies = cut_strats[0]
+			def myProtonCutStrategies = cut_strats[1]
+			def myGammaCutStrategies = cut_strats[2]
+
+
+			def ele_selector = part_selectors[0]
+			def pro_selector = part_selectors[1]
+			def gam_selector = part_selectors[2]
 
 
 
 
-		def event = EventConverter.convert(event0)
+			def event = EventConverter.convert(event0)
 
-		// first method for selecting electrons illustrates what the ElectronSelector class is doing under the hood.
-		def my_el_cuts = (0..<event.npart).findAll{event.charge[it]<0}.collect{ ii -> [ii, myElectronCutStrategies.collect{ el_test -> el_test(event,ii) } ] }.collectEntries()	  
-		my_el_cuts.each{ index, value ->
-			if (!value.contains(false)){
-				def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
-				def p = lv.mag()
-				def vz = event.vz[index]
-				def theta = Math.toDegrees(lv.theta())
-				def phi = Math.toDegrees(lv.phi())
-				//do other stuff here
+			// first method for selecting electrons illustrates what the ElectronSelector class is doing under the hood.
+			def my_el_cuts = (0..<event.npart).findAll{event.charge[it]<0}.collect{ ii -> [ii, myElectronCutStrategies.collect{ el_test -> el_test(event,ii) } ] }.collectEntries()	  
+			my_el_cuts.each{ index, value ->
+				if (!value.contains(false)){
+					def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
+					def p = lv.mag()
+					def vz = event.vz[index]
+					def theta = Math.toDegrees(lv.theta())
+					def phi = Math.toDegrees(lv.phi())
+					//do other stuff here
+				}
 			}
+
+			// second method here will return a list of indicies for tracks passing all electron cuts.
+			// decide which of the electron candidates you want here
+			def my_good_el = ele_selector.getGoodElectron(event)	
+			// third method will return a map with key as the REC::Particle index and value as the list of booleans describing if the track passed the cut or not.
+			def my_good_el_with_cuts = ele_selector.getGoodElectronWithCuts(event)
+
+			// // do the same for proton
+			def my_pro_cuts = (0..<event.npart).findAll{event.charge[it]>0}.collect{ ii -> [ii, myProtonCutStrategies.collect{ pro_test -> pro_test(event,ii) } ] }.collectEntries()	  
+			my_pro_cuts.each{ index, value ->
+				if (!value.contains(false)){
+					def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
+					def p = lv.mag()
+					def vz = event.vz[index]
+					def theta = Math.toDegrees(lv.theta())
+					def phi = Math.toDegrees(lv.phi())
+					//do other stuff here
+				}
+			}
+
+			def my_good_pro = pro_selector.getGoodProton(event)	
+			def my_good_pro_with_cuts = pro_selector.getGoodProtonWithCuts(event)
+
+			// do the same for gamma
+			def my_gam_cuts = (0..<event.npart).findAll{event.charge[it]==0}.collect{ ii -> [ii, myGammaCutStrategies.collect{ gam_test -> gam_test(event,ii) } ] }.collectEntries()	  
+			my_gam_cuts.each{ index, value ->
+				if (!value.contains(false)){
+					def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
+					def p = lv.mag()
+					def vz = event.vz[index]
+					def theta = Math.toDegrees(lv.theta())
+					def phi = Math.toDegrees(lv.phi())
+					//do other stuff here
+				}
+			}
+
+			def my_good_gam = gam_selector.getGoodGamma(event)	
+			def my_good_gam_with_cuts = gam_selector.getGoodGammaWithCuts(event)
+
+
+
+
+			good_photons_in_event = my_good_gam
+			//println(my_good_gam)
+			electrons_in_event = my_good_el
+			protons_in_event = my_good_pro
+
+
+
 		}
 
-		// second method here will return a list of indicies for tracks passing all electron cuts.
-		// decide which of the electron candidates you want here
-		def my_good_el = ele_selector.getGoodElectron(event)	
-		// third method will return a map with key as the REC::Particle index and value as the list of booleans describing if the track passed the cut or not.
-		def my_good_el_with_cuts = ele_selector.getGoodElectronWithCuts(event)
-
-		// // do the same for proton
-		def my_pro_cuts = (0..<event.npart).findAll{event.charge[it]>0}.collect{ ii -> [ii, myProtonCutStrategies.collect{ pro_test -> pro_test(event,ii) } ] }.collectEntries()	  
-		my_pro_cuts.each{ index, value ->
-			if (!value.contains(false)){
-				def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
-				def p = lv.mag()
-				def vz = event.vz[index]
-				def theta = Math.toDegrees(lv.theta())
-				def phi = Math.toDegrees(lv.phi())
-				//do other stuff here
-			}
-		}
-
-		def my_good_pro = pro_selector.getGoodProton(event)	
-		def my_good_pro_with_cuts = pro_selector.getGoodProtonWithCuts(event)
-
-		// do the same for gamma
-		def my_gam_cuts = (0..<event.npart).findAll{event.charge[it]==0}.collect{ ii -> [ii, myGammaCutStrategies.collect{ gam_test -> gam_test(event,ii) } ] }.collectEntries()	  
-		my_gam_cuts.each{ index, value ->
-			if (!value.contains(false)){
-				def lv = new Vector3(event.px[index], event.py[index], event.pz[index])
-				def p = lv.mag()
-				def vz = event.vz[index]
-				def theta = Math.toDegrees(lv.theta())
-				def phi = Math.toDegrees(lv.phi())
-				//do other stuff here
-			}
-		}
-
-		def my_good_gam = gam_selector.getGoodGamma(event)	
-		def my_good_gam_with_cuts = gam_selector.getGoodGammaWithCuts(event)
-
-
-//		println(good_photons_in_event)
-//		
-
-
-
-		def good_photons_in_event = my_good_gam
-		//println(my_good_gam)
-		def electrons_in_event = my_good_el
-		def protons_in_event = my_good_pro
-
-
-"""
-
-
-//Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
+	//Create a set of all possible pairwise permutations of the photons (need 2 photons for pion)
 		def photon_perms = PermutationMaker.makePermutations(good_photons_in_event)
 
 
@@ -334,8 +344,24 @@ class EventProcessor {
 		
 		//Here, we loop over all pairs of [electron, proton] in index_of_electrons_and_protons. Most of the time there is only one set, 
 		//Some of the tiem there are multiple pairs, e.g. [[0,1],[0,3]]
+
+		def duplCounter = 0
+
+		//println("NUM Protons IN event")
+		//println(protons_in_event.size())
+		//println("NUM eles IN event")
+		//println(electrons_in_event.size())
+
+		
+		num_electrons = electrons_in_event.size()
+
 		for (int indexElectron in electrons_in_event){
 			for (int indexProton in protons_in_event){ 
+				dvpp_event = 0
+				fd_dvpp_event = 0 
+				cd_dvpp_event = 0
+				fd_all_event = 0 
+				cd_all_event = 0
 				//println("IN GOOD AREA, values"+only1proton2)only1proton, only2photons2, only2photons)
 				//println("value is $only1proton2 $only1proton $only2photons2 $only2photons")
 				
@@ -373,7 +399,7 @@ class EventProcessor {
 				if(particleElectronPhi<0) particleElectronPhi+=360
 				
 
-			//This is currently unused, I think for handling sectors
+				//This is currently unused, I think for handling sectors
 				def esec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexElectron}?.with{bankScintillator.getByte('sector',it)}
 				def psec = (0..<bankScintillator.rows()).find{bankScintillator.getShort('pindex',it)==indexProton}?.with{bankScintillator.getByte('sector',it)}
 				
@@ -384,16 +410,24 @@ class EventProcessor {
 					psec = Math.floor(particleProtonPhi/60).toInteger() +2
 					if(psec==7) psec=1
 				}
-			//Finishes comments
+				//Finishes comments
 
 				def proton_location = (bankParticle.getShort('status',indexProton)/1000).toInteger()==2 ? 'FD':'CD' //This returns FD if proton in FD, CD if CD
+
+				//println("proton info")
+				//println(bankParticle.getShort('status',indexProton))
+				//println(proton_location)
+
 
 				//println(bankParticle.getShort('status',indexProton))
 				//println(proton_location)
 
 
+
+
 				if (proton_location == 'FD'){ fd_all_event = 1	}
 				if (proton_location == 'CD'){ cd_all_event = 1	}
+
 
 
 				def t_momentum = -(particleProton-target).mass2() //This is the kinematic variable t (needs to be squared?)
@@ -497,8 +531,8 @@ class EventProcessor {
 					def pho1sec = (0..<bankECal.rows()).find{bankECal.getShort('pindex',it)==indexParticleGamma_1}?.with{bankECal.getByte('sector',it)}
 					def pho2sec = (0..<bankECal.rows()).find{bankECal.getShort('pindex',it)==indexParticleGamma_2}?.with{bankECal.getByte('sector',it)}
 				
-//					println("photon1 sector is "+pho1sec)
-//					println("photon2 sector is "+pho2sec)
+					//					println("photon1 sector is "+pho1sec)
+					//					println("photon2 sector is "+pho2sec)
 
 
 					if (pho1sec == null){
@@ -551,7 +585,7 @@ class EventProcessor {
 					hist_miss_e_mass_nocuts.fill(particleX.mass(),particleX.e())
 					hist_missing_e_nocuts.fill(particleX.e())
 					hist_x_mass_nocuts.fill(particleX.mass())
-*/
+					*/
 
 					//*********************************************************************
 
@@ -594,7 +628,7 @@ class EventProcessor {
 					"particleProtonMass":particleProton.mass(),
 					"particle0Energy":particle0.e(),"particle0MassSquared":particle0.mass2(),
 					 "xbbad":xBjorkenBad,"number_photons_good":good_photons_in_event.size(),"number_photons_bad":good_photons_in_event.size(),
-			"number_protons":protons_in_event.size(),"electron_sector":electron_sector,
+					"number_protons":protons_in_event.size(),"electron_sector":electron_sector,
 					"pho1sec":pho1sec, "pho2sec":pho2sec
 					]
 
@@ -629,6 +663,7 @@ class EventProcessor {
 							
 							if (proton_location == 'FD'){ hist_mini_array[fd_index].fill(fillvars)	} //Fill FD
 							if (proton_location == 'CD'){hist_mini_array[cd_index].fill(fillvars)	} //Fill CD
+
 													
 							//Repack
 							hist_array_in[hist_couplet_index] = [hist_params,hist_mini_array]
@@ -695,18 +730,39 @@ class EventProcessor {
 					}
 
 					
-					if (proton_location == 'FD'){ fd_dvpp_event = 1	}
-					if (proton_location == 'CD'){ cd_dvpp_event = 1	}
-					dvpp_event = 1
-
-					def return_array_vals = [run_number,i_helicity,xBjorken,-qvec.mass2(),t_momentum,LeptHadAngle]
+					def return_array_vals = [event_number,i_helicity,xBjorken,-qvec.mass2(),t_momentum,LeptHadAngle]
 					return_array = return_array_vals
+
+					dvpp_event += 1
+
+					if (proton_location == 'FD'){ fd_dvpp_event += 1	}
+					if (proton_location == 'CD'){ cd_dvpp_event += 1	}
+
+					
+					
+					
+
+
+					// println("FOUND DVPP EVENT, PROTON LOC IS:")
+					// println(proton_location)
+					// println(cd_dvpp_event)
+					// println(dvpp_event)
+					// println(event_number)
+
+					
+					//return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,return_array]
 				}
 			}
 		}
 
+		//println("FINAL proton info")
+		//println(bankParticle.getShort('status',indexProton))
+		//println(fd_all_event)
+		//println(cd_all_event)
+		//println("END OF INFO")
 		
-		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,return_array]
+		//println("DVEP EVENT NOT FOUND, RETURNING")
+		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in,return_array,0,num_electrons]
 	}
 
 }

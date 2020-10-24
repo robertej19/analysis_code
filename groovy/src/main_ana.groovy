@@ -121,6 +121,12 @@ def NumGlobalCDDVEPEvents = 0
 def NumGlobalFDDVEPEvents = 0
 def NumGlobalCDAllEvents = 0
 def NumGlobalFDAllEvents = 0
+def Fastexit_status = 0
+def GlobalFastexit_status = 0
+def	Numelectrons = 0
+def GlobalNumelectrons = 0
+
+
 def ArrGlobalFDDVEPEvents = []
 
 
@@ -424,16 +430,22 @@ GParsPool.withPool NumCores, {
 
 		// ******* Pass to event processor, increment variables of interest ****** //
 		for (int j=0; j < NumEventsToProcess; j++) {
+			//println(j)
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors,1)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			NumLocalFDDVEPEvents += funreturns[2]
 			NumLocalCDDVEPEvents += funreturns[3]
+			//println(NumLocalCDDVEPEvents)
 			NumLocalFDAllEvents += funreturns[4]
 			NumLocalCDAllEvents += funreturns[5]
+
+			Fastexit_status += funreturns[8]
+			Numelectrons += (funreturns[9]-1)*(-1)
+
 			histogram_array = funreturns[6]
 			def bankevent_number = (funreturns[7])[0]
 			def helicity = (funreturns[7])[1]
@@ -441,11 +453,12 @@ GParsPool.withPool NumCores, {
 			def q2_val = (funreturns[7])[3]
 			def t_val = (funreturns[7])[4]
 			def phi_val = (funreturns[7])[5]
+			
 
-			if (funreturns[2] == 1){
+			if (funreturns[2] > 0){
 				//println("adding event ${evcount.get()}")
 				ArrGlobalFDDVEPEvents.add(bankevent_number)
-				file_listings.append("${run_number}, ${bankevent_number}, ${helicity}, ${xb_val}, ${q2_val}, ${t_val}, ${phi_val}\n")
+				file_listings.append("${run_number}, ${bankevent_number}, ${funreturns[2]}, ${funreturns[3]}, ${helicity}, ${xb_val}, ${q2_val}, ${t_val}, ${phi_val}\n")
 			}
 
 			
@@ -491,6 +504,9 @@ GParsPool.withPool NumCores, {
 
 		NumGlobalDVPPEvents += NumLocalDVPPEvents
 		GlobalLumiTotal += lumicalc.CalcLumi(FCupCharge)
+
+		GlobalFastexit_status += Fastexit_status
+		GlobalNumelectrons += Numelectrons
 
 		println("Global DVPP Events Found: $NumGlobalDVPPEvents, out of $GlobalNumEventsProcessed")
 		println("Global DVPP FD Events Found: $NumGlobalFDDVEPEvents, compared to $NumGlobalCDDVEPEvents DVPP events in the CD")
@@ -651,7 +667,9 @@ if (NumGlobalCDAllEvents >0){
 	file.append("Global FD Events (all) Found: $NumGlobalFDAllEvents, compared to $NumGlobalCDAllEvents in the CD, a ratio of ${(NumGlobalFDAllEvents/NumGlobalCDAllEvents*100).round(1)} %\n")
 	file.append("The ratio of FD DVEP events to all events in FD is  ${(NumGlobalFDDVEPEvents/NumGlobalFDAllEvents*100).round(3)} %\n")
 	file.append("The ratio of CD DVEP events to all events in CD is  ${(NumGlobalCDDVEPEvents/NumGlobalCDAllEvents*100).round(3)} %\n")
-	file.append("The number of (all) events not in CD or FD is  ${(GlobalNumEventsProcessed-NumGlobalCDAllEvents-NumGlobalFDAllEvents)} %\n")
+	file.append("The number of (all) events not in CD or FD is  ${(GlobalNumEventsProcessed-NumGlobalCDAllEvents-NumGlobalFDAllEvents)} \n")
+	file.append("The number of (all) events with fast exit status is  ${GlobalFastexit_status} \n")
+	file.append("The number of (all) events with num electrons = 0 is  ${GlobalNumelectrons} \n")
 }
 
 
