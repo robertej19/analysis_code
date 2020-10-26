@@ -85,9 +85,9 @@ text_file_path = output_folder+"/"+output_base_name+".txt"
 subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+".txt"]) #see text file
 #subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+"-005032-events_listing.txt"])
 #subprocess.call(["/home/bobby/bin/wsl-open.sh",output_folder+"/"+output_base_name+"-exclusive-event-numbers.txt"])
-"""
-subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
 
+#subprocess.call(["java","-jar",this_file_path_original+"/groovy/src/TBrowser-1.0-jar-with-dependencies.jar",output_folder+"/"+output_base_name+".hipo"]) #see hipo file
+"""
 
 
 

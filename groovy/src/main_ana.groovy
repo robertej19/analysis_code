@@ -434,7 +434,7 @@ GParsPool.withPool NumCores, {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
-			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors,1)
+			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors,0)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]
 			NumLocalFDDVEPEvents += funreturns[2]
@@ -453,12 +453,20 @@ GParsPool.withPool NumCores, {
 			def q2_val = (funreturns[7])[3]
 			def t_val = (funreturns[7])[4]
 			def phi_val = (funreturns[7])[5]
-			
+			def wvector = (funreturns[7])[6]
+			def thetaxpi = (funreturns[7])[7]
+			def diff_px = (funreturns[7])[8]
+			def diff_py = (funreturns[7])[9]
+			def MM_EPX2 = (funreturns[7])[10]
+			def ME_EPGG = (funreturns[7])[11]
+			def pion_mass = (funreturns[7])[12]
+
 
 			if (funreturns[2] > 0){
+				//println(pion_mass)
 				//println("adding event ${evcount.get()}")
 				ArrGlobalFDDVEPEvents.add(bankevent_number)
-				file_listings.append("${run_number}, ${bankevent_number}, ${funreturns[2]}, ${funreturns[3]}, ${helicity}, ${xb_val}, ${q2_val}, ${t_val}, ${phi_val}\n")
+				file_listings.append("${run_number}, ${bankevent_number}, ${funreturns[2]}, ${funreturns[3]}, ${helicity}, ${xb_val}, ${q2_val}, ${t_val}, ${phi_val}, ${wvector}, ${thetaxpi}, ${diff_px}, ${diff_py}, ${MM_EPX2}, ${ME_EPGG}, ${pion_mass} \n")
 			}
 
 			

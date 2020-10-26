@@ -41,7 +41,7 @@ class DVEPCutter {
 
 
 	//NEED Q2 GREATER THAN 1
-	static def cutDVEP(particleArray,allCutParams) {
+	static def cutDVEP(particleArray,allCutParams,event_number) {
 
 
 		def cutParams = allCutParams[0] //This is the set of cut for DVEP events
@@ -82,6 +82,16 @@ class DVEPCutter {
 		def MissingMassSquared = particleX.mass2().abs() < MissingMassSquared_max
 
 
+		if (3483962   == event_number){
+			println("ON STAGE DVEP CUT RIGHT EVENT NUMBER $event_number")
+			println("value ${wvector.mass2()} must be greater than ${WMass_min}")
+			println("value ${-qvector.mass2()} must be greater than ${Q2_min}")	
+			println("value ${thetaXPi} must be less than ${ThetaXPi_max}")
+			println("value ${dmisse0.abs()} must be less than ${MissingEnergy_max}")	
+			println("value ${particleX.mass2().abs()} must be less than ${MissingMassSquared_max}")
+			println("value ${diff_between_X_and_GG.px().abs()} must be less than ${MomDiff_max}")	
+			println("value ${diff_between_X_and_GG.py().abs()} must be less than ${MomDiff_max}")	
+		}
 
 
 

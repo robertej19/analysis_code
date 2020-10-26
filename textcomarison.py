@@ -40,7 +40,7 @@ def txtcombiner(txt_dir):
             print(i)
 
         i +=1
-    print(lists)
+    #print(lists)
     return(lists)
 
 

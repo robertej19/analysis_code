@@ -40,7 +40,7 @@ class ParticleGetter {
 
 
 	//NEED Q2 GREATER THAN 1
-	static def getParticle(bankParticle,particleType) {
+	static def getParticle(bankParticle,bankECal,particleType,electron_sector) {
 
 		def particle_index = []
 
@@ -53,7 +53,7 @@ class ParticleGetter {
 			}
 
 			if(particleType == "proton"){
-				if (bankParticle.getInt('pid',index)==2212){
+				if (bankParticle.getInt('pid',index)==2212 && bankParticle.getShort('status',index)<3900){
 					particle_index.add(index)
 				}
 			}
@@ -61,6 +61,11 @@ class ParticleGetter {
 			if(particleType == "photon"){
 				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){ //This previously was at 2000, but this neglects FT photons - set this to 000 
 					//println("index is: " + index)
+
+
+					
+					def photon_sector = (0..<bankECal.rows()).find{bankECal.getShort('pindex',it)==index}?.with{bankECal.getByte('sector',it)}
+				
 
 					def px = bankParticle.getFloat("px",index)
 					def py = bankParticle.getFloat("py",index)
@@ -74,7 +79,11 @@ class ParticleGetter {
 
 					//println("p squared is: " + p2)
 
-					if (p2 > 0.16){
+					//println("electron sector is $electron_sector")
+				//	println("photon sector is $photon_sector")
+
+					if (photon_sector != electron_sector){
+						//println("accepting photon")
 						particle_index.add(index)
 					}
 				}
