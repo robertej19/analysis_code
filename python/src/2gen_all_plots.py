@@ -209,8 +209,14 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 		#h2.SetAxisRange(0,110000,"Y")
 		display_title += " + Scaled Sim."
 
-		h2.GetXaxis().SetRange(0,250)
-		h1.GetXaxis().SetRange(0,250)
+
+		#xmins = 400
+		#xmaxs = 600
+		xmins = 0
+		xmaxs = 180
+		
+		h2.GetXaxis().SetRange(xmins,xmaxs)
+		h1.GetXaxis().SetRange(xmins,xmaxs)
 
 		gStyle.SetOptStat(0)
 		h1.SetTitle(display_title)
