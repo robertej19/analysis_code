@@ -4,7 +4,7 @@ import os, subprocess
 from pdf2image import convert_from_path
 from PIL import Image
 import math
-
+import icecream as ic
 
 
 def img_from_pdf(img_dir):
@@ -18,13 +18,6 @@ def img_from_pdf(img_dir):
 
 	return image_files
 
-
-
-img_dir = sys.argv[1]
-
-images = img_from_pdf(img_dir)
-
-print(len(images))
 
 
 def append_images(images, direction='horizontal',
@@ -79,23 +72,39 @@ def chunks(l, n):
 	spits = (l[i:i+n] for i in range(0, len(l), n))
 	return spits
 
+
+
+img_dir = sys.argv[1]
+
+images = img_from_pdf(img_dir)
+
+
 print(len(images))
+print(images)
 layers = []
-num_ver_slices = 12
+
+len_of_xb_minus_2 = 8-1
+num_ver_slices = len_of_xb_minus_2
+num_pics = 35
 #for i in range(0,int(len(images)/num_ver_slices)):
-for i in range(0,4):
-	print("on step "+str(i))
-	layer = list(reversed(images[i*num_ver_slices:i*num_ver_slices+num_ver_slices]))
-	#list(reversed(array))
-	layers.append(layer)
+for i in range(0,int(num_pics/len_of_xb_minus_2)):
+    print("on step "+str(i))
+    layer = list(reversed(images[i*num_ver_slices:i*num_ver_slices+num_ver_slices]))
+    print(layer)
+    #list(reversed(array))
+    layers.append(layer)
+
+#print(layers[0])
 
 horimg = []
 
 for counter,layer in enumerate(layers):
-	print("On vertical layer {}".format(counter))
-	print(layer)
-	imglay = append_images(layer, direction='vertical')
-	horimg.append(imglay)
+    print("counter is {}".format(counter))
+    print("On vertical layer {}".format(counter))
+    print(layer)
+    imglay = append_images(layer, direction='vertical')
+    horimg.append(imglay)
+
 
 print("Joining images horizontally")
 final = append_images(horimg, direction='horizontal')

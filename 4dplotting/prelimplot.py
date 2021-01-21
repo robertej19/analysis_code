@@ -36,16 +36,18 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges):
     plt.tight_layout()  
 
     plt.savefig('pics/foo-xb-{}-{}-q2-{}-{}.png'.format(xbq2_ranges[0],xbq2_ranges[1],xbq2_ranges[2],xbq2_ranges[3]))
-
+    plt.close()
 
 
 data = pd.read_csv('afterfixes.txt', sep=",", header=None)
 data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB","Q2","t","Phi"]
 
 
-xb_ranges = [0,0.2,0.5,1]
-q2_ranges = [1,5,10]
+xb_ranges = [0,0.1,0.2,0.3,0.4,0.5,0.65,1]
+q2_ranges = [1,2.5,4,5,7.5,10]
 
+print(len(xb_ranges))
+print(len(q2_ranges))
 
 for q2_ind in range(1,len(q2_ranges)):
     q2_min = q2_ranges[q2_ind-1]
