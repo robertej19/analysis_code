@@ -58,9 +58,9 @@ run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
 data_location = loc1inbending
 number_of_events = "0"
-number_of_files = "1"
+number_of_files = "20"
 number_of_cores = "1"
-run_message = "Debugging"
+run_message = "Trying to get stats for 4d plotting"
 #run_message = "Note: some histograms are mislabled below due to a bug in the LaTex code, but this does not affect analysis and is only aesthetic"
 output_folder_groovy = output_base_name
 
