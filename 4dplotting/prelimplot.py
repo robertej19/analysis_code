@@ -16,8 +16,8 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges):
     ymax = 6
     xmax = 360
 
-    x_bins = np.linspace(xmin, xmax, 12) 
-    y_bins = np.linspace(ymin, ymax, 6) 
+    x_bins = np.linspace(xmin, xmax, 36) 
+    y_bins = np.linspace(ymin, ymax, 12) 
     
     fig, ax = plt.subplots(figsize =(10, 7)) 
     # Creating plot 
@@ -44,7 +44,7 @@ data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB"
 
 
 xb_ranges = [0,0.1,0.2,0.3,0.4,0.5,0.65,1]
-q2_ranges = [1,2.5,4,5,7.5,10]
+q2_ranges = [1,1.75,2.5,4,5,6,7.5,10]
 
 print(len(xb_ranges))
 print(len(q2_ranges))
@@ -64,6 +64,121 @@ for q2_ind in range(1,len(q2_ranges)):
         x = data_xb["Phi"] 
 
         t_phi_plotter(x,y,ranges)
+
+
+
+
+import sys
+import os, subprocess
+from pdf2image import convert_from_path
+from PIL import Image
+import math
+import icecream as ic
+
+
+def img_from_pdf(img_dir):
+	image_files = []
+	lists = os.listdir(img_dir)
+	sort_list = sorted(lists)
+	for img_file in sort_list:
+		print("On file " + img_file)
+		image1 = Image.open(img_dir+img_file)
+		image_files.append(image1)
+
+	return image_files
+
+
+
+def append_images(images, direction='horizontal',
+                  bg_color=(255,255,255), aligment='center'):
+    """
+    Appends images in horizontal/vertical direction.
+
+    Args:
+        images: List of PIL images
+        direction: direction of concatenation, 'horizontal' or 'vertical'
+        bg_color: Background color (default: white)
+        aligment: alignment mode if images need padding;
+           'left', 'right', 'top', 'bottom', or 'center'
+
+    Returns:
+        Concatenated image as a new PIL image object.
+    """
+    widths, heights = zip(*(i.size for i in images))
+
+    if direction=='horizontal':
+        new_width = sum(widths)
+        new_height = max(heights)
+    else:
+        new_width = max(widths)
+        new_height = sum(heights)
+
+    new_im = Image.new('RGB', (new_width, new_height), color=bg_color)
+
+    offset = 0
+    for im in images:
+        if direction=='horizontal':
+            y = 0
+            if aligment == 'center':
+                y = int((new_height - im.size[1])/2)
+            elif aligment == 'bottom':
+                y = new_height - im.size[1]
+            new_im.paste(im, (offset, y))
+            offset += im.size[0]
+        else:
+            x = 0
+            if aligment == 'center':
+                x = int((new_width - im.size[0])/2)
+            elif aligment == 'right':
+                x = new_width - im.size[0]
+            new_im.paste(im, (x, offset))
+            offset += im.size[1]
+
+    return new_im
+
+
+def chunks(l, n):
+	spits = (l[i:i+n] for i in range(0, len(l), n))
+	return spits
+
+
+
+img_dir = "pics/"
+
+images = img_from_pdf(img_dir)
+
+
+print(len(images))
+print(images)
+layers = []
+
+num_ver_slices = len(q2_ranges)-1
+num_hori_slices = len(xb_ranges)-1
+#for i in range(0,int(len(images)/num_ver_slices)):
+for i in range(0,num_hori_slices):
+    print("on step "+str(i))
+    layer = list(reversed(images[i*num_ver_slices:i*num_ver_slices+num_ver_slices]))
+    print(layer)
+    #list(reversed(array))
+    layers.append(layer)
+
+#print(layers[0])
+
+horimg = []
+
+for counter,layer in enumerate(layers):
+    print("len of layers is {}".format(len(layer)))
+    print("counter is {}".format(counter))
+    print("On vertical layer {}".format(counter))
+    print(layer)
+    imglay = append_images(layer, direction='vertical')
+    horimg.append(imglay)
+
+
+print("Joining images horizontally")
+final = append_images(horimg, direction='horizontal')
+final.save("joined_pictures_{}.jpg".format(num_ver_slices))
+
 
 
 """
