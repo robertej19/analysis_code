@@ -106,12 +106,12 @@ plt.show()
 
 
 
-# #Long xb q2
-# xb_ranges = [0,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.8,1]
-# q2_ranges = [0,1,2,3,4,5,7,8,9,10,12]
+#Long xb q2
+xb_ranges = [0,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.8,1]
+q2_ranges = [0,1,2,3,4,5,7,8,9,10,12]
 
-xb_ranges = [0,0.3,1]
-q2_ranges = [1,5,12]
+# xb_ranges = [0,0.3,0.5,1]
+# q2_ranges = [1,5,12]
 
 print(len(xb_ranges))
 print(len(q2_ranges))
@@ -167,7 +167,7 @@ def img_from_pdf(img_dir):
 
 
 
-def append_images(images, direction='horizontal',
+def append_images(images, xb_counter, direction='horizontal', 
                   bg_color=(255,255,255), aligment='center'):
     """
     Appends images in horizontal/vertical direction.
@@ -196,32 +196,20 @@ def append_images(images, direction='horizontal',
     if direction=='vertical':
         new_im = Image.new('RGB', (int(new_width+0), int(new_height+images[0].size[1]/2)), color=bg_color)
 
+
     
-    """
-    image = Image.open('Focal.png')
-    width, height = image.size 
 
-    draw = ImageDraw.Draw(image)
 
-    text = 'https://devnote.in'
-    textwidth, textheight = draw.textsize(text)
-
-    margin = 10
-    x = width - textwidth - margin
-    y = height - textheight - margin
-
-    draw.text((x, y), text)
-
-    image.save('devnote.png')
-
-    # optional parameters like optimize and quality
-    image.save('optimized.png', optimize=True, quality=50)
-    """
-
+    # ImageDraw.Draw(image).text(
+    #     (0, 0),  # Coordinates
+    #     'Hello world!',  # Text
+    #     (0, 0, 0)  # Color
+    # )
 
 
     offset = 0
-    for im in images:
+    for im_counter,im in enumerate(images):
+        ic(im_counter)
         if direction=='horizontal':
             y = 0
             if aligment == 'center':
@@ -231,13 +219,58 @@ def append_images(images, direction='horizontal',
             new_im.paste(im, (offset, y))
             offset += im.size[0]
         else:
-            x = 0
-            if aligment == 'center':
-                x = int((new_width - im.size[0])/2)
-            elif aligment == 'right':
-                x = new_width - im.size[0]
-            new_im.paste(im, (x, offset))
+            print("xb counter is {}".format(xb_counter))
+            if xb_counter < 0:
+            #here we create vertical strip of Q2 values
+                offset += im.size[1]
+
+                draw = ImageDraw.Draw(new_im)
+
+                text = str(q2_ranges[im_counter+1])
+                textwidth, textheight = images[0].size[0]/5, images[0].size[1]/5
+
+                margin = 10
+                #x = images[0].size[0] - textwidth - margin
+                #y = images[0].size[1] - textheight - margin
+                x = 0.9*int(images[0].size[0])
+                ic(im_counter)
+                y = 1*(int(images[0].size[1])*(len(q2_ranges)-(im_counter+2)))
+                ic(y)
+                ic(text)
+                fonts_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
+                font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 75)
+
+
+                draw.text((x, y), text,(0,0,0),font=font)
+            
+            else:
+                x = 0
+                if aligment == 'center':
+                    x = int((new_width - im.size[0])/2)
+                elif aligment == 'right':
+                    x = new_width - im.size[0]
+                new_im.paste(im, (x, offset))
             offset += im.size[1]
+
+    if (direction=='vertical') and (xb_counter > -1):
+
+
+        draw = ImageDraw.Draw(new_im)
+
+        text = str(xb_ranges[xb_counter+1])
+        textwidth, textheight = images[0].size[0]/5, images[0].size[1]/5
+
+        margin = 10
+        #x = images[0].size[0] - textwidth - margin
+        #y = images[0].size[1] - textheight - margin
+        x = 0.85*int(images[0].size[0])
+        y = int(images[0].size[1])*(len(q2_ranges)-1)
+        fonts_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
+        font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 75)
+
+
+        draw.text((x, y), text,(0,0,0),font=font)
+
 
     return new_im
 
@@ -271,21 +304,25 @@ for i in range(0,num_hori_slices):
 
 horimg = []
 
-for counter,layer in enumerate(layers):
+#make vertical axis labels
+imglay1 = append_images(layers[0], -1, direction='vertical')
+horimg.append(imglay1)
+
+
+for xb_counter,layer in enumerate(layers):
     print("len of layers is {}".format(len(layer)))
-    print("counter is {}".format(counter))
-    print("On vertical layer {}".format(counter))
+    print("counter is {}".format(xb_counter))
+    print("On vertical layer {}".format(xb_counter))
     #print(layer)
-    imglay = append_images(layer, direction='vertical')
+    imglay = append_images(layer, xb_counter, direction='vertical')
+    imglay.save("testing1.jpg")
     horimg.append(imglay)
 
-
 print("Joining images horizontally")
-final = append_images(horimg, direction='horizontal')
+final = append_images(horimg, 0,  direction='horizontal')
 final_name = "joined_pictures_{}.jpg".format(num_ver_slices)
-final.save(final_name)
+final.save(final_name,optimize=True, quality=100)
 print("saved {}".format(final_name))
-
 
 
 """
