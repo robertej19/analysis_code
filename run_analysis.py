@@ -46,6 +46,7 @@ runlog_filename = "analysis_runlog.txt"
 
 #arg0 = "$COATJAVA/bin/run-groovy"
 
+loc_filtered_test = "/mnt/d/CLAS12Data/filtered"
 loc1inbending = "/mnt/d/CLAS12Data/skim8-20200629"
 loc2outbending = "/mnt/d/CLAS12Data/skim4/skim4-20200927"
 loc3fx = "/mnt/d/CLAS12Data/out"
@@ -56,8 +57,11 @@ online_sim = "/volatile/clas12/kenjo/cache/"
 
 run_groovy = "/home/bobby/theana-software/coatjava/coatjava/bin/run-groovy"
 groovy_script = "main_ana.groovy"
-data_location = loc1inbending
-number_of_events = "0"
+
+#data_location = loc1inbending
+data_location = loc_filtered_test
+
+number_of_events = "25"
 number_of_files = "20"
 number_of_cores = "1"
 run_message = "Trying to get stats for 4d plotting"

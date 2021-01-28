@@ -1,6 +1,5 @@
 package mainutils.subutils
 
-
 //From Java
 import java.io.*
 import java.util.*
@@ -14,7 +13,6 @@ import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.Date
-
 
 //From JLab
 import org.jlab.clas.physics.LorentzVector
@@ -89,20 +87,12 @@ class ParticleGetter {
 				}
 
 			}
-
 			if(particleType == "photon_raw"){
 				if (bankParticle.getInt('pid',index)==22 && bankParticle.getShort('status',index)>=2000){	
 					particle_index.add(index)
 				}
 			}
-
-
-
-
-
 		}			
-
 		return particle_index
 	}
-
 }

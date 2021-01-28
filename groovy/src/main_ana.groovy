@@ -434,6 +434,7 @@ GParsPool.withPool NumCores, {
 			evcount.getAndIncrement()
 			su.UpdateScreen(FileStartTime.getTime(),evcount.get(),CountRate.toInteger(),NumEventsToProcess,fname_short)
 			def event = reader.getNextEvent()
+			println("on event number $j")
 			funreturns = eventProcessor.processEvent(j,event,histogram_array,FCupCharge,cuts_array,binning_scheme,cut_strats,part_selectors,0)
 			FCupCharge = funreturns[0]
 			NumLocalDVPPEvents += funreturns[1]

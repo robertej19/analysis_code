@@ -133,10 +133,10 @@ class EventProcessor {
 		//println("might leave")
 
 		// Leave event if not all banks are present
-		if(!(banknames.every{event0.hasBank(it)})) {
-			//println("Not all bank events found, returning")
-			return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in, return_array,1,1]
-		}
+		//if(!(banknames.every{event0.hasBank(it)})) {
+	//		println("Not all bank events found, returning")
+	//		return [fcupBeamChargeMax, dvpp_event, fd_dvpp_event, cd_dvpp_event, fd_all_event, cd_all_event, hist_array_in, return_array,1,1]
+	//	}
 		
 		//println("did not leave")
 
