@@ -668,10 +668,10 @@
 
                        thetaXPi[combint] = TMath::ACos(vPi.Dot(vX)/(vPi.Mag()*vX.Mag()) ) * 180./TMath::Pi();
 
-                       if(Q2>1 && W2>4 && Pi0M[combint]>0.07 && Pi0M[combint]<0.2 && Pi0Sector[combint] != ESector && abs(mm[combint])<0.7 && abs(mmG[combint])<0.7 && abs(mGpx[combint]-Pi0px[combint])<0.2 && abs(mGpy[combint]-Pi0py[combint])<0.2 && thetaXPi[combint]<2){
+                       if(Q2>1 && W2>4 && Pi0M[combint]>0.07 && Pi0M[combint]<0.2 && Pi0Sector[combint] != ESector && abs(mm[combint])<0.7 && abs(mmG[combint])<0.7 && abs(mGpx[combint]-Pi0px[combint])<0.2 && abs(mGpy[combint]-Pi0py[combint])<0.2 && Pstat[combint]<3000 && thetaXPi[combint]<2){
                             booldvep=3;
 
-                            //cout<< "dot product" << vPi.Dot(vX) << endl;
+                            cout<< "dot product" << Pstat[combint] << endl;
                             //cout<< "pion vector" << p4_pi0.Mag() << "," << p4_pi0.Px() <<"," << p4_pi0.Py() <<"," << p4_pi0.Pz() << endl;
                             //cout<< "pion vector 2 " << vmG.Mag() <<"," << vmG.Px() <<"," << vmG.Py() <<"," << vmG.Pz()  << endl;
                             //cout<<" angle is = "<<thetaXPi[combint] <<" combint = "<<endl;
