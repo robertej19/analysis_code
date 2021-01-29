@@ -1,18 +1,26 @@
 #!/usr/bin/python
 
-
 import uproot
 from icecream import ic
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
+import subprocess
+import os
+import time
+import shutil
+from shutil import copyfile
+
 
 ic.disable()
 
 #filename = "converted_filtered_skim8_005032.root"
-filename = "converted_filtered_processed.root"
+#filename = "converted_filtered_processed.root"
 #ff = ROOT.TFile(sys.argv[1])
 #ff = ROOT.TFile(filename)
+
+
+
 
 """
 tree.keys()
@@ -34,51 +42,65 @@ tree.keys()
 """
 
 
-file = uproot.open(filename)
+
+data_dir = "op_dir/DVEP_roots/"
+output_dir = "op_dir/final_txts/"
+data_list = os.listdir(data_dir)
 
 
-tree = file["T"]
+#root_macro = "scriptPi0_new.C"
+
+#default_root_outname = "output_root_file.root"
+#default_root_inname = "input_root_file.root"
+
+#infile = "testerfile.txt"
+#outfile = data_dir+"fixed.txt"
 
 
-q2 = tree["Q2"].array()
-xB = tree["xB"].array()
-t_mom = tree["t"].array()
-trent1 = tree["trento"].array()
-trent2 = tree["trento2"].array()
-trent3 = tree["trento3"].array()
-pi0M = tree['Pi0M'].array()
+#new_list = data_list[1:3]
+#print(new_list)
 
-fff = open("myfile.txt","w")
+for count,filename in enumerate(data_list):
+    print("on file {} out of {}, named {}".format(count,len(data_list),filename))
 
-filt_pi = []
-#filt_trent = []
-#filtering
-for count,item in enumerate(pi0M):
-#    print(item[0])
-#    filt_trent.append(item[0])
-    filt_pi.append(pi0M[count][0])
-    fff.write("{},{},{},{}\n".format(q2[count],xB[count],t_mom[count][0],trent1[count][0]))
+    #filename = "skim8_005036_filtered_DVEP.root"
 
-print("done filtering")
+    output_file_ending = filename.replace(".root",".txt")
+    file = uproot.open(data_dir+filename)
+    output_file = open(output_dir+output_file_ending,"w")
 
 
-#arr = np.array(filt_trent)
+    tree = file["T"]
 
-print("number of events is:")
-print(len(q2))
 
-"""
-# Binning:
-t_bins = [0.09,0.15,0.2,0.3,0.4,0.6,1,1.5,2,3,4.5,6]
-q2_bins = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,7,8,9,12]
-xB_bins = [0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.85,1]
-phi_bins = [0,18,36,54,72,90,108,
-            126,144,162,180,198,
-            216,234,252,270,288,
-            306,324,342,360]
-"""
+    q2 = tree["Q2"].array()
+    xB = tree["xB"].array()
+    t_mom = tree["t"].array()
+    trent1 = tree["trento"].array()
+    #trent2 = tree["trento2"].array()
+    #trent3 = tree["trento3"].array()
+    #pi0M = tree['Pi0M'].array()
 
-i = 0
+    
+    #filt_pi = []
+    #filt_trent = []
+    #filtering
+    for count,item in enumerate(q2):
+    #    print(item[0])
+    #    filt_trent.append(item[0])
+    #    filt_pi.append(pi0M[count][0])
+        output_file.write("{},{},{},{}\n".format(q2[count],xB[count],t_mom[count][0],trent1[count][0]))
+
+    print("done filtering")
+
+
+    #arr = np.array(filt_trent)
+
+    print("number of events is: {}".format(len(q2)))
+
+
+
+#i = 0
 #while i < 100:
     #print(trent1[i])
     #print(trent2[i])
@@ -86,5 +108,5 @@ i = 0
 #    print(pi0M[i])
 #    i +=1
 
-plt.hist(filt_pi,60)
-plt.show()
+#plt.hist(filt_pi,60)
+#plt.show()
