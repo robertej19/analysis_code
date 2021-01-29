@@ -75,10 +75,6 @@ def makeplot(plots_dir,hist_root_ID,hist_name, display_title, num_bins_x, x_bin_
 
 
 
-	
-
-
-
 			# Make two graphs with the same X ranges but different Y values.
 			x = array.array('d',range(10))
 			y1 = array.array('d',(i for i in x))

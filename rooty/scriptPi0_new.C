@@ -20,6 +20,8 @@
     TVector3 v3h;
     TVector3 vtemp1;
     TVector3 vtemp2;
+    TVector3 vPi;
+    TVector3 vX;
     
     
     p4_beam.SetXYZM(0,0,10.604,0);
@@ -92,7 +94,7 @@
  // List of branches in the original tree
 
     TChain *T=new TChain("T");
-    T->Add("converted_filtered_skim8_005032.root");
+    T->Add("input_root_file.root");
 	 T->SetBranchAddress("nmb",&old_nmb);
 	 T->SetBranchAddress("Pp",&old_Pp);
 	 T->SetBranchAddress("Ppx",&old_Ppx);
@@ -157,7 +159,7 @@
 
  // New tree
 
-	 TFile *f=new TFile("converted_filtered_processed.root","recreate");
+	 TFile *f=new TFile("output_root_file.root","recreate");
 	 TTree *T1 = new TTree("T","");
  // List of NEW variables 
 	 Int_t nmb;
@@ -174,7 +176,7 @@
 	 Float_t Pbeta[100];
 	 Int_t Pstat[100];
 	 Int_t PorigIndx[100];
-     Int_t PSector[100];
+    Int_t PSector[100];
 	 Int_t nml;
 	 Float_t Ep;
 	 Float_t Epx;
@@ -188,7 +190,7 @@
 	 Float_t Evt;
 	 Float_t Ebeta;
 	 Int_t Estat;
-     Int_t ESector;
+    Int_t ESector;
 
 	 Int_t nmg;
 	 Float_t Gp[100];
@@ -203,7 +205,7 @@
 	 Float_t Gvt[100];
 	 Float_t Gbeta[100];
 	 Int_t Gstat[100];
-     Int_t GSector[100];
+    Int_t GSector[100];
 	 Float_t beamQ;
 	 Float_t liveTime;
 	 Float_t startTime;
@@ -225,7 +227,6 @@
      Int_t booldvep;
 
     
-    
     Float_t Pi0p[1000];
     Float_t Pi0px[1000];
     Float_t Pi0py[1000];
@@ -234,6 +235,9 @@
     Float_t Pi0phi[1000];
     Float_t Pi0M[1000];
     Int_t Pi0Sector[1000];
+    Float_t Pi0Mmin = 0.07;
+    Float_t Pi0Mmax = 0.20;
+
 
 
 
@@ -268,6 +272,7 @@
 	 Float_t trento[1000];
 	 Float_t trento2[1000];
     Float_t trento3[1000];
+    Float_t thetaXPi[1000];
 
 	 Float_t theta1[1000];
 	 Float_t theta2[1000];
@@ -383,7 +388,7 @@
 	 T1->Branch("theta2",&theta2,"theta2[combint]/F");
 */
 
-	 Long_t nEvents = T->GetEntries();
+	Long_t nEvents = T->GetEntries();
     
     Int_t nGind=0;
     Int_t nPind=0;
@@ -398,23 +403,6 @@
     Int_t tempP[1000];
     Int_t tempG[1000];
     
-
-
-
-
-//DVPiP Cuts:
-/*
-W > 2
-Q2 > 1
-Theta_EPXPi < 2
-MM2_EPX <0.7
-MM2_EPGG < 0.7
-M_Pt < 0.2
-M_pi > 0.07, < 0.2
-E and G not in same sector
-
-*/
-
 
     cout<<" total number of events = "<< nEvents<<endl;
 	 for(Long_t ev =0; ev<nEvents; ev++){
@@ -549,6 +537,7 @@ E and G not in same sector
              
              combint = 0;
              booldvep = 0;
+
         //     cout<<" event line ===================================================================  "<<ev <<"   nmb = "<<old_nmb<<" pInd = "<<nPind<<"    nmg = "<< old_nmg<<"  gInd = "<<nGind<<endl;
              for(int np = 0;np<nPind;np++){
                  p4_proton.SetXYZM(Ppx[np],Ppy[np],Ppz[np],Mass_p);
@@ -559,7 +548,7 @@ E and G not in same sector
                      p4_gamma1.SetXYZM(Gpx[ng1],Gpy[ng1],Gpz[ng1],0); // first gamma
                      for(int ng2=ng1+1; ng2<nGind; ng2++){
                       //   cout<<" ng2 = "<<ng2<<" combint = "<<combint<<endl;
-                      // cout<<" ng1 = "<<ng1<<" ng2 = "<<ng2<<" np = "<<np<<"  combin = "<<combint<<endl;
+//                         cout<<" ng1 = "<<ng1<<" ng2 = "<<ng2<<" np = "<<np<<"  combin = "<<combint<<endl;
                          p4_gamma2.SetXYZM(Gpx[ng2],Gpy[ng2],Gpz[ng2],0); // second gamma
                          
                          vmP = p4_beam + p4_target - p4_electron - p4_gamma1 - p4_gamma2; // missing 4 vector for ep->egg reaction
@@ -662,18 +651,46 @@ E and G not in same sector
                                  if (v1.Dot(vtemp1.Cross(vtemp2))<0) trento3[combint] = 360 - trento3[combint];
 
 
-                         combint++;
+                        //DVPiP Cuts:
+                        /*
+                        --- W > 2
+                        --- Q2 > 1
+                        --- Theta_EPXPi < 2
+                        --- MM2_EPX <0.7
+                        --- MM2_EPGG < 0.7
+                        --- M_Pt < 0.2
+                        --- M_pi > 0.07, < 0.2
+                        --- E and G not in same sector
 
-                        //if()
+                        */
+                       vPi.SetXYZ(vmG.Px(),vmG.Py(),vmG.Pz());
+                       vX.SetXYZ(p4_pi0.Px(),p4_pi0.Py(),p4_pi0.Pz());
 
+                       thetaXPi[combint] = TMath::ACos(vPi.Dot(vX)/(vPi.Mag()*vX.Mag()) ) * 180./TMath::Pi();
+
+                       if(Q2>1 && W2>4 && Pi0M[combint]>0.07 && Pi0M[combint]<0.2 && Pi0Sector[combint] != ESector && abs(mm[combint])<0.7 && abs(mmG[combint])<0.7 && abs(mGpx[combint]-Pi0px[combint])<0.2 && abs(mGpy[combint]-Pi0py[combint])<0.2 && thetaXPi[combint]<2){
+                            booldvep=3;
+
+                            cout<< "dot product" << vPi.Dot(vX) << endl;
+                            cout<< "pion vector" << p4_pi0.Mag() << "," << p4_pi0.Px() <<"," << p4_pi0.Py() <<"," << p4_pi0.Pz() << endl;
+                            cout<< "pion vector 2 " << vmG.Mag() <<"," << vmG.Px() <<"," << vmG.Py() <<"," << vmG.Pz()  << endl;
+                            cout<<" angle is = "<<thetaXPi[combint] <<" combint = "<<endl;
+
+                        }  
+                        
+                        combint++;
+                        
+                        
+                        
+                         
                      } // second loop over photons
                  } // first loop over photons
              } // loop over protons
              
 
-             if(nmb>0 && nmg>0 && combint>0 && booldvep>2)
+             if(nmb>0 && nmg>0 && combint>0 && booldvep>0){
                  T1->Fill();
-             
+             }
          }
 	 } // end of events for loop
     

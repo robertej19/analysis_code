@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 
 ic.disable()
 
-filename = "Updated_pi0.root"
+#filename = "converted_filtered_skim8_005032.root"
+filename = "converted_filtered_processed.root"
 #ff = ROOT.TFile(sys.argv[1])
 #ff = ROOT.TFile(filename)
 
@@ -45,21 +46,26 @@ t_mom = tree["t"].array()
 trent1 = tree["trento"].array()
 trent2 = tree["trento2"].array()
 trent3 = tree["trento3"].array()
-
+pi0M = tree['Pi0M'].array()
 
 fff = open("myfile.txt","w")
 
+filt_pi = []
 #filt_trent = []
 #filtering
-for count,item in enumerate(q2):
+for count,item in enumerate(pi0M):
 #    print(item[0])
 #    filt_trent.append(item[0])
+    filt_pi.append(pi0M[count][0])
     fff.write("{},{},{},{}\n".format(q2[count],xB[count],t_mom[count][0],trent1[count][0]))
 
 print("done filtering")
 
 
 #arr = np.array(filt_trent)
+
+print("number of events is:")
+print(len(q2))
 
 """
 # Binning:
@@ -71,13 +77,14 @@ phi_bins = [0,18,36,54,72,90,108,
             216,234,252,270,288,
             306,324,342,360]
 """
-"""
+
 i = 0
-while i < 100:
-    print(trent1[i])
-    print(trent2[i])
-    print(trent3[i])
-    i +=1
-"""
-#plt.hist(arr,20)
-#plt.show()
+#while i < 100:
+    #print(trent1[i])
+    #print(trent2[i])
+    #print(trent3[i])
+#    print(pi0M[i])
+#    i +=1
+
+plt.hist(filt_pi,60)
+plt.show()

@@ -65,7 +65,8 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges,pics_dir):
 
 
 #data_dir = "plottingfiles/"
-data_dir = "../rooty/plottingfiles/"
+#data_dir = "../rooty/plottingfiles/"
+data_dir = "groovy-test/"
 
 data_lists = os.listdir(data_dir)
 
@@ -81,8 +82,8 @@ for datacount, ijk in enumerate(data_lists):
 
 
 
-#data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB","Q2","t","Phi","W","ThetaXPi","Diff_pX","Diff_pY","MM_EPX2","ME_EPGG","Pi_Mass"]
-data.columns = ["Q2","xB","t","Phi"]
+data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB","Q2","t","Phi","W","ThetaXPi","Diff_pX","Diff_pY","MM_EPX2","ME_EPGG","Pi_Mass"]
+#data.columns = ["Q2","xB","t","Phi"]
 
 
 ic(data.shape)
@@ -107,7 +108,7 @@ plt.show()
 """
 
 
-
+sys.exit()
 
 
 #Long xb q2

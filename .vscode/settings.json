@@ -2,6 +2,9 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "files.associations": {
-        "scriptPi0.C": "cpp"
+        "scriptPi0.C": "cpp",
+        "scriptPi0_original.C": "cpp",
+        "scriptPi0_new.C": "cpp",
+        "ostream": "cpp"
     }
 }
