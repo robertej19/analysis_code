@@ -11,16 +11,7 @@ import shutil
 from PIL import Image, ImageDraw, ImageFont
 
 
-"""
-# Binning:
-t_bins = [0.09,0.15,0.2,0.3,0.4,0.6,1,1.5,2,3,4.5,6]
-q2_bins = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,7,8,9,12]
-xB_bins = [0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.85,1]
-phi_bins = [0,18,36,54,72,90,108,
-            126,144,162,180,198,
-            216,234,252,270,288,
-            306,324,342,360]
-"""
+
 
 
 def t_phi_plotter(phi_vals,t_vals,xbq2_ranges,pics_dir):
@@ -33,8 +24,8 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges,pics_dir):
     ymax = 6
     xmax = 360
 
-    x_bins = np.linspace(xmin, xmax, 36) 
-    y_bins = np.linspace(ymin, ymax, 24) 
+    x_bins = np.linspace(xmin, xmax, 72) 
+    y_bins = np.linspace(ymin, ymax, 48) 
     
     fig, ax = plt.subplots(figsize =(10, 7)) 
     # Creating plot 
@@ -63,7 +54,7 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges,pics_dir):
     plt.title(plot_title)
     
     # Adding color bar 
-    plt.colorbar() 
+    #plt.colorbar() 
 
     ax.set_xlabel('Phi')  
     ax.set_ylabel('t')  
@@ -75,31 +66,61 @@ def t_phi_plotter(phi_vals,t_vals,xbq2_ranges,pics_dir):
     plt.savefig(pics_dir + plot_title+".png")
     plt.close()
 
+def just_phi_plotter(phi_vals,xbq2t_ranges,pics_dir):
+    x = phi_vals
 
-#data_dir = "plottingfiles/"
-#data_dir = "../rooty/plottingfiles/"
-data_dir = "groovy-test/"
+    xmin = 0
+    xmax = 360
 
-data_lists = os.listdir(data_dir)
+    x_bins = np.linspace(xmin, xmax, 20) 
 
-data = pd.DataFrame()
+    fig, ax = plt.subplots(figsize =(10, 7)) 
+    # Creating plot 
+    
+    
 
-for datacount, ijk in enumerate(data_lists):
-    ic(datacount)
-    frame = pd.read_csv(data_dir+ijk, sep=",", header=None)
-    data = data.append(frame)
+    plt.hist(x, bins =x_bins, range=[xmin,xmax])# cmap = plt.cm.nipy_spectral) 
+    
+    #For equal scales everywhere
+    #norm = plt.Normalize(0, 120)
+    #plt.hist2d(x, y, bins =[x_bins, y_bins], norm=norm, range=[[xmin,xmax],[ymin,ymax]])# cmap = plt.cm.nipy_spectral) 
+    
 
-#data = pd.read_csv('afterfixes.txt', sep=",", header=None)
-#data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB","Q2","t","Phi"]
+    xmin = str(xbq2t_ranges[0])
+    xmax = str(xbq2t_ranges[1])
+    q2min = str(xbq2t_ranges[2])
+    q2max = str(xbq2t_ranges[3])
+    tmax = str(xbq2t_ranges[4])
+    tmin = str(xbq2t_ranges[5])
+    
+
+    if len(q2min) < 2:
+        q2min = "0"+q2min
+    if len(q2max) < 2:
+        q2max = "0"+q2max
+
+    plot_title = 't_vs_phi-xb-{}-{}-q2-{}-{}-t-{}-{}'.format(xmin,xmax,q2min,q2max,tmin,tmax)
+
+    plt.title(plot_title)
+    
+    # Adding color bar 
+    #plt.colorbar() 
+
+    ax.set_xlabel('Phi')  
+    ax.set_ylabel('counts')  
+    
+    # show plot 
+
+    plt.tight_layout()  
+
+    plt.savefig(pics_dir + plot_title+".png")
+    plt.close()
 
 
-
-data.columns = ["run_num", "event_num", "num_in_fd", "num_in_cd","helicity","xB","Q2","t","Phi","W","ThetaXPi","Diff_pX","Diff_pY","MM_EPX2","ME_EPGG","Pi_Mass"]
-#data.columns = ["Q2","xB","t","Phi"]
-
-
+datadir = "pickled_data/"
+datafile = "skims-168.pkl"
+data = pd.read_pickle(datadir+datafile)
 ic(data.shape)
-
 
 
 """
@@ -120,12 +141,26 @@ plt.show()
 """
 
 
-sys.exit()
+
+"""
+# Binning:
+t_bins = [0.09,0.15,0.2,0.3,0.4,0.6,1,1.5,2,3,4.5,6]
+q2_bins = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,7,8,9,12]
+xB_bins = [0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.85,1]
+phi_bins = [0,18,36,54,72,90,108,
+            126,144,162,180,198,
+            216,234,252,270,288,
+            306,324,342,360]
+"""
+#Official splits
+xb_ranges = [0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.7,0.85,1]
+q2_ranges = [1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,7.0,8.0,9.0,12.0]
+t_ranges = [0.09,0.15,0.2,0.3,0.4,0.6,1,1.5,2,3,4.5,6]
 
 
 #Long xb q2
-xb_ranges = [0,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.8,1]
-q2_ranges = [0,1,2,3,4,5,7,8,9,10,12]
+#xb_ranges = [0,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.8,1]
+#q2_ranges = [0,1,2,3,4,5,7,8,9,10,12]
 
 # xb_ranges = [0,0.3,0.5,1]
 # q2_ranges = [1,5,12]
@@ -142,11 +177,40 @@ if os.path.isdir(save_folder):
         shutil.rmtree(save_folder)
     except OSError as e:
         print ("Error: %s - %s." % (e.filename, e.strerror))
+    #shutil.rmtree(save_folder)
+    #shutil.rmtree(save_folder)
 else:
     print(save_folder+" is not present, not deleteing")
 
 subprocess.call(['mkdir','-p',save_folder])
 print(save_folder+" is now present")
+
+
+#create bigpic
+"""
+xxx = data['xB']
+yyy = data['Q2']
+
+xmin = 0
+xmax = 1
+ymin = 0
+ymax = 12
+
+x_bins = np.linspace(xmin, xmax, 100) 
+y_bins = np.linspace(ymin, ymax, 120) 
+
+fig, ax = plt.subplots(figsize =(10, 7)) 
+# Creating plot 
+
+plt.hist2d(xxx, yyy, bins =[x_bins, y_bins], range=[[xmin,xmax],[ymin,ymax]])# cmap = plt.cm.nipy_spectral) 
+plt.colorbar() 
+
+plt.show()
+#Fo
+
+sys.exit()
+"""
+
 
 
 for q2_ind in range(1,len(q2_ranges)):
@@ -168,9 +232,6 @@ for q2_ind in range(1,len(q2_ranges)):
 
 
 
-
-
-
 def img_from_pdf(img_dir):
 	image_files = []
 	lists = os.listdir(img_dir)
@@ -186,19 +247,19 @@ def img_from_pdf(img_dir):
 
 def append_images(images, xb_counter, direction='horizontal', 
                   bg_color=(255,255,255), aligment='center'):
-    """
-    Appends images in horizontal/vertical direction.
+    
+    # Appends images in horizontal/vertical direction.
 
-    Args:
-        images: List of PIL images
-        direction: direction of concatenation, 'horizontal' or 'vertical'
-        bg_color: Background color (default: white)
-        aligment: alignment mode if images need padding;
-           'left', 'right', 'top', 'bottom', or 'center'
+    # Args:
+    #     images: List of PIL images
+    #     direction: direction of concatenation, 'horizontal' or 'vertical'
+    #     bg_color: Background color (default: white)
+    #     aligment: alignment mode if images need padding;
+    #        'left', 'right', 'top', 'bottom', or 'center'
 
-    Returns:
-        Concatenated image as a new PIL image object.
-    """
+    # Returns:
+    #     Concatenated image as a new PIL image object.
+    
     widths, heights = zip(*(i.size for i in images))
 
     if direction=='horizontal':
@@ -212,16 +273,6 @@ def append_images(images, xb_counter, direction='horizontal',
 
     if direction=='vertical':
         new_im = Image.new('RGB', (int(new_width+0), int(new_height+images[0].size[1]/2)), color=bg_color)
-
-
-    
-
-
-    # ImageDraw.Draw(image).text(
-    #     (0, 0),  # Coordinates
-    #     'Hello world!',  # Text
-    #     (0, 0, 0)  # Color
-    # )
 
 
     offset = 0
@@ -249,13 +300,13 @@ def append_images(images, xb_counter, direction='horizontal',
                 margin = 10
                 #x = images[0].size[0] - textwidth - margin
                 #y = images[0].size[1] - textheight - margin
-                x = 0.9*int(images[0].size[0])
+                x = 0.8*int(images[0].size[0])
                 ic(im_counter)
                 y = 1*(int(images[0].size[1])*(len(q2_ranges)-(im_counter+2)))
                 ic(y)
                 ic(text)
                 fonts_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
-                font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 75)
+                font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 150)
 
 
                 draw.text((x, y), text,(0,0,0),font=font)
@@ -270,7 +321,7 @@ def append_images(images, xb_counter, direction='horizontal',
             offset += im.size[1]
 
     if (direction=='vertical') and (xb_counter > -1):
-
+        #This is for the x-axis labels (xB)
 
         draw = ImageDraw.Draw(new_im)
 
@@ -280,10 +331,10 @@ def append_images(images, xb_counter, direction='horizontal',
         margin = 10
         #x = images[0].size[0] - textwidth - margin
         #y = images[0].size[1] - textheight - margin
-        x = 0.85*int(images[0].size[0])
+        x = 0.7*int(images[0].size[0])
         y = int(images[0].size[1])*(len(q2_ranges)-1)
         fonts_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
-        font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 75)
+        font = ImageFont.truetype(os.path.join(fonts_path, 'agane_bold.ttf'), 150)
 
 
         draw.text((x, y), text,(0,0,0),font=font)
@@ -340,6 +391,7 @@ final = append_images(horimg, 0,  direction='horizontal')
 final_name = "joined_pictures_{}.jpg".format(num_ver_slices)
 final.save(final_name,optimize=True, quality=100)
 print("saved {}".format(final_name))
+
 
 
 """
